@@ -12,7 +12,6 @@
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include "gl/glu.h"
 
 #include <iostream>
 
@@ -38,11 +37,21 @@ void SceneviewScene::loadPhongShader() {
 
 void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
 
+    // Use this program ID.
     m_phongShader->bind();
+
+    // Set uniforms passed into vert.
     setSceneUniforms(projectionMatrix, viewMatrix);
+
+    // Set lights passed into vert.
     setLights();
+
+    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
     renderGeometry();
+
+    // Gives texture to .frag?
     glBindTexture(GL_TEXTURE_2D, 0);
+
     m_phongShader->unbind();
 }
 

@@ -10,11 +10,11 @@
 #include <vector>
 #include <string>
 
-#include "shapes/Cone.h"
-#include "shapes/Cube.h"
-#include "shapes/Cylinder.h"
-#include "shapes/Sphere.h"
-#include "shapes/Shape.h"
+#include "shapes/cone.h"
+#include "shapes/cube.h"
+#include "shapes/cylinder.h"
+#include "shapes/sphere.h"
+#include "shapes/shape.h"
 
 #include "glm/glm.hpp"
 #include "QWidget"

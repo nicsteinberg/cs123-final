@@ -48,11 +48,11 @@ SOURCES += \
     scenegraph/OpenGLScene.cpp \
     scenegraph/SceneviewScene.cpp \
     shapes/Cap.cpp \
-    shapes/Cone.cpp \
-    shapes/Cube.cpp \
-    shapes/Cylinder.cpp \
-    shapes/Shape.cpp \
-    shapes/Sphere.cpp \
+    shapes/cone.cpp \
+    shapes/cube.cpp \
+    shapes/cylinder.cpp \
+    shapes/shape.cpp \
+    shapes/sphere.cpp \
     shapes/openglshape.cpp \
     ui/view.cpp \
     ui/viewformat.cpp \
@@ -60,7 +60,7 @@ SOURCES += \
     ui/Settings.cpp \
     glew-1.10.0/src/glew.c \
     main.cpp \
-    camera/QuaternionCamera.cpp
+    camera/QuaternionCamera.cpp \
 
 HEADERS += \
     gl/shaders/Shader.h \
@@ -89,11 +89,11 @@ HEADERS += \
     scenegraph/OpenGLScene.h \
     scenegraph/SceneviewScene.h \
     shapes/Cap.h \
-    shapes/Cone.h \
-    shapes/Cube.h \
-    shapes/Cylinder.h \
-    shapes/Shape.h \
-    shapes/Sphere.h \
+    shapes/cone.h \
+    shapes/cube.h \
+    shapes/cylinder.h \
+    shapes/shape.h \
+    shapes/sphere.h \
     shapes/openglshape.h\
     ui/view.h \
     ui/viewformat.h \

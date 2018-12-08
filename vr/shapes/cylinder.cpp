@@ -4,7 +4,7 @@
  * Implementation of a cylinder.
  */
 
-#include "Cylinder.h"
+#include "cylinder.h"
 #include "Cap.h"
 #include "gl/shaders/ShaderAttribLocations.h"
 

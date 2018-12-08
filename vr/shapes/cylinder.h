@@ -1,7 +1,7 @@
 #ifndef CYLINDER_H
 #define CYLINDER_H
 
-#include "Shape.h"
+#include "shape.h"
 #include "Cap.h"
 
 /**

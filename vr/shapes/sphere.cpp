@@ -4,7 +4,7 @@
  * Implementation of a sphere.
  */
 
-#include "Sphere.h"
+#include "sphere.h"
 #include <cmath>
 #include "gl/shaders/ShaderAttribLocations.h"
 #include <iostream>

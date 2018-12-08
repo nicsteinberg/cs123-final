@@ -31,7 +31,7 @@ void main(){
     vec3 diffuse_color = texture(gDiffuse, texc).rgb;
     float shininess = texture(gDiffuse, texc).a;
 
-    vec4 tex = texture(gTexture, texc).rgb;
+    vec3 tex = texture(gTexture, texc).rgb;
     float blend = texture(gTexture, texc).a;
 
     // What range are we in?

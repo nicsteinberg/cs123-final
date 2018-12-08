@@ -1,7 +1,7 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include "Shape.h"
+#include "shape.h"
 
 /**
  * @class Sphere

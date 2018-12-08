@@ -4,7 +4,7 @@
  * Implementation of common functionality between shapes.
  */
 
-#include "Shape.h"
+#include "shape.h"
 
 Shape::Shape()
     : OpenGLShape()

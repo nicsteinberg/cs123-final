@@ -4,7 +4,7 @@
  * Implementation of a cone.
  */
 
-#include "Cone.h"
+#include "cone.h"
 #include "Cap.h"
 #include "gl/shaders/ShaderAttribLocations.h"
 

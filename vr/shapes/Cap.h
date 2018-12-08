@@ -1,7 +1,7 @@
 #ifndef CAP_H
 #define CAP_H
 
-#include "Shape.h"
+#include "shape.h"
 
 /**
  * @class Cap

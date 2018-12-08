@@ -4,7 +4,7 @@
  * Implementation of a cube.
  */
 
-#include "Cube.h"
+#include "cube.h"
 #include "gl/shaders/ShaderAttribLocations.h"
 
 #include <iostream>
