@@ -20,8 +20,13 @@ using namespace CS123::GL;
 
 SceneviewScene::SceneviewScene()
 {
-    // TODO: [SCENEVIEW] Set up anything you need for your Sceneview scene here...
+    // Load shader.
     loadPhongShader();
+
+    // Is this the correct width and height?
+    m_FBO = std::make_unique<FBO>(1, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width(), height(), TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE);
+
+    // Initialize shape member variables.
     settingsChanged();
 }
 
@@ -29,9 +34,16 @@ SceneviewScene::~SceneviewScene()
 {
 }
 
+void SceneviewScene::loadGeometryShader() {
+    std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/gshader.vert");
+    std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/gshader.frag");
+}
+
 void SceneviewScene::loadPhongShader() {
     std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.vert");
     std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.frag");
+    // std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/quad.vert");
+    // std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/lightshader.frag");
     m_phongShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 }
 

@@ -171,4 +171,5 @@ linux {
 DISTFILES += \
     shaders/gshader.vert \
     shaders/gshader.frag \
-    shaders/lightshader.frag
+    shaders/lightshader.frag \
+    shaders/quad.vert

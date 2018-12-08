@@ -2,6 +2,7 @@
 #define SCENEVIEWSCENE_H
 
 #include "OpenGLScene.h"
+#include "gl/datatype/FBO.h"
 
 #include <memory>
 
@@ -59,6 +60,8 @@ private:
     QImage getTexture(CS123SceneMaterial material);
 
     std::unique_ptr<CS123::GL::CS123Shader> m_phongShader;
+
+    std::unique_ptr<FBO> m_FBO;
 
 };
 
