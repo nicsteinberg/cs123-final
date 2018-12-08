@@ -1,0 +1,15 @@
+drwxr-xr-x root/root         0 2016-11-28 16:07 ./
+drwxr-xr-x root/root         0 2016-11-28 16:07 ./usr/
+drwxr-xr-x root/root         0 2016-11-28 16:07 ./usr/lib/
+drwxr-xr-x root/root         0 2016-11-28 16:07 ./usr/lib/x86_64-linux-gnu/
+-rw-r--r-- root/root    942096 2016-11-28 16:07 ./usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.5.0
+drwxr-xr-x root/root         0 2016-11-28 16:07 ./usr/share/
+drwxr-xr-x root/root         0 2016-11-28 16:07 ./usr/share/doc/
+drwxr-xr-x root/root         0 2016-11-28 16:07 ./usr/share/doc/libsdl2/
+-rw-r--r-- root/root      1920 2016-11-28 07:25 ./usr/share/doc/libsdl2/CREDITS.txt
+-rw-r--r-- root/root       432 2016-11-28 07:25 ./usr/share/doc/libsdl2/README-SDL.txt
+-rw-r--r-- root/root       504 2016-11-28 07:25 ./usr/share/doc/libsdl2/BUGS.txt
+-rw-r--r-- root/root       647 2016-11-28 07:25 ./usr/share/doc/libsdl2/README.txt
+-rw-r--r-- root/root      1626 2016-11-28 16:05 ./usr/share/doc/libsdl2/changelog.gz
+-rw-r--r-- root/root     16933 2016-11-28 07:25 ./usr/share/doc/libsdl2/copyright
+lrwxrwxrwx root/root         0 2016-11-28 16:07 ./usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0 -> libSDL2-2.0.so.0.5.0
