@@ -432,7 +432,7 @@ void View::fileOpen() {
     if (!file.isNull() && file.endsWith(".xml")) {
         CS123XmlSceneParser parser(file.toLatin1().data());
         if (parser.parse()) {
-            m_scene = std::make_unique<SceneviewScene>();
+            m_scene = std::make_unique<SceneviewScene>(m_eyeWidth, m_eyeHeight);
             Scene::parse(m_scene.get(), &parser);
         } else {
             QMessageBox::critical(this, "Error", "Could not load scene \"" + file + "\"");

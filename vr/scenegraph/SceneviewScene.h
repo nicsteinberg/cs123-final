@@ -31,7 +31,7 @@ namespace CS123 { namespace GL {
  */
 class SceneviewScene : public OpenGLScene {
 public:
-    SceneviewScene();
+    SceneviewScene(int width, int height);
     virtual ~SceneviewScene();
 
     virtual void render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) override;

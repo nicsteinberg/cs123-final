@@ -15,20 +15,22 @@
 
 #include "gl/shaders/ShaderAttribLocations.h"
 #include <glm/gtc/type_ptr.hpp>
-
+#include "gl/datatype/FBO.h"
 #include <iostream>
 
 using namespace CS123::GL;
 
 
-SceneviewScene::SceneviewScene()
+SceneviewScene::SceneviewScene(int width, int height)
 {
     // Load shader. Will later want to load geo shader here.
     loadPhongShader();
 
     // Is this the correct width and height? Takes in number of color attachments - we'll have at least 3.
     // Can also just make our own gBuffer class instead of an FBO that generates our gPosition, gNormal, and gColor buffers.
-    //m_FBO = std::make_unique<FBO>(3, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width(), height(), TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, GL_FLOAT);
+    m_FBO = std::make_unique<FBO>(3, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, TextureParameters::FILTER_METHOD::LINEAR, GL_FLOAT);
+//    m_blurFBO1 = std::make_unique<FBO>(3, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, GL_FLOAT);
+//    m_blurFBO2 = std::make_unique<FBO>(3, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, GL_FLOAT);
 
     // Initialize shape member variables.
     settingsChanged();
@@ -67,6 +69,9 @@ void SceneviewScene::loadPhongShader() {
         m_quad->setAttribute(ShaderAttrib::POSITION, 3, 0, VBOAttribMarker::DATA_TYPE::FLOAT, false);
         m_quad->setAttribute(ShaderAttrib::TEXCOORD0, 2, 3*sizeof(GLfloat), VBOAttribMarker::DATA_TYPE::FLOAT, false);
         m_quad->buildVAO();
+
+        m_blurFBO1 = std::make_unique<FBO>();
+        m_blurFBO2 = std::make_unique<FBO>();
 }
 
 //void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
