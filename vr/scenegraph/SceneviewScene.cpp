@@ -13,6 +13,9 @@
 #include "glm/gtx/transform.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "gl/shaders/ShaderAttribLocations.h"
+#include <glm/gtc/type_ptr.hpp>
+
 #include <iostream>
 
 using namespace CS123::GL;
@@ -43,10 +46,27 @@ void SceneviewScene::loadGeometryShader() {
 
 void SceneviewScene::loadPhongShader() {
     std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.vert");
-    std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.frag");
-    // std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/quad.vert");
-    // std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/lightshader.frag");
-    m_phongShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
+        std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.frag");
+        // std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/quad.vert");
+        // std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/lightshader.frag");
+        m_phongShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
+        m_phongProgram = ResourceLoader::createShaderProgram(":/shaders/shader.vert", ":/shaders/shader.frag");
+        m_blurHProgram = ResourceLoader::createShaderProgram(":/shaders/quad.vert", ":/shaders/horizontalBlur.frag");
+        m_blurVProgram = ResourceLoader::createShaderProgram(":/shaders/quad.vert", ":/shaders/verticalBlur.frag");
+
+        std::vector<GLfloat> quadData = {-1.f, -1.f, 0.f,
+                                         0, 1,
+                                         -1.f, +1.f, 0.f,
+                                         0, 0,
+                                         +1.f, -1.f, 0.f,
+                                         1, 1,
+                                         +1.f, +1.f, 0.f,
+                                         1, 0};
+        m_quad = std::make_unique<OpenGLShape>();
+        m_quad->setVertexData(&quadData[0], quadData.size(), VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLE_STRIP, 4);
+        m_quad->setAttribute(ShaderAttrib::POSITION, 3, 0, VBOAttribMarker::DATA_TYPE::FLOAT, false);
+        m_quad->setAttribute(ShaderAttrib::TEXCOORD0, 2, 3*sizeof(GLfloat), VBOAttribMarker::DATA_TYPE::FLOAT, false);
+        m_quad->buildVAO();
 }
 
 //void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
@@ -99,50 +119,36 @@ void SceneviewScene::loadPhongShader() {
 //    // m_quad->draw();
 //}
 
+// THIS IS THE WORKING ONE
+//void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
+//    m_phongShader->bind();
+//    setSceneUniforms(projectionMatrix, viewMatrix);
+//    setLights();
+
+//    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
+//    renderGeometry();
+
+//    glBindTexture(GL_TEXTURE_2D, 0);
+//    m_phongShader->unbind();
+
+//}
+
 void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
-    m_phongShader->bind();
+
     setSceneUniforms(projectionMatrix, viewMatrix);
     setLights();
 
-    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
-    renderGeometry();
+    m_blurFBO1->bind();
+    glUseProgram(m_phongProgram);
 
-    glBindTexture(GL_TEXTURE_2D, 0);
-    m_phongShader->unbind();
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    // neglected glViewport(0, 0, width, height) - add later?
+    renderGeometry();
+    m_blurFBO1->unbind();
 
 }
-
-//void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
-//    int num_rays = 5;
-//    float aperture_size = 0.05f;
-//    glm::mat4x4 p = projectionMatrix;
-
-//    glm::vec3 point_of_focus = glm::vec3(0.f);
-//    glm::vec3 eye = glm::vec3(viewMatrix[2], viewMatrix[6], viewMatrix[10]);
-//    glm::vec3 up = glm::vec3(viewMatrix[0], viewMatrix[4], viewMatrix[8]);
-//    glm::vec3 right = glm::normalize(glm::cross(point_of_focus - eye, up));
-//    up = glm::normalize(glm::cross(point_of_focus - eye, right));
-
-//    for (int i = 0; i < num_rays; i++) {
-
-//        glm::vec3 bokeh = right * cosf(2 * M_PI * i / num_rays) + up * sinf(2 * M_PI * i / num_rays);
-//        glm::vec3 displaced_eye = eye + aperture_size * bokeh;
-//        glm::mat4x4 v = glulookAt(displaced_eye, point_of_focus, up);
-
-//        m_phongShader->bind();
-//        setSceneUniforms(p, v);
-//        setLights();
-//        renderGeometry();
-//        glBindTexture(GL_TEXTURE_2D, 0);
-//        glAccum(i ? GL_ACCUM : GL_LOAD, 1.f / num_rays);
-//        m_phongShader->unbind();
-
-//    }
-
-//    glAccum(GL_RETURN, 1);
-////    wglSwapBuffers();
-
-//}
 
 void SceneviewScene::render(
     glm::mat4x4 projectionMatrix,
@@ -156,10 +162,14 @@ void SceneviewScene::render(
 
 
 void SceneviewScene::setSceneUniforms(glm::mat4x4 &projectionMatrix, glm::mat4x4 &viewMatrix) {
-    m_phongShader->setUniform("useLighting", true);
-    m_phongShader->setUniform("useArrowOffsets", false);
-    m_phongShader->setUniform("p", projectionMatrix);
-    m_phongShader->setUniform("v", viewMatrix);
+//     WE WANT THESE 4 LINES BACK
+//    m_phongShader->setUniform("useLighting", true);
+//    m_phongShader->setUniform("useArrowOffsets", false);
+//    m_phongShader->setUniform("p", projectionMatrix);
+//    m_phongShader->setUniform("v", viewMatrix);
+
+    glUniformMatrix4fv(glGetUniformLocation(m_phongProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+    glUniformMatrix4fv(glGetUniformLocation(m_phongProgram, "view"), 1, GL_FALSE, glm::value_ptr(viewMatrix));
 
     //m_geoShader->setUniform("p", projectionMatrix);
     //m_geoShader->setUniform("v", viewMatrix);

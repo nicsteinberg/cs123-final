@@ -63,7 +63,10 @@ private:
     std::unique_ptr<CS123::GL::CS123Shader> m_phongShader;
     std::unique_ptr<CS123::GL::CS123Shader> m_geoShader;
 
-    std::unique_ptr<FBO> m_FBO;
+    std::unique_ptr<FBO> m_FBO, m_blurFBO1, m_blurFBO2;
+
+    GLuint m_blurHProgram, m_blurVProgram, m_phongProgram;
+    std::unique_ptr<OpenGLShape> m_quad;
 
 };
 
