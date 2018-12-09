@@ -53,6 +53,7 @@ private:
 private:
 
     void loadPhongShader();
+    void loadGeometryShader();
     void setSceneUniforms(glm::mat4x4 &projectionMatrix, glm::mat4x4 &viewMatrix);
     void setLights();
     void renderGeometry();
@@ -60,6 +61,7 @@ private:
     QImage getTexture(CS123SceneMaterial material);
 
     std::unique_ptr<CS123::GL::CS123Shader> m_phongShader;
+    std::unique_ptr<CS123::GL::CS123Shader> m_geoShader;
 
     std::unique_ptr<FBO> m_FBO;
 

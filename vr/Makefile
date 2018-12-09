@@ -123,6 +123,7 @@ OBJECTS       = Shader.o \
 DIST          = shaders/gshader.vert \
 		shaders/gshader.frag \
 		shaders/lightshader.frag \
+		shaders/quad.vert \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/mkspecs/common/shell-unix.conf \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/mkspecs/common/unix.conf \
@@ -518,8 +519,8 @@ compiler_rcc_make_all: qrc_resources.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_resources.cpp
 qrc_resources.cpp: resources.qrc \
-		shaders/shader.vert \
-		shaders/shader.frag
+		shaders/shader.frag \
+		shaders/shader.vert
 	/contrib/projects/qt5.2.0/5.2.0/gcc_64/bin/rcc -name resources resources.qrc -o qrc_resources.cpp
 
 compiler_moc_header_make_all: moc_view.cpp moc_mainwindow.cpp
@@ -1321,6 +1322,15 @@ CS123Shader.o: gl/shaders/CS123Shader.cpp gl/shaders/CS123Shader.h \
 		glm/detail/func_integer.hpp \
 		glm/detail/func_integer.inl \
 		lib/CS123SceneData.h \
+		shapes/cone.h \
+		shapes/shape.h \
+		shapes/openglshape.h \
+		gl/datatype/VBO.h \
+		gl/datatype/VBOAttribMarker.h \
+		shapes/Cap.h \
+		shapes/cube.h \
+		shapes/cylinder.h \
+		shapes/sphere.h \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtWidgets/QWidget \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtWidgets/qwidget.h \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtGui/qwindowdefs.h \
@@ -1524,6 +1534,16 @@ FullScreenQuad.o: gl/util/FullScreenQuad.cpp gl/util/FullScreenQuad.h \
 CS123XmlSceneParser.o: lib/CS123XmlSceneParser.cpp lib/CS123XmlSceneParser.h \
 		lib/CS123ISceneParser.h \
 		lib/CS123SceneData.h \
+		shapes/cone.h \
+		shapes/shape.h \
+		shapes/openglshape.h \
+		glew-1.10.0/include/GL/glew.h \
+		gl/datatype/VBO.h \
+		gl/datatype/VBOAttribMarker.h \
+		shapes/Cap.h \
+		shapes/cube.h \
+		shapes/cylinder.h \
+		shapes/sphere.h \
 		glm/glm.hpp \
 		glm/detail/_fixes.hpp \
 		glm/fwd.hpp \
@@ -1915,6 +1935,16 @@ ResourceLoader.o: lib/ResourceLoader.cpp lib/ResourceLoader.h \
 
 Scene.o: scenegraph/Scene.cpp scenegraph/Scene.h \
 		lib/CS123SceneData.h \
+		shapes/cone.h \
+		shapes/shape.h \
+		shapes/openglshape.h \
+		glew-1.10.0/include/GL/glew.h \
+		gl/datatype/VBO.h \
+		gl/datatype/VBOAttribMarker.h \
+		shapes/Cap.h \
+		shapes/cube.h \
+		shapes/cylinder.h \
+		shapes/sphere.h \
 		glm/glm.hpp \
 		glm/detail/_fixes.hpp \
 		glm/fwd.hpp \
@@ -2109,6 +2139,16 @@ Scene.o: scenegraph/Scene.cpp scenegraph/Scene.h \
 OpenGLScene.o: scenegraph/OpenGLScene.cpp scenegraph/OpenGLScene.h \
 		scenegraph/Scene.h \
 		lib/CS123SceneData.h \
+		shapes/cone.h \
+		shapes/shape.h \
+		shapes/openglshape.h \
+		glew-1.10.0/include/GL/glew.h \
+		gl/datatype/VBO.h \
+		gl/datatype/VBOAttribMarker.h \
+		shapes/Cap.h \
+		shapes/cube.h \
+		shapes/cylinder.h \
+		shapes/sphere.h \
 		glm/glm.hpp \
 		glm/detail/_fixes.hpp \
 		glm/fwd.hpp \
@@ -2293,14 +2333,23 @@ OpenGLScene.o: scenegraph/OpenGLScene.cpp scenegraph/OpenGLScene.h \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtCore/qfiledevice.h \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtGui/qvector2d.h \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtGui/qtouchdevice.h \
-		libraries/openvr/headers/openvr.h \
-		glew-1.10.0/include/GL/glew.h
+		libraries/openvr/headers/openvr.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o OpenGLScene.o scenegraph/OpenGLScene.cpp
 
 SceneviewScene.o: scenegraph/SceneviewScene.cpp scenegraph/SceneviewScene.h \
 		scenegraph/OpenGLScene.h \
 		scenegraph/Scene.h \
 		lib/CS123SceneData.h \
+		shapes/cone.h \
+		shapes/shape.h \
+		shapes/openglshape.h \
+		glew-1.10.0/include/GL/glew.h \
+		gl/datatype/VBO.h \
+		gl/datatype/VBOAttribMarker.h \
+		shapes/Cap.h \
+		shapes/cube.h \
+		shapes/cylinder.h \
+		shapes/sphere.h \
 		glm/glm.hpp \
 		glm/detail/_fixes.hpp \
 		glm/fwd.hpp \
@@ -2486,7 +2535,8 @@ SceneviewScene.o: scenegraph/SceneviewScene.cpp scenegraph/SceneviewScene.h \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtGui/qvector2d.h \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtGui/qtouchdevice.h \
 		libraries/openvr/headers/openvr.h \
-		glew-1.10.0/include/GL/glew.h \
+		gl/datatype/FBO.h \
+		gl/textures/TextureParameters.h \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtOpenGL/QGLWidget \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtOpenGL/qgl.h \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtGui/qopengl.h \
@@ -2504,7 +2554,6 @@ SceneviewScene.o: scenegraph/SceneviewScene.cpp scenegraph/SceneviewScene.h \
 		lib/ResourceLoader.h \
 		gl/textures/Texture2D.h \
 		gl/textures/Texture.h \
-		gl/textures/TextureParameters.h \
 		gl/textures/TextureParametersBuilder.h \
 		gl/shaders/CS123Shader.h \
 		gl/shaders/Shader.h \
@@ -2518,29 +2567,57 @@ SceneviewScene.o: scenegraph/SceneviewScene.cpp scenegraph/SceneviewScene.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SceneviewScene.o scenegraph/SceneviewScene.cpp
 
 Cap.o: shapes/Cap.cpp shapes/Cap.h \
-		gl/shaders/ShaderAttribLocations.h \
-		glew-1.10.0/include/GL/glew.h
+		shapes/shape.h \
+		shapes/openglshape.h \
+		glew-1.10.0/include/GL/glew.h \
+		gl/datatype/VBO.h \
+		gl/datatype/VBOAttribMarker.h \
+		gl/shaders/ShaderAttribLocations.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Cap.o shapes/Cap.cpp
 
-cone.o: shapes/cone.cpp shapes/Cap.h \
-		gl/shaders/ShaderAttribLocations.h \
-		glew-1.10.0/include/GL/glew.h
+cone.o: shapes/cone.cpp shapes/cone.h \
+		shapes/shape.h \
+		shapes/openglshape.h \
+		glew-1.10.0/include/GL/glew.h \
+		gl/datatype/VBO.h \
+		gl/datatype/VBOAttribMarker.h \
+		shapes/Cap.h \
+		gl/shaders/ShaderAttribLocations.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cone.o shapes/cone.cpp
 
-cube.o: shapes/cube.cpp gl/shaders/ShaderAttribLocations.h \
-		glew-1.10.0/include/GL/glew.h
+cube.o: shapes/cube.cpp shapes/cube.h \
+		shapes/shape.h \
+		shapes/openglshape.h \
+		glew-1.10.0/include/GL/glew.h \
+		gl/datatype/VBO.h \
+		gl/datatype/VBOAttribMarker.h \
+		gl/shaders/ShaderAttribLocations.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cube.o shapes/cube.cpp
 
-cylinder.o: shapes/cylinder.cpp shapes/Cap.h \
-		gl/shaders/ShaderAttribLocations.h \
-		glew-1.10.0/include/GL/glew.h
+cylinder.o: shapes/cylinder.cpp shapes/cylinder.h \
+		shapes/shape.h \
+		shapes/openglshape.h \
+		glew-1.10.0/include/GL/glew.h \
+		gl/datatype/VBO.h \
+		gl/datatype/VBOAttribMarker.h \
+		shapes/Cap.h \
+		gl/shaders/ShaderAttribLocations.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cylinder.o shapes/cylinder.cpp
 
-shape.o: shapes/shape.cpp 
+shape.o: shapes/shape.cpp shapes/shape.h \
+		shapes/openglshape.h \
+		glew-1.10.0/include/GL/glew.h \
+		gl/datatype/VBO.h \
+		gl/datatype/VBOAttribMarker.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o shape.o shapes/shape.cpp
 
-sphere.o: shapes/sphere.cpp gl/shaders/ShaderAttribLocations.h \
-		glew-1.10.0/include/GL/glew.h
+sphere.o: shapes/sphere.cpp shapes/sphere.h \
+		shapes/shape.h \
+		shapes/openglshape.h \
+		glew-1.10.0/include/GL/glew.h \
+		gl/datatype/VBO.h \
+		gl/datatype/VBOAttribMarker.h \
+		gl/shaders/ShaderAttribLocations.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sphere.o shapes/sphere.cpp
 
 openglshape.o: shapes/openglshape.cpp shapes/openglshape.h \
@@ -2770,6 +2847,15 @@ view.o: ui/view.cpp ui/view.h \
 		lib/CS123XmlSceneParser.h \
 		lib/CS123ISceneParser.h \
 		lib/CS123SceneData.h \
+		shapes/cone.h \
+		shapes/shape.h \
+		shapes/openglshape.h \
+		gl/datatype/VBO.h \
+		gl/datatype/VBOAttribMarker.h \
+		shapes/Cap.h \
+		shapes/cube.h \
+		shapes/cylinder.h \
+		shapes/sphere.h \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtWidgets/QWidget \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtXml/QtXml \
 		../../../../../../sys/shared/psfu/contrib/projects/qt5.2.0/5.2.0/gcc_64/include/QtXml/QtXmlDepends \

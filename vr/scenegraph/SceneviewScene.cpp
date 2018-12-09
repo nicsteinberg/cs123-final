@@ -20,11 +20,12 @@ using namespace CS123::GL;
 
 SceneviewScene::SceneviewScene()
 {
-    // Load shader.
+    // Load shader. Will later want to load geo shader here.
     loadPhongShader();
 
-    // Is this the correct width and height?
-    m_FBO = std::make_unique<FBO>(1, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width(), height(), TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE);
+    // Is this the correct width and height? Takes in number of color attachments - we'll have at least 3.
+    // Can also just make our own gBuffer class instead of an FBO that generates our gPosition, gNormal, and gColor buffers.
+    //m_FBO = std::make_unique<FBO>(3, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width(), height(), TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, GL_FLOAT);
 
     // Initialize shape member variables.
     settingsChanged();
@@ -37,6 +38,7 @@ SceneviewScene::~SceneviewScene()
 void SceneviewScene::loadGeometryShader() {
     std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/gshader.vert");
     std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/gshader.frag");
+    m_geoShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 }
 
 void SceneviewScene::loadPhongShader() {
@@ -47,24 +49,67 @@ void SceneviewScene::loadPhongShader() {
     m_phongShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 }
 
+//void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
+
+//    // Bind FBO.
+//    m_FBO->bind();
+
+//    // Use this program ID.
+//    m_geoShader->bind();
+
+//    // Is this necessary? Why these bits?
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+//    // Set uniforms passed into vert.
+//    setSceneUniforms(projectionMatrix, viewMatrix);
+
+//    // Is this necessary?
+//    glViewPort(0, 0, width, height);
+
+//    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
+//    renderGeometry();
+
+//    // Gives texture to .frag? Which texture is this?
+//    glBindTexture(GL_TEXTURE_2D, 0);
+
+//    // Unbind geometry shader.
+//    m_geoShader->unbind();
+
+//    // Should we call this before or after unbinding geoshader?
+//    m_FBO->unbind();
+
+//    // bind all our textures (gPosition, gNormal, gColor)
+//    // are activeTexture calls necessary?
+//    glActiveTexture(GL_TEXTURE0);
+//    m_FBO->getColorAttachment(0).bind();
+//    glActiveTexture(GL_TEXTURE1);
+//    m_FBO->getColorAttachment(1).bind();
+//    glActiveTexture(GL_TEXTURE2);
+//    m_FBO->getColorAttachment(2).bind();
+
+//    // Bind light shader.
+//    m_phongShader->bind();
+
+//    // Send lighting uniforms to fragment shader.
+//    setLights();
+
+//    m_phongShader->unbind();
+
+//    // render quad
+//    // m_quad->draw();
+//}
+
 void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
-
-    // Use this program ID.
     m_phongShader->bind();
-
-    // Set uniforms passed into vert.
     setSceneUniforms(projectionMatrix, viewMatrix);
-
-    // Set lights passed into vert.
     setLights();
 
     // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
     renderGeometry();
 
-    // Gives texture to .frag?
     glBindTexture(GL_TEXTURE_2D, 0);
-
     m_phongShader->unbind();
+
 }
 
 //void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
@@ -115,6 +160,9 @@ void SceneviewScene::setSceneUniforms(glm::mat4x4 &projectionMatrix, glm::mat4x4
     m_phongShader->setUniform("useArrowOffsets", false);
     m_phongShader->setUniform("p", projectionMatrix);
     m_phongShader->setUniform("v", viewMatrix);
+
+    //m_geoShader->setUniform("p", projectionMatrix);
+    //m_geoShader->setUniform("v", viewMatrix);
 }
 
 void SceneviewScene::setLights()
@@ -135,6 +183,9 @@ void SceneviewScene::renderGeometry() {
         // Apply matrix transformations and material.
         m_phongShader->setUniform("m", prim.compositeTransformation);
         m_phongShader->applyMaterial(prim.material);
+
+        //m_geoShader->setUniform("m", prim.compositeTransformation);
+        //m_geoShader->applyMaterial(prim.material); // Will have to add more uniforms to this helper!
 
 //        if (prim.material.textureMap.isUsed) {
 //            getTexture(prim.material);

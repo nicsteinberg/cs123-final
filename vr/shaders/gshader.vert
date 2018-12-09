@@ -21,6 +21,12 @@ uniform vec3 specular_color;
 uniform float shininess;
 uniform vec2 repeatUV;
 
+//uniform vec3 reflective;
+//uniform float blend;
+//uniform vec3 attenuation;
+
+//uniform QImage??
+
 uniform bool textureUsed;     // Whether texture is used
 
 
@@ -35,6 +41,7 @@ void main() {
 
     gl_Position = p * position_cameraSpace;
 
+    // kept as placeholder bc idk how to compute color rn
     color = ambient_color + diffuse_color;
     color = clamp(color, 0.0, 1.0);
 }
