@@ -427,7 +427,7 @@ void View::fileOpen() {
 //    QString file = QFileDialog::getOpenFileName(this, "Open File", "../tavr/scenes");
 
     // Comment this to detach the program from house.xml.
-    QString file = "C:/Users/Roxas/Desktop/msteinb1/cs123/scenes/house.xml";
+    QString file = "C:/Users/Roxas/Desktop/msteinb1/cs123-final/vr/scenes/house.xml";
 
     if (!file.isNull() && file.endsWith(".xml")) {
         CS123XmlSceneParser parser(file.toLatin1().data());
