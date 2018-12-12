@@ -141,22 +141,9 @@ void SceneviewScene::loadPhongShader() {
 //    m_quad->draw();
 //}
 
-// THIS IS THE WORKING ONE
-void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
-    m_phongShader->bind();
-    setSceneUniforms(projectionMatrix, viewMatrix);
-    setLights();
-
-    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
-    renderGeometry();
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-    m_phongShader->unbind();
-
-}
-
+// THIS IS THE WORKING STENCIL METHOD
 //void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
-//    m_geoShader->bind();
+//    m_phongShader->bind();
 //    setSceneUniforms(projectionMatrix, viewMatrix);
 //    setLights();
 
@@ -169,73 +156,33 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 //}
 
 // matt's attempts at depth of field
-//void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
+void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
 
-//    //    m_blurFBO1->bind();
-//    //    m_phongShader->bind();
-//    //    setSceneUniforms(projectionMatrix, viewMatrix);
-//    //    setLights();
+    // FIRST PASS
+    // Use phong shader.
+    m_phongShader->bind();
 
-//    //    glClear(GL_COLOR_BUFFER_BIT);
-//    //    glClear(GL_DEPTH_BUFFER_BIT);
+    // Set uniforms passed into vert.
+    setSceneUniforms(projectionMatrix, viewMatrix);
 
-//    //    // neglected glViewport(0, 0, width, height) - add later?
-//    //    renderGeometry();
-//    //    m_blurFBO1->unbind();
-//    // END matt tried a thing here
+    // Send lighting uniforms to fragment shader.
+    setLights();
 
-//    //    // Bind FBO.
-//    m_blurFBO1->bind();
+    // Is this necessary? Why these bits?
+    // Sometimes we do this.
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
 
-//    //    // Use this program ID.
-//    //    m_geoShader->bind();
-//    m_phongShader->bind();
+    // Set "m" uniform and ambient, diffuse, specular, etc uniforms. Draw.
+    renderGeometry();
 
-//    //    // Is this necessary? Why these bits?
-//    //    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    glClear(GL_DEPTH_BUFFER_BIT);
+    // Binds .frag texture to 0.
+    glBindTexture(GL_TEXTURE_2D, 0);
 
-//    //    // Is this necessary?
-//    //    glViewPort(0, 0, width, height);
+    // Unbind phong shader.
+    m_phongShader->unbind();
 
-//    //    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
-//    renderGeometry();
-
-//    //    // Gives texture to .frag? Which texture is this?
-//    glBindTexture(GL_TEXTURE_2D, 0);
-
-//    //    // Unbind geometry shader.
-//    //    m_geoShader->unbind();
-//    m_phongShader->unbind();
-
-//    //    // Should we call this before or after unbinding geoshader?
-//    m_blurFBO1->unbind();
-
-//    //    // bind all our textures (gPosition, gNormal, gColor)
-//    //    // are activeTexture calls necessary? consider using setTexture!
-//    glActiveTexture(GL_TEXTURE0);
-//    m_FBO->getColorAttachment(0).bind();
-//    glActiveTexture(GL_TEXTURE1);
-//    m_FBO->getColorAttachment(1).bind();
-//    glActiveTexture(GL_TEXTURE2);
-//    m_FBO->getColorAttachment(2).bind();
-
-//    //    // Bind light shader.
-//    m_phongShader->bind();
-
-//    //    // Set uniforms passed into vert.
-//    setSceneUniforms(projectionMatrix, viewMatrix);
-
-//    //    // Send lighting uniforms to fragment shader.
-//    setLights();
-
-//    m_phongShader->unbind();
-
-//    //    // render quad
-//    m_quad->draw();
-
-//}
+}
 
 void SceneviewScene::render(
         glm::mat4x4 projectionMatrix,
