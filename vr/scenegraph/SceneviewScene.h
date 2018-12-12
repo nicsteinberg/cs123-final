@@ -58,14 +58,16 @@ private:
     void setLights();
     void renderGeometry();
 
-    QImage getTexture(CS123SceneMaterial material);
+    GLuint getTexture(CS123SceneMaterial material);
 
-    std::unique_ptr<CS123::GL::CS123Shader> m_phongShader;
-    std::unique_ptr<CS123::GL::CS123Shader> m_geoShader;
+    std::unique_ptr<CS123::GL::CS123Shader> m_phongShader, m_geoShader, m_horizontalBlur, m_verticalBlur;
 
     std::unique_ptr<FBO> m_FBO, m_blurFBO1, m_blurFBO2;
 
-    GLuint m_blurHProgram, m_blurVProgram, m_phongProgram;
+    int m_width, m_height;
+    GLuint m_id;
+
+    //GLuint m_blurHProgram, m_blurVProgram, m_phongProgram;
     std::unique_ptr<OpenGLShape> m_quad;
 
 };

@@ -424,7 +424,7 @@ void View::mouseMoveEvent(QMouseEvent *event) {
 void View::fileOpen() {
 
     // Uncomment this for file dialog.
-//    QString file = QFileDialog::getOpenFileName(this, "Open File", "../tavr/scenes");
+    //QString file = QFileDialog::getOpenFileName(this, "Open File", "../tavr/scenes");
 
     // Comment this to detach the program from house.xml.
     QString file = "C:/Users/Roxas/Desktop/msteinb1/cs123-final/vr/scenes/house.xml";

@@ -242,7 +242,11 @@ compiler_rcc_clean:
 debug/qrc_resources.cpp: resources.qrc \
 		C:/Qt/5.7/mingw53_32/bin/rcc.exe \
 		shaders/shader.frag \
-		shaders/shader.vert
+		shaders/shader.vert \
+		shaders/gshader.frag \
+		shaders/lightshader.frag \
+		shaders/quad.vert \
+		shaders/gshader.vert
 	C:\Qt\5.7\mingw53_32\bin\rcc.exe -name resources resources.qrc -o debug\qrc_resources.cpp
 
 compiler_moc_header_make_all: debug/moc_view.cpp debug/moc_mainwindow.cpp
@@ -2206,7 +2210,14 @@ debug/SceneviewScene.o: scenegraph/SceneviewScene.cpp scenegraph/SceneviewScene.
 		glm/gtx/transform.hpp \
 		glm/gtc/matrix_transform.hpp \
 		glm/gtc/matrix_transform.inl \
-		glm/gtx/transform.inl
+		glm/gtx/transform.inl \
+		gl/shaders/ShaderAttribLocations.h \
+		glm/gtc/type_ptr.hpp \
+		glm/gtc/quaternion.hpp \
+		glm/gtc/constants.hpp \
+		glm/gtc/constants.inl \
+		glm/gtc/quaternion.inl \
+		glm/gtc/type_ptr.inl
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\SceneviewScene.o scenegraph\SceneviewScene.cpp
 
 debug/Cap.o: shapes/Cap.cpp shapes/Cap.h \

@@ -28,6 +28,10 @@ namespace CS123 { namespace GL { namespace ShaderAttrib {
     // Starting at this index,
     const GLuint SPECIAL0 = 9;
 
+    const GLuint DIFFUSE = 12;
+    const GLuint AMBIENT = 13;
+    const GLuint SPECULAR = 14;
+
 
 
 }}}

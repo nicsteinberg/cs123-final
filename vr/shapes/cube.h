@@ -22,6 +22,7 @@ protected:
     void makeFace(int p1, float x, float y, float z, int face);
     void addNormal(int face);
     void addVertex(float x, float y, float z);
+    void addUV(int vertex);
 };
 
 #endif // CUBE_H

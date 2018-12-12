@@ -36,8 +36,10 @@ void Cube::genVertices(int p1) {
     // Add double of last point of last face/starting point for next.
     addVertex(0.5, 0.5, 0.5);
     addNormal(0);
+    //addUV(3);
     addVertex(-0.5, 0.5, 0.5);
     addNormal(1);
+    //addUV(0);
 
     // front face
     makeFace(p1, -0.5, 0.5, 0.5, 1);
@@ -45,8 +47,10 @@ void Cube::genVertices(int p1) {
     // Add double of last point of last face/starting point for next.
     addVertex(0.5, -0.5, 0.5);
     addNormal(1);
+    //addUV(3);
     addVertex(0.5, 0.5, 0.5);
     addNormal(2);
+    //addUV(0);
 
     // right face
     makeFace(p1, 0.5, 0.5, 0.5, 2);
@@ -54,8 +58,10 @@ void Cube::genVertices(int p1) {
     // Add double of last point of last face/starting point for next.
     addVertex(0.5, -0.5, -0.5);
     addNormal(2);
+    //addUV(3);
     addVertex(0.5, 0.5, -0.5);
     addNormal(3);
+    //addUV(0);
 
     // back face
     makeFace(p1, 0.5, 0.5, -0.5, 3);
@@ -63,8 +69,10 @@ void Cube::genVertices(int p1) {
     // Add double of last point of last face/starting point for next.
     addVertex(-0.5, -0.5, -0.5);
     addNormal(3);
+    //addUV(3);
     addVertex(-0.5, 0.5, -0.5);
     addNormal(4);
+    //addUV(0);
 
     // left face
     makeFace(p1,-0.5, 0.5, -0.5, 4);
@@ -75,6 +83,7 @@ void Cube::genVertices(int p1) {
     this->setVertexData(m_verts.data(), m_verts.size(), VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLE_STRIP, m_verts.size() / 3);
     this->setAttribute(ShaderAttrib::POSITION, 3, 0, VBOAttribMarker::DATA_TYPE::FLOAT, false);
     this->setAttribute(ShaderAttrib::NORMAL, 3, 12, VBOAttribMarker::DATA_TYPE::FLOAT, false);
+    //this->setAttribute(ShaderAttrib::TEXCOORD0, 2, 24, VBOAttribMarker::DATA_TYPE::FLOAT, false);
     this->buildVAO();
 }
 
@@ -132,10 +141,17 @@ void Cube::makeFace(int p1, float x, float y, float z, int face) {
                 addVertex(x, y, z);
                 addNormal(face);
 
+//                if (col == 0) {
+//                    addUV(0);
+//                } else {
+//                    addUV(1);
+//                }
+
                 // Want a degenerate vertex after first vertex in new row.
                 if (col == 0 && row > 0) {
                     addVertex(x, y, z);
                     addNormal(face);
+                    addUV(0);
                 }
 
                 // We also want the bottom vertex, which will be the previous but shifted down a unit.
@@ -143,18 +159,32 @@ void Cube::makeFace(int p1, float x, float y, float z, int face) {
                       addVertex(x, y, z + z_seg);
                       addNormal(face);
 
+//                      if (col == 0) {
+//                          addUV(2);
+//                      } else {
+//                          addUV(3);
+//                      }
+
                     // Add a degenerate vertex if about to start a new row.
                     if (row < p1 - 1 && col == p1) {
                         addVertex(x, y, z + z_seg);
                         addNormal(face);
+                        //addUV(3);
                     }
                 } else {
                     addVertex(x, y + y_seg, z);
                     addNormal(face);
 
+//                    if (col == 0) {
+//                        addUV(2);
+//                    } else {
+//                        addUV(3);
+//                    }
+
                     if (row < p1 - 1 && col == p1) {
                         addVertex(x, y + y_seg, z);
                         addNormal(face);
+                        //addUV(3);
                     }
                 }
 
@@ -180,26 +210,48 @@ void Cube::addNormal(int face) {
     std::vector<float> normal;
 
     switch (face) {
-        case 0:
+        case 0: // top
             normal = {0.f, 1.f, 0.f};
             break;
-        case 1:
+        case 1: // front
             normal = {0.f, 0.f, 1.f};
             break;
-        case 2:
+        case 2: // right
             normal = {1.f, 0.f, 0.f};
             break;
-        case 3:
+        case 3: // back
             normal = {0.f, 0.f, -1.f};
             break;
-        case 4:
+        case 4: // left
             normal = {-1.f, 0.f, 0.f};
             break;
-        default:
+        default: // bottom
             normal = {0.f, -1.f, 0.f};
             break;
     }
 
     m_verts.reserve(3);
     m_verts.insert(m_verts.end(), normal.begin(), normal.end());
+}
+
+void Cube::addUV(int vertex) {
+    std::vector<float> uv;
+
+    switch (vertex) {
+        case 0: // top left
+            uv = {0.f, 0.f};
+            break;
+        case 1: // top right
+            uv = {0.f, 1.f};
+            break;
+        case 2: // bottom left
+            uv = {1.f, 0.f};
+            break;
+        default: // bottom right
+            uv = {1.f, 1.f};
+            break;
+    }
+
+    m_verts.reserve(2);
+    m_verts.insert(m_verts.end(), uv.begin(), uv.end());
 }

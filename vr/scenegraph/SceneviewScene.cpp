@@ -23,7 +23,11 @@ using namespace CS123::GL;
 
 SceneviewScene::SceneviewScene(int width, int height)
 {
-    // Load shader. Will later want to load geo shader here.
+    m_width = width;
+    m_height = height;
+
+    // Load shaders.
+    loadGeometryShader();
     loadPhongShader();
 
     // Is this the correct width and height? Takes in number of color attachments - we'll have at least 3.
@@ -41,34 +45,29 @@ SceneviewScene::~SceneviewScene()
 }
 
 void SceneviewScene::loadGeometryShader() {
-    std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/gshader.vert");
-    std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/gshader.frag");
+    std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/gshader.vert");
+    std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/gshader.frag");
     m_geoShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 }
 
 void SceneviewScene::loadPhongShader() {
     std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.vert");
     std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.frag");
-    // std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/quad.vert");
-    // std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/lightshader.frag");
+//     std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
+//     std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/lightshader.frag");
     m_phongShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
-    m_phongProgram = ResourceLoader::createShaderProgram(":/shaders/shader.vert", ":/shaders/shader.frag");
-    m_blurHProgram = ResourceLoader::createShaderProgram(":/shaders/quad.vert", ":/shaders/horizontalBlur.frag");
-    m_blurVProgram = ResourceLoader::createShaderProgram(":/shaders/quad.vert", ":/shaders/verticalBlur.frag");
 
-    std::vector<GLfloat> quadData = {-1.f, -1.f, 0.f,
-                                     0, 1,
-                                     -1.f, +1.f, 0.f,
-                                     0, 0,
-                                     +1.f, -1.f, 0.f,
-                                     1, 1,
-                                     +1.f, +1.f, 0.f,
-                                     1, 0};
-    m_quad = std::make_unique<OpenGLShape>();
-    m_quad->setVertexData(&quadData[0], quadData.size(), VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLE_STRIP, 4);
-    m_quad->setAttribute(ShaderAttrib::POSITION, 3, 0, VBOAttribMarker::DATA_TYPE::FLOAT, false);
-    m_quad->setAttribute(ShaderAttrib::TEXCOORD0, 2, 3*sizeof(GLfloat), VBOAttribMarker::DATA_TYPE::FLOAT, false);
-    m_quad->buildVAO();
+//    //m_phongProgram = ResourceLoader::createShaderProgram(":/shaders/shaders/shader.vert", ":/shaders/shaders/shader.frag");
+//    //m_blurHProgram = ResourceLoader::createShaderProgram(":/shaders/shaders/quad.vert", ":/shaders/shaders/horizontalBlur.frag");
+//    //m_blurVProgram = ResourceLoader::createShaderProgram(":/shaders/shaders/quad.vert", ":/shaders/shaders/verticalBlur.frag");
+
+    // THESE SHOULD HAVE THEIR OWN FUNCTIONS
+//    vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/quad.vert");
+//    fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/horizontalBlur.frag");
+//    m_horizontalBlur = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
+
+//    fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/verticalBlur.frag");
+//    m_verticalBlur = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
 }
 
@@ -87,12 +86,12 @@ void SceneviewScene::loadPhongShader() {
 //    setSceneUniforms(projectionMatrix, viewMatrix);
 
 //    // Is this necessary?
-//    glViewPort(0, 0, width, height);
+//    glViewport(0, 0, m_width, m_height);
 
 //    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
 //    renderGeometry();
 
-//    // Gives texture to .frag? Which texture is this?
+//    // Gives texture to .frag? Which texture is this? Does this really need to be here?
 //    glBindTexture(GL_TEXTURE_2D, 0);
 
 //    // Unbind geometry shader.
@@ -102,7 +101,7 @@ void SceneviewScene::loadPhongShader() {
 //    m_FBO->unbind();
 
 //    // bind all our textures (gPosition, gNormal, gColor)
-//    // are activeTexture calls necessary?
+//    // are activeTexture calls necessary? consider using setTexture here!
 //    glActiveTexture(GL_TEXTURE0);
 //    m_FBO->getColorAttachment(0).bind();
 //    glActiveTexture(GL_TEXTURE1);
@@ -118,8 +117,21 @@ void SceneviewScene::loadPhongShader() {
 
 //    m_phongShader->unbind();
 
-//    // render quad
-//    // m_quad->draw();
+//    // Render full screen quad.
+//    std::vector<GLfloat> quadData = {-1.f, -1.f, 0.f,
+//                                     0, 1,
+//                                     -1.f, +1.f, 0.f,
+//                                     0, 0,
+//                                     +1.f, -1.f, 0.f,
+//                                     1, 1,
+//                                     +1.f, +1.f, 0.f,
+//                                     1, 0};
+//    m_quad = std::make_unique<OpenGLShape>();
+//    m_quad->setVertexData(&quadData[0], quadData.size(), VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLE_STRIP, 4);
+//    m_quad->setAttribute(ShaderAttrib::POSITION, 3, 0, VBOAttribMarker::DATA_TYPE::FLOAT, false);
+//    m_quad->setAttribute(ShaderAttrib::TEXCOORD0, 2, 3*sizeof(GLfloat), VBOAttribMarker::DATA_TYPE::FLOAT, false);
+//    m_quad->buildVAO();
+//    m_quad->draw();
 //}
 
 // THIS IS THE WORKING ONE
@@ -136,16 +148,26 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 
 }
 
+//void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
+//    m_geoShader->bind();
+//    setSceneUniforms(projectionMatrix, viewMatrix);
+//    setLights();
+
+//    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
+//    renderGeometry();
+
+//    glBindTexture(GL_TEXTURE_2D, 0);
+//    m_phongShader->unbind();
+
+//}
+
 // matt's attempts at depth of field
 //void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
 
-//    // BEGIN matt tried a thing here
-//    //    glUniformMatrix4fv(glGetUniformLocation(m_phongProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-//    //    glUniformMatrix4fv(glGetUniformLocation(m_phongProgram, "view"), 1, GL_FALSE, glm::value_ptr(viewMatrix));
-//    //    setLights();
-
 //    //    m_blurFBO1->bind();
-//    //    glUseProgram(m_phongProgram);
+//    //    m_phongShader->bind();
+//    //    setSceneUniforms(projectionMatrix, viewMatrix);
+//    //    setLights();
 
 //    //    glClear(GL_COLOR_BUFFER_BIT);
 //    //    glClear(GL_DEPTH_BUFFER_BIT);
@@ -184,7 +206,7 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 //    m_blurFBO1->unbind();
 
 //    //    // bind all our textures (gPosition, gNormal, gColor)
-//    //    // are activeTexture calls necessary?
+//    //    // are activeTexture calls necessary? consider using setTexture!
 //    glActiveTexture(GL_TEXTURE0);
 //    m_FBO->getColorAttachment(0).bind();
 //    glActiveTexture(GL_TEXTURE1);
@@ -249,11 +271,13 @@ void SceneviewScene::renderGeometry() {
         m_phongShader->applyMaterial(prim.material);
 
         //m_geoShader->setUniform("m", prim.compositeTransformation);
-        //m_geoShader->applyMaterial(prim.material); // Will have to add more uniforms to this helper!
+        //m_geoShader->applyMaterial(prim.material);
 
-        //        if (prim.material.textureMap.isUsed) {
-        //            getTexture(prim.material);
-        //        }
+        if (prim.material.textureMap.isUsed) {
+//            //glBindTexture(GL_TEXTURE_2D, getTexture(prim.material));
+            //m_geoShader->setUniform("useTexture", 1);
+            getTexture(prim.material);
+        }
 
         switch (prim.type) {
         case PrimitiveType::PRIMITIVE_CUBE:
@@ -272,27 +296,52 @@ void SceneviewScene::renderGeometry() {
 }
 
 void SceneviewScene::settingsChanged() {
-    m_cube = std::make_unique<Cube>(3);
+    m_cube = std::make_unique<Cube>(1);
     m_cone = std::make_unique<Cone>(3, 3);
     m_cylinder = std::make_unique<Cylinder>(3, 30);
     m_sphere = std::make_unique<Sphere>(10, 10);
 }
 
 // Is it ok that these are in a helper method?
-QImage SceneviewScene::getTexture(CS123SceneMaterial material) {
-    QImage fImage;
+GLuint SceneviewScene::getTexture(CS123SceneMaterial material) {
+    QImage image;
     if (material.textureMap.imageSet) {
-        fImage = material.textureMap.image;
+        image = material.textureMap.image;
     } else {
         QImage image = QImage(material.textureMap.filename.data());
-        fImage = QGLWidget::convertToGLFormat(image);
+        material.textureMap.image = image;
+        // texture is not used!
+//        image = QGLWidget::convertToGLFormat(image);
+//        material.textureMap.image = image;
+        material.textureMap.imageSet = true;
     }
 
-    Texture2D texture(fImage.bits(), fImage.width(), fImage.height());
+    //image = QGLWidget::convertToGLFormat(image);
+
+//    glGenTextures(GL_TEXTURE_2D, &m_id);
+//    glBindTexture(GL_TEXTURE_2D, m_id);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
+
+    Texture2D texture(image.bits(), image.width(), image.height());
     TextureParametersBuilder builder;
     builder.setFilter(TextureParameters::FILTER_METHOD::LINEAR);
     builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
     TextureParameters parameters = builder.build();
     parameters.applyTo(texture);
+
+    return m_id;
 }
+
+//QImage image(":/images/ostrich.jpg");
+//glGenTextures(1, &m_textureID);
+//glBindTexture(GL_TEXTURE_2D, m_textureID);
+//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
+
+// use resize gl? when dealing with vr's renderbuffers. bind passed in lefteyebuffer or righteyebuffer before rendering.
+// i thought default was screen but idk. maybe you can't bind an fbo within an fbo. so you have to unbind whatever fbo is bound (lefteyebuffer) and then
+// rebind it when you're ready to draw.
 

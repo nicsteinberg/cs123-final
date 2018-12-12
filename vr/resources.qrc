@@ -2,5 +2,9 @@
     <qresource prefix="/shaders">
         <file alias="shader.frag">shaders/shader.frag</file>
         <file alias="shader.vert">shaders/shader.vert</file>
+        <file>shaders/gshader.frag</file>
+        <file>shaders/gshader.vert</file>
+        <file>shaders/lightshader.frag</file>
+        <file>shaders/quad.vert</file>
     </qresource>
 </RCC>
