@@ -412,14 +412,283 @@
 
   </object>
 
+  <object type="tree" name="chair3">
+
+    <transblock>
+      <translate x="0" y="2.375" z="0"/>
+      <scale x="1.6" y="0.25" z="1.6"/>
+      <object type="master" name="chair1_cube"/>
+    </transblock>
+
+    <transblock>
+      <translate x="0.9" y="2.375" z="0"/>
+      <scale x="0.2" y="0.25" z="1.6"/>
+      <object type="master" name="wood_cube"/>
+    </transblock>
+
+    <transblock>
+      <translate x="-0.9" y="2.375" z="0"/>
+      <scale x="0.2" y="0.25" z="1.6"/>
+      <object type="master" name="wood_cube"/>
+    </transblock>
+
+    <transblock>
+      <translate x="0" y="2.375" z="0.9"/>
+      <scale x="1.6" y="0.25" z="0.2"/>
+      <object type="master" name="wood_cube"/>
+    </transblock>
+
+    <transblock>
+      <translate x="0" y="2.375" z="-0.9"/>
+      <scale x="1.6" y="0.25" z="0.2"/>
+      <object type="master" name="wood_cube"/>
+    </transblock>
+
+    <transblock>
+      <translate x="0.9" y="1.75" z="0.9"/>
+      <scale x="0.2" y="3.5" z="0.2"/>
+      <object type="master" name="wood_cube"/>
+    </transblock>
+
+    <transblock>
+      <translate x="0.9" y="1.75" z="-0.9"/>
+      <scale x="0.2" y="3.5" z="0.2"/>
+      <object type="master" name="wood_cube"/>
+    </transblock>
+
+    <transblock>
+      <translate x="-0.9" y="1.75" z="0.9"/>
+      <scale x="0.2" y="3.5" z="0.2"/>
+      <object type="master" name="wood_cube"/>
+    </transblock>
+
+    <transblock>
+      <translate x="-0.9" y="1.75" z="-0.9"/>
+      <scale x="0.2" y="3.5" z="0.2"/>
+      <object type="master" name="wood_cube"/>
+    </transblock>
+
+    <transblock>
+      <translate x="0.9" y="3.375" z="0"/>
+      <scale x="0.2" y="0.25" z="1.6"/>
+      <object type="master" name="wood_cube"/>
+    </transblock>
+
+    <transblock>
+      <translate x="-0.9" y="3.375" z="0"/>
+      <scale x="0.2" y="0.25" z="1.6"/>
+      <object type="master" name="wood_cube"/>
+    </transblock>
+
+    <transblock>
+      <translate x="0" y="3.375" z="-0.9"/>
+      <scale x="1.6" y="0.25" z="0.2"/>
+      <object type="master" name="wood_cube"/>
+    </transblock>
+
+  </object>
+
+  <object type="tree" name="black_cube">
+    <transblock>
+      <translate x="0" y="0" z="0"/>
+      <object type="primitive" name="cube">
+        <diffuse r="0.1" g="0.1" b="0.1"/>
+        <specular r="0.2" g="0.2" b="0.2"/>
+      </object>
+    </transblock>
+  </object>
+
+  <object type="tree" name="image_1">
+    <transblock>
+      <translate x="0" y="0" z="0"/>
+      <object type="primitive" name="cube">
+        <diffuse r="0.6" g="0.8" b="1"/>
+        <specular r="0.2" g="0.2" b="0.2"/>
+      </object>
+    </transblock>
+  </object>
+
+  <object type="tree" name="photo_1">
+
+    <transblock>
+      <rotate x="1" y="0" z="0" angle="-22.5"/>
+
+      <object type="tree" name="inner_photo_1">
+
+        <transblock>
+          <translate x="-1.8" y="1.5" z="0"/>
+          <scale x="0.4" y="2.6" z="0.4"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="1.8" y="1.5" z="0"/>
+          <scale x="0.4" y="2.6" z="0.4"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="0" z="0"/>
+          <scale x="4" y="0.4" z="0.4"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="3" z="0"/>
+          <scale x="4" y="0.4" z="0.4"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="1.5" z="-0.2"/>
+          <scale x="3.6" y="2.6" z="0.01"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="1.5" z="0.2"/>
+          <scale x="3.2" y="2.6" z="0.01"/>
+          <object type="master" name="image_1"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="1" z="-.8"/>
+          <rotate x="1" y="0" z="0" angle="-45"/>
+          <scale x="0.4" y="0.05" z="2"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+      </object>
+
+    </transblock>
+
+  </object>
+
+  <object type="tree" name="image_2">
+    <transblock>
+      <translate x="0" y="0" z="0"/>
+      <object type="primitive" name="cube">
+        <diffuse r="0.6" g="0.8" b="1"/>
+        <specular r="0.2" g="0.2" b="0.2"/>
+      </object>
+    </transblock>
+  </object>
+
+  <object type="tree" name="photo_2">
+
+    <transblock>
+      <rotate x="1" y="0" z="0" angle="-22.5"/>
+
+      <object type="tree" name="inner_photo_2">
+
+        <transblock>
+          <translate x="-1.8" y="1.5" z="0"/>
+          <scale x="0.4" y="2.6" z="0.4"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="1.8" y="1.5" z="0"/>
+          <scale x="0.4" y="2.6" z="0.4"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="0" z="0"/>
+          <scale x="4" y="0.4" z="0.4"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="3" z="0"/>
+          <scale x="4" y="0.4" z="0.4"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="1.5" z="-0.2"/>
+          <scale x="3.6" y="2.6" z="0.01"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="1.5" z="0.2"/>
+          <scale x="3.2" y="2.6" z="0.01"/>
+          <object type="master" name="image_2"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="1" z="-.8"/>
+          <rotate x="1" y="0" z="0" angle="-45"/>
+          <scale x="0.4" y="0.05" z="2"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+      </object>
+
+    </transblock>
+
+  </object>
+
+  <object type="tree" name="fireplace">
+
+    <transblock>
+      <translate x="0" y="0" z="0"/>
+      <scale x="5" y="4" z="0.1"/>
+      <object type="primitive" name="cube">
+        <diffuse r="0.1" g="0.1" b="0.1"/>
+      </object>
+    </transblock>
+
+    <transblock>
+      <translate x="-3" y="0" z=".15"/>
+      <scale x="1" y="4" z="0.3"/>
+      <object type="master" name="wall_cube"/>
+    </transblock>
+
+    <transblock>
+      <translate x="3" y="0" z=".15"/>
+      <scale x="1" y="4" z="0.3"/>
+      <object type="master" name="wall_cube"/>
+    </transblock>
+
+    <transblock>
+      <translate x="0" y="2" z="0.5"/>
+      <rotate x="1" y="0" z="0" angle="90"/>
+      <rotate x="0" y="0" z="1" angle="90"/>
+      <scale x="1" y="7" z="0.3"/>
+      <object type="master" name="wall_cube"/>
+    </transblock>
+
+  </object>
+
+
   <object type="tree" name="root">
     <transblock>
       <translate x="0" y="-1" z="0"/>
 
+      <object type="tree" name="thePhoto1">
+        <transblock>
+          <translate x="0" y="1.16" z="-2.5"/>
+          <rotate x="0" y="1" z="0" angle="20"/>
+          <scale x="0.1" y="0.1" z="0.1"/>
+          <object type="master" name="photo_1"/>
+        </transblock>
+      </object>
+
+      <object type="tree" name="thePhoto2">
+        <transblock>
+          <translate x="0" y="3.125" z="-7"/>
+          <rotate x="0" y="1" z="0" angle="0"/>
+          <scale x="0.2" y="0.2" z="0.2"/>
+          <object type="master" name="photo_2"/>
+        </transblock>
+      </object>
+
       <object type="tree" name="theChair1">
         <transblock>
-          <translate x="-4" y="-.3" z="-5"/>
-          <rotate x="0" y="1" z="0" angle="200"/>
+          <translate x="-2" y="-.3" z="-4.5"/>
+          <rotate x="0" y="1" z="0" angle="215"/>
           <scale x="0.5" y="0.5" z="0.375"/>
           <object type="master" name="chair1"/>
         </transblock>
@@ -427,431 +696,464 @@
 
       <object type="tree" name="theChair2">
         <transblock>
-          <translate x="1" y="-.3" z="-5"/>
-          <rotate x="0" y="1" z="0" angle="160"/>
+          <translate x="1.5" y="-.3" z="-4.5"/>
+          <rotate x="0" y="1" z="0" angle="145"/>
           <scale x="0.5" y="0.5" z="0.375"/>
           <object type="master" name="chair2"/>
         </transblock>
       </object>
 
+      <object type="tree" name="theChair3">
+        <transblock>
+          <translate x="3" y="-.3" z="-1.5"/>
+          <rotate x="0" y="1" z="0" angle="-90"/>
+          <scale x="0.5" y="0.5" z="0.375"/>
+          <object type="master" name="chair3"/>
+        </transblock>
+      </object>
+
+      <object type="tree" name="theChair4">
+        <transblock>
+          <translate x="3" y="-.3" z="-3"/>
+          <rotate x="0" y="1" z="0" angle="-90"/>
+          <scale x="0.5" y="0.5" z="0.375"/>
+          <object type="master" name="chair3"/>
+        </transblock>
+      </object>
+
       <object type="tree" name="theBlueCouch">
         <transblock>
-          <translate x="-1" y="0" z="0"/>
-          <scale x="0.5" y="0.5" z="0.5"/>
+          <translate x="0" y="0" z="0"/>
+          <scale x="0.5" y="0.42" z="0.42"/>
           <object type="master" name="blue_couch"/>
         </transblock>
       </object>
 
       <object type="tree" name="theMirror">
         <transblock>
-          <translate x="0" y="6" z="-9.7"/>
+          <translate x="0" y="5" z="-7.27"/>
           <scale x="2" y="2" z="1"/>
           <rotate x="1" y="0" z="0" angle="10"/>
           <object type="master" name="mirror"/>
         </transblock>
       </object>
 
-      <object type="tree" name="sky">
-
-        <transblock>
-          <scale x="1" y="1000" z="1000"/>
-
-          <object type="tree" name="sky_sides">
-            <transblock>
-              <translate x="-25" y="0" z="0"/>
-              <object type="primitive" name="cube">
-                <ambient r="0.3" g="0.7" b="1"/>
-              </object>
-            </transblock>
-
-            <transblock>
-              <translate x="25" y="0" z="0"/>
-              <object type="primitive" name="cube">
-                <ambient r="0.3" g="0.7" b="1"/>
-              </object>
-            </transblock>
-          </object>
-        </transblock>
-
-        <transblock>
-          <scale x="1000" y="1000" z="1"/>
-
-          <object type="tree" name="sky_fronts">
-            <transblock>
-              <translate x="0" y="0" z="25"/>
-              <object type="primitive" name="cube">
-                <ambient r="0.3" g="0.7" b="1"/>
-              </object>
-            </transblock>
-
-            <transblock>
-              <translate x="0" y="0" z="-25"/>
-              <object type="primitive" name="cube">
-                <ambient r="0.3" g="0.7" b="1"/>
-              </object>
-            </transblock>
-          </object>
-        </transblock>
-
-
-      </object>
-
       <object type="tree" name="theTable">
         <transblock>
-          <translate x="-1" y="0" z="-3"/>
+          <translate x="0" y="0" z="-2.5"/>
           <object type="master" name="table"/>
         </transblock>
       </object>
 
-      <object type="tree" name="floor">
+      <object type="tree" name="arch">
+
         <transblock>
-          <scale x="20" y="0.5" z="20"/>
-          <object type="master" name="wood_cube"/>
-        </transblock>
-      </object>
+          <scale x="0.75" y="0.75" z="0.75"/>
 
-      <object type="tree" name="floor_steps">
-        <transblock>
-          <translate x="0" y="0.5" z="9"/>
-          <scale x="20" y="0.5" z="2"/>
-          <object type="master" name="wood_cube"/>
-        </transblock>
-      </object>
+          <object type="tree" name="sky">
 
-      <object type="tree" name="left_curtains">
-        <transblock>
-
-          <rotate x="0" y="1" z="0" angle="90"/>
-
-          <object type="tree" name="left_curtain_a">
             <transblock>
-              <translate x="-6.5" y="4" z="-9.6"/>
-              <scale x="1" y="5" z="0.1"/>
-              <object type="master" name="curtain_cube"/>
-            </transblock>
-          </object>
+              <scale x="1" y="1000" z="1000"/>
 
-          <object type="tree" name="left_curtain_b">
-            <transblock>
-              <translate x="-1.5" y="4" z="-9.6"/>
-              <scale x="1" y="5" z="0.1"/>
-              <object type="master" name="curtain_cube"/>
-            </transblock>
-          </object>
-
-          <object type="tree" name="left_curtain_e">
-            <transblock>
-              <translate x="-4" y="6.4" z="-9.6"/>
-              <scale x="4" y=".2" z="0.1"/>
-              <object type="master" name="curtain_cube"/>
-            </transblock>
-          </object>
-
-          <object type="tree" name="left_curtain_e">
-            <transblock>
-              <translate x="4" y="6.4" z="-9.6"/>
-              <scale x="4" y=".2" z="0.1"/>
-              <object type="master" name="curtain_cube"/>
-            </transblock>
-          </object>
-
-          <object type="tree" name="left_curtain_c">
-            <transblock>
-              <translate x="1.5" y="4" z="-9.6"/>
-              <scale x="1" y="5" z="0.1"/>
-              <object type="master" name="curtain_cube"/>
-            </transblock>
-          </object>
-
-          <object type="tree" name="left_curtain_d">
-            <transblock>
-              <translate x="6.5" y="4" z="-9.6"/>
-              <scale x="1" y="5" z="0.1"/>
-              <object type="master" name="curtain_cube"/>
-            </transblock>
-          </object>
-
-        </transblock>
-      </object>
-
-      <object type="tree" name="right_curtains">
-        <transblock>
-
-          <rotate x="0" y="1" z="0" angle="-90"/>
-
-          <object type="tree" name="right_curtain_a">
-            <transblock>
-              <translate x="-6.5" y="4" z="-9.6"/>
-              <scale x="1" y="5" z="0.1"/>
-              <object type="master" name="curtain_cube"/>
-            </transblock>
-          </object>
-
-          <object type="tree" name="right_curtain_b">
-            <transblock>
-              <translate x="-1.5" y="4" z="-9.6"/>
-              <scale x="1" y="5" z="0.1"/>
-              <object type="master" name="curtain_cube"/>
-            </transblock>
-          </object>
-
-          <object type="tree" name="right_curtain_e">
-            <transblock>
-              <translate x="-4" y="6.4" z="-9.6"/>
-              <scale x="4" y=".2" z="0.1"/>
-              <object type="master" name="curtain_cube"/>
-            </transblock>
-          </object>
-
-          <object type="tree" name="right_curtain_e">
-            <transblock>
-              <translate x="4" y="6.4" z="-9.6"/>
-              <scale x="4" y=".2" z="0.1"/>
-              <object type="master" name="curtain_cube"/>
-            </transblock>
-          </object>
-
-          <object type="tree" name="right_curtain_c">
-            <transblock>
-              <translate x="1.5" y="4" z="-9.6"/>
-              <scale x="1" y="5" z="0.1"/>
-              <object type="master" name="curtain_cube"/>
-            </transblock>
-          </object>
-
-          <object type="tree" name="right_curtain_d">
-            <transblock>
-              <translate x="6.5" y="4" z="-9.6"/>
-              <scale x="1" y="5" z="0.1"/>
-              <object type="master" name="curtain_cube"/>
-            </transblock>
-          </object>
-
-        </transblock>
-      </object>
-
-      <object type="tree" name="walls">
-        <transblock>
-
-          <object type="tree" name="far_wall">
-            <transblock>
-              <translate x="0" y="6" z="-10"/>
-              <scale x="20" y="12" z="0.5"/>
-              <object type="master" name="wall_cube"/>
-            </transblock>
-          </object>
-
-          <object type="tree" name="near_wall">
-            <transblock>
-              <translate x="0" y="6" z="10"/>
-
-              <object type="tree" name="near_wall_a">
+              <object type="tree" name="sky_sides">
                 <transblock>
-                  <translate x="9" y="-2.6" z="0"/>
-                  <scale x=".1" y=".6" z="1"/>
+                  <translate x="-25" y="0" z="0"/>
+                  <object type="primitive" name="cube">
+                    <ambient r="0.3" g="0.7" b="1"/>
+                  </object>
+                </transblock>
+
+                <transblock>
+                  <translate x="25" y="0" z="0"/>
+                  <object type="primitive" name="cube">
+                    <ambient r="0.3" g="0.7" b="1"/>
+                  </object>
+                </transblock>
+              </object>
+            </transblock>
+
+            <transblock>
+              <scale x="1000" y="1000" z="1"/>
+
+              <object type="tree" name="sky_fronts">
+                <transblock>
+                  <translate x="0" y="0" z="25"/>
+                  <object type="primitive" name="cube">
+                    <ambient r="0.3" g="0.7" b="1"/>
+                  </object>
+                </transblock>
+
+                <transblock>
+                  <translate x="0" y="0" z="-25"/>
+                  <object type="primitive" name="cube">
+                    <ambient r="0.3" g="0.7" b="1"/>
+                  </object>
+                </transblock>
+              </object>
+            </transblock>
+
+
+          </object>
+
+          <object type="tree" name="theFireplace">
+            <transblock>
+              <translate x="0" y="2" z="-9.7"/>
+              <object type="master" name="fireplace"/>
+            </transblock>
+          </object>
+
+          <object type="tree" name="floor">
+            <transblock>
+              <scale x="20" y="0.5" z="20"/>
+              <object type="master" name="wood_cube"/>
+            </transblock>
+          </object>
+
+          <object type="tree" name="floor_steps">
+            <transblock>
+              <translate x="0" y="0.5" z="9"/>
+              <scale x="20" y="0.5" z="2"/>
+              <object type="master" name="wood_cube"/>
+            </transblock>
+          </object>
+
+          <object type="tree" name="left_curtains">
+            <transblock>
+
+              <rotate x="0" y="1" z="0" angle="90"/>
+
+              <object type="tree" name="left_curtain_a">
+                <transblock>
+                  <translate x="-6.5" y="4" z="-9.6"/>
+                  <scale x="1" y="5" z="0.1"/>
+                  <object type="master" name="curtain_cube"/>
+                </transblock>
+              </object>
+
+              <object type="tree" name="left_curtain_b">
+                <transblock>
+                  <translate x="-1.5" y="4" z="-9.6"/>
+                  <scale x="1" y="5" z="0.1"/>
+                  <object type="master" name="curtain_cube"/>
+                </transblock>
+              </object>
+
+              <object type="tree" name="left_curtain_e">
+                <transblock>
+                  <translate x="-4" y="6.4" z="-9.6"/>
+                  <scale x="4" y=".2" z="0.1"/>
+                  <object type="master" name="curtain_cube"/>
+                </transblock>
+              </object>
+
+              <object type="tree" name="left_curtain_e">
+                <transblock>
+                  <translate x="4" y="6.4" z="-9.6"/>
+                  <scale x="4" y=".2" z="0.1"/>
+                  <object type="master" name="curtain_cube"/>
+                </transblock>
+              </object>
+
+              <object type="tree" name="left_curtain_c">
+                <transblock>
+                  <translate x="1.5" y="4" z="-9.6"/>
+                  <scale x="1" y="5" z="0.1"/>
+                  <object type="master" name="curtain_cube"/>
+                </transblock>
+              </object>
+
+              <object type="tree" name="left_curtain_d">
+                <transblock>
+                  <translate x="6.5" y="4" z="-9.6"/>
+                  <scale x="1" y="5" z="0.1"/>
+                  <object type="master" name="curtain_cube"/>
+                </transblock>
+              </object>
+
+            </transblock>
+          </object>
+
+          <object type="tree" name="right_curtains">
+            <transblock>
+
+              <rotate x="0" y="1" z="0" angle="-90"/>
+
+              <object type="tree" name="right_curtain_a">
+                <transblock>
+                  <translate x="-6.5" y="4" z="-9.6"/>
+                  <scale x="1" y="5" z="0.1"/>
+                  <object type="master" name="curtain_cube"/>
+                </transblock>
+              </object>
+
+              <object type="tree" name="right_curtain_b">
+                <transblock>
+                  <translate x="-1.5" y="4" z="-9.6"/>
+                  <scale x="1" y="5" z="0.1"/>
+                  <object type="master" name="curtain_cube"/>
+                </transblock>
+              </object>
+
+              <object type="tree" name="right_curtain_e">
+                <transblock>
+                  <translate x="-4" y="6.4" z="-9.6"/>
+                  <scale x="4" y=".2" z="0.1"/>
+                  <object type="master" name="curtain_cube"/>
+                </transblock>
+              </object>
+
+              <object type="tree" name="right_curtain_e">
+                <transblock>
+                  <translate x="4" y="6.4" z="-9.6"/>
+                  <scale x="4" y=".2" z="0.1"/>
+                  <object type="master" name="curtain_cube"/>
+                </transblock>
+              </object>
+
+              <object type="tree" name="right_curtain_c">
+                <transblock>
+                  <translate x="1.5" y="4" z="-9.6"/>
+                  <scale x="1" y="5" z="0.1"/>
+                  <object type="master" name="curtain_cube"/>
+                </transblock>
+              </object>
+
+              <object type="tree" name="right_curtain_d">
+                <transblock>
+                  <translate x="6.5" y="4" z="-9.6"/>
+                  <scale x="1" y="5" z="0.1"/>
+                  <object type="master" name="curtain_cube"/>
+                </transblock>
+              </object>
+
+            </transblock>
+          </object>
+
+          <object type="tree" name="walls">
+            <transblock>
+
+              <object type="tree" name="far_wall">
+                <transblock>
+                  <translate x="0" y="6" z="-10"/>
                   <scale x="20" y="12" z="0.5"/>
                   <object type="master" name="wall_cube"/>
                 </transblock>
               </object>
 
-              <object type="tree" name="near_wall_b">
+              <object type="tree" name="near_wall">
                 <transblock>
-                  <translate x="-9" y="-2.6" z="0"/>
-                  <scale x=".1" y=".6" z="1"/>
-                  <scale x="20" y="12" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
+                  <translate x="0" y="6" z="10"/>
+
+                  <object type="tree" name="near_wall_a">
+                    <transblock>
+                      <translate x="9" y="-2.6" z="0"/>
+                      <scale x=".1" y=".6" z="1"/>
+                      <scale x="20" y="12" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
+
+                  <object type="tree" name="near_wall_b">
+                    <transblock>
+                      <translate x="-9" y="-2.6" z="0"/>
+                      <scale x=".1" y=".6" z="1"/>
+                      <scale x="20" y="12" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
+
+                  <object type="tree" name="near_wall_c">
+                    <transblock>
+                      <translate x="0" y="-2.6" z="0"/>
+                      <scale x=".2" y=".6" z="1"/>
+                      <scale x="20" y="12" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
+
+                  <object type="tree" name="near_wall_d">
+                    <transblock>
+                      <translate x="0" y="4" z="0"/>
+                      <scale x="1" y=".5" z="1"/>
+                      <scale x="20" y="12" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
+
                 </transblock>
               </object>
 
-              <object type="tree" name="near_wall_c">
+              <object type="tree" name="left_wall">
                 <transblock>
-                  <translate x="0" y="-2.6" z="0"/>
-                  <scale x=".2" y=".6" z="1"/>
-                  <scale x="20" y="12" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
+                  <translate x="-10" y="4" z="0"/>
+                  <rotate x="0" y="1" z="0" angle="90"/>
+
+
+                  <object type="tree" name="left_wall_a">
+                    <transblock>
+                      <translate x="-8.5" y="0" z="0"/>
+                      <scale x=".15" y="1" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
+
+                  <object type="tree" name="left_wall_b">
+                    <transblock>
+                      <translate x="8.5" y="0" z="0"/>
+                      <scale x=".15" y="1" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
+
+                  <object type="tree" name="left_wall_c">
+                    <transblock>
+                      <translate x="0" y="0" z="0"/>
+                      <scale x=".15" y="1" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
+
+                  <object type="tree" name="left_wall_d">
+                    <transblock>
+                      <translate x="-4.2" y="3.2" z="0"/>
+                      <scale x=".28" y=".2" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
+
+                  <object type="tree" name="left_wall_e">
+                    <transblock>
+                      <translate x="4.2" y="3.2" z="0"/>
+                      <scale x=".28" y=".2" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
+
+                  <object type="tree" name="left_wall_f">
+                    <transblock>
+                      <translate x="-4.2" y="-3.2" z="0"/>
+                      <scale x=".28" y=".2" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
+
+                  <object type="tree" name="left_wall_g">
+                    <transblock>
+                      <translate x="4.2" y="-3.2" z="0"/>
+                      <scale x=".28" y=".2" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
+
                 </transblock>
               </object>
 
-              <object type="tree" name="near_wall_d">
+              <object type="tree" name="left_ceiling">
                 <transblock>
-                  <translate x="0" y="4" z="0"/>
-                  <scale x="1" y=".5" z="1"/>
-                  <scale x="20" y="12" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
-                </transblock>
-              </object>
-
-            </transblock>
-          </object>
-
-          <object type="tree" name="left_wall">
-            <transblock>
-              <translate x="-10" y="4" z="0"/>
-              <rotate x="0" y="1" z="0" angle="90"/>
-
-
-              <object type="tree" name="left_wall_a">
-                <transblock>
-                  <translate x="-8.5" y="0" z="0"/>
-                  <scale x=".15" y="1" z="1"/>
+                  <translate x="-7" y="10" z="0"/>
+                  <rotate x="0" y="0" z="1" angle="-60"/>
+                  <rotate x="0" y="1" z="0" angle="90"/>
                   <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
+                  <object type="master" name="ceiling_cube"/>
                 </transblock>
               </object>
 
-              <object type="tree" name="left_wall_b">
+              <object type="tree" name="center_ceiling">
                 <transblock>
-                  <translate x="8.5" y="0" z="0"/>
-                  <scale x=".15" y="1" z="1"/>
+                  <translate x="0" y="12" z="0"/>
+                  <rotate x="0" y="0" z="1" angle="90"/>
+                  <rotate x="0" y="1" z="0" angle="90"/>
                   <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
+                  <object type="master" name="ceiling_cube"/>
                 </transblock>
               </object>
 
-              <object type="tree" name="left_wall_c">
+              <object type="tree" name="right_ceiling">
                 <transblock>
-                  <translate x="0" y="0" z="0"/>
-                  <scale x=".15" y="1" z="1"/>
+                  <translate x="7" y="10" z="0"/>
+                  <rotate x="0" y="0" z="1" angle="60"/>
+                  <rotate x="0" y="1" z="0" angle="90"/>
                   <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
+                  <object type="master" name="ceiling_cube"/>
                 </transblock>
               </object>
 
-              <object type="tree" name="left_wall_d">
+              <object type="tree" name="right_wall">
                 <transblock>
-                  <translate x="-4.2" y="3.2" z="0"/>
-                  <scale x=".28" y=".2" z="1"/>
-                  <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
-                </transblock>
-              </object>
-
-              <object type="tree" name="left_wall_e">
-                <transblock>
-                  <translate x="4.2" y="3.2" z="0"/>
-                  <scale x=".28" y=".2" z="1"/>
-                  <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
-                </transblock>
-              </object>
-
-              <object type="tree" name="left_wall_f">
-                <transblock>
-                  <translate x="-4.2" y="-3.2" z="0"/>
-                  <scale x=".28" y=".2" z="1"/>
-                  <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
-                </transblock>
-              </object>
-
-              <object type="tree" name="left_wall_g">
-                <transblock>
-                  <translate x="4.2" y="-3.2" z="0"/>
-                  <scale x=".28" y=".2" z="1"/>
-                  <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
-                </transblock>
-              </object>
-
-            </transblock>
-          </object>
-
-          <object type="tree" name="left_ceiling">
-            <transblock>
-              <translate x="-7" y="10" z="0"/>
-              <rotate x="0" y="0" z="1" angle="-60"/>
-              <rotate x="0" y="1" z="0" angle="90"/>
-              <scale x="20" y="8" z="0.5"/>
-              <object type="master" name="ceiling_cube"/>
-            </transblock>
-          </object>
-
-          <object type="tree" name="center_ceiling">
-            <transblock>
-              <translate x="0" y="12" z="0"/>
-              <rotate x="0" y="0" z="1" angle="90"/>
-              <rotate x="0" y="1" z="0" angle="90"/>
-              <scale x="20" y="8" z="0.5"/>
-              <object type="master" name="ceiling_cube"/>
-            </transblock>
-          </object>
-
-          <object type="tree" name="right_ceiling">
-            <transblock>
-              <translate x="7" y="10" z="0"/>
-              <rotate x="0" y="0" z="1" angle="60"/>
-              <rotate x="0" y="1" z="0" angle="90"/>
-              <scale x="20" y="8" z="0.5"/>
-              <object type="master" name="ceiling_cube"/>
-            </transblock>
-          </object>
-
-          <object type="tree" name="right_wall">
-            <transblock>
-              <translate x="10" y="4" z="0"/>
-              <rotate x="0" y="1" z="0" angle="90"/>
+                  <translate x="10" y="4" z="0"/>
+                  <rotate x="0" y="1" z="0" angle="90"/>
 
 
-              <object type="tree" name="right_wall_a">
-                <transblock>
-                  <translate x="-8.5" y="0" z="0"/>
-                  <scale x=".15" y="1" z="1"/>
-                  <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
-                </transblock>
-              </object>
+                  <object type="tree" name="right_wall_a">
+                    <transblock>
+                      <translate x="-8.5" y="0" z="0"/>
+                      <scale x=".15" y="1" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
 
-              <object type="tree" name="right_wall_b">
-                <transblock>
-                  <translate x="8.5" y="0" z="0"/>
-                  <scale x=".15" y="1" z="1"/>
-                  <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
-                </transblock>
-              </object>
+                  <object type="tree" name="right_wall_b">
+                    <transblock>
+                      <translate x="8.5" y="0" z="0"/>
+                      <scale x=".15" y="1" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
 
-              <object type="tree" name="right_wall_c">
-                <transblock>
-                  <translate x="0" y="0" z="0"/>
-                  <scale x=".15" y="1" z="1"/>
-                  <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
-                </transblock>
-              </object>
+                  <object type="tree" name="right_wall_c">
+                    <transblock>
+                      <translate x="0" y="0" z="0"/>
+                      <scale x=".15" y="1" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
 
-              <object type="tree" name="right_wall_d">
-                <transblock>
-                  <translate x="-4.2" y="3.2" z="0"/>
-                  <scale x=".28" y=".2" z="1"/>
-                  <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
-                </transblock>
-              </object>
+                  <object type="tree" name="right_wall_d">
+                    <transblock>
+                      <translate x="-4.2" y="3.2" z="0"/>
+                      <scale x=".28" y=".2" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
 
-              <object type="tree" name="right_wall_e">
-                <transblock>
-                  <translate x="4.2" y="3.2" z="0"/>
-                  <scale x=".28" y=".2" z="1"/>
-                  <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
-                </transblock>
-              </object>
+                  <object type="tree" name="right_wall_e">
+                    <transblock>
+                      <translate x="4.2" y="3.2" z="0"/>
+                      <scale x=".28" y=".2" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
 
-              <object type="tree" name="right_wall_f">
-                <transblock>
-                  <translate x="-4.2" y="-3.2" z="0"/>
-                  <scale x=".28" y=".2" z="1"/>
-                  <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
-                </transblock>
-              </object>
+                  <object type="tree" name="right_wall_f">
+                    <transblock>
+                      <translate x="-4.2" y="-3.2" z="0"/>
+                      <scale x=".28" y=".2" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
 
-              <object type="tree" name="right_wall_g">
-                <transblock>
-                  <translate x="4.2" y="-3.2" z="0"/>
-                  <scale x=".28" y=".2" z="1"/>
-                  <scale x="20" y="8" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
+                  <object type="tree" name="right_wall_g">
+                    <transblock>
+                      <translate x="4.2" y="-3.2" z="0"/>
+                      <scale x=".28" y=".2" z="1"/>
+                      <scale x="20" y="8" z="0.5"/>
+                      <object type="master" name="wall_cube"/>
+                    </transblock>
+                  </object>
+
                 </transblock>
               </object>
 
@@ -860,6 +1162,7 @@
 
         </transblock>
       </object>
+
     </transblock>
   </object>
 
