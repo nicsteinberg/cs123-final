@@ -30,9 +30,11 @@ SceneviewScene::SceneviewScene(int width, int height)
     loadGeometryShader();
     loadPhongShader();
 
-    // Is this the correct width and height? Takes in number of color attachments - we'll have at least 3.
+    // Takes in number of color attachments - we'll have at least 3.
     // Can also just make our own gBuffer class instead of an FBO that generates our gPosition, gNormal, and gColor buffers.
-    m_FBO = std::make_unique<FBO>(3, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, TextureParameters::FILTER_METHOD::LINEAR, GL_FLOAT);
+    m_FBO = std::make_unique<FBO>(5, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, TextureParameters::FILTER_METHOD::LINEAR, GL_FLOAT);
+
+    // How many color attachments do these need?
     m_blurFBO1 = std::make_unique<FBO>(3, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, TextureParameters::FILTER_METHOD::LINEAR, GL_FLOAT);
     m_blurFBO2 = std::make_unique<FBO>(3, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, TextureParameters::FILTER_METHOD::LINEAR, GL_FLOAT);
 
@@ -62,16 +64,19 @@ void SceneviewScene::loadPhongShader() {
 //    //m_blurVProgram = ResourceLoader::createShaderProgram(":/shaders/shaders/quad.vert", ":/shaders/shaders/verticalBlur.frag");
 
     // THESE SHOULD HAVE THEIR OWN FUNCTIONS
-//    vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/quad.vert");
-//    fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/horizontalBlur.frag");
+//    vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
+//    fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/horizontalBlur.frag");
 //    m_horizontalBlur = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
-//    fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/verticalBlur.frag");
+//    fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/verticalBlur.frag");
 //    m_verticalBlur = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
 }
 
-//void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
+// Also should take in an eye fbo to unbind, bind the real fbo,
+//void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::unique_ptr<FBO> eye_fbo) {
+
+//    eye_fbo->unbind();
 
 //    // Bind FBO.
 //    m_FBO->bind();
@@ -99,6 +104,8 @@ void SceneviewScene::loadPhongShader() {
 
 //    // Should we call this before or after unbinding geoshader?
 //    m_FBO->unbind();
+
+//    eye_fbo->bind();
 
 //    // bind all our textures (gPosition, gNormal, gColor)
 //    // are activeTexture calls necessary? consider using setTexture here!
