@@ -232,7 +232,12 @@ void View::renderEye(vr::EVREye eye) {
 
     /* render the selected scene */
     if(m_scene != nullptr) {
-        m_scene->render(p, v);
+//        m_scene->render(p, v);
+        if (eye == vr::Eye_Left) {
+            m_scene->render(p, v, m_leftEyeBuffer);
+        } else {
+            m_scene->render(p, v, m_rightEyeBuffer);
+        }
     }
 }
 

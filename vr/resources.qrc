@@ -6,5 +6,13 @@
         <file>shaders/gshader.vert</file>
         <file>shaders/lightshader.frag</file>
         <file>shaders/quad.vert</file>
+        <file>shaders/horizontalBlur.frag</file>
+        <file>shaders/verticalBlur.frag</file>
+        <file>../../cs123/lab07/shaders/phong.frag</file>
+        <file>../../cs123/lab07/shaders/phong.vert</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>shaders/phong.frag</file>
+        <file>shaders/phong.vert</file>
     </qresource>
 </RCC>

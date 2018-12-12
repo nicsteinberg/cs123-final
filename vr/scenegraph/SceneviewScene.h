@@ -35,11 +35,12 @@ public:
     virtual ~SceneviewScene();
 
     virtual void render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) override;
-    virtual void render(
-            glm::mat4x4 projectionMatrix,
-            glm::mat4x4 viewMatrix,
-            glm::mat4 m_mat4DevicePose [vr::k_unMaxTrackedDeviceCount],
-            bool m_activeTrackedDevice[vr::k_unMaxTrackedDeviceCount]) override;
+    virtual void render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::shared_ptr<CS123::GL::FBO> eye_fbo) override;
+//    virtual void render(
+//            glm::mat4x4 projectionMatrix,
+//            glm::mat4x4 viewMatrix,
+//            glm::mat4 m_mat4DevicePose [vr::k_unMaxTrackedDeviceCount],
+//            bool m_activeTrackedDevice[vr::k_unMaxTrackedDeviceCount]) override;
 
     virtual void settingsChanged() override;
 

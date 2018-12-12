@@ -35,8 +35,8 @@ SceneviewScene::SceneviewScene(int width, int height)
     m_FBO = std::make_unique<FBO>(5, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, TextureParameters::FILTER_METHOD::LINEAR, GL_FLOAT);
 
     // How many color attachments do these need?
-    m_blurFBO1 = std::make_unique<FBO>(3, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, TextureParameters::FILTER_METHOD::LINEAR, GL_FLOAT);
-    m_blurFBO2 = std::make_unique<FBO>(3, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, TextureParameters::FILTER_METHOD::LINEAR, GL_FLOAT);
+    m_blurFBO1 = std::make_unique<FBO>(1, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE);
+    m_blurFBO2 = std::make_unique<FBO>(1, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE);
 
     // Initialize shape member variables.
     settingsChanged();
@@ -54,25 +54,145 @@ void SceneviewScene::loadGeometryShader() {
 
 void SceneviewScene::loadPhongShader() {
     std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.vert");
+//    std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
     std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.frag");
-//     std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
-//     std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/lightshader.frag");
     m_phongShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
-//    //m_phongProgram = ResourceLoader::createShaderProgram(":/shaders/shaders/shader.vert", ":/shaders/shaders/shader.frag");
-//    //m_blurHProgram = ResourceLoader::createShaderProgram(":/shaders/shaders/quad.vert", ":/shaders/shaders/horizontalBlur.frag");
-//    //m_blurVProgram = ResourceLoader::createShaderProgram(":/shaders/shaders/quad.vert", ":/shaders/shaders/verticalBlur.frag");
+    vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
+    fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/horizontalBlur.frag");
+    m_horizontalBlur = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
-    // THESE SHOULD HAVE THEIR OWN FUNCTIONS
-//    vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
-//    fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/horizontalBlur.frag");
-//    m_horizontalBlur = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
+    fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/verticalBlur.frag");
+    m_verticalBlur = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
-//    fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/verticalBlur.frag");
-//    m_verticalBlur = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
+    std::vector<GLfloat> quadData = {-1.f, -1.f, 0.f,
+                                     0, 1,
+                                     -1.f, +1.f, 0.f,
+                                     0, 0,
+                                     +1.f, -1.f, 0.f,
+                                     1, 1,
+                                     +1.f, +1.f, 0.f,
+                                     1, 0};
+    m_quad = std::make_unique<OpenGLShape>();
+    m_quad->setVertexData(&quadData[0], quadData.size(), VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLE_STRIP, 4);
+    m_quad->setAttribute(ShaderAttrib::POSITION, 3, 0, VBOAttribMarker::DATA_TYPE::FLOAT, false);
+    m_quad->setAttribute(ShaderAttrib::TEXCOORD0, 2, 3*sizeof(GLfloat), VBOAttribMarker::DATA_TYPE::FLOAT, false);
+    m_quad->buildVAO();
 
 }
 
+// THIS IS THE WORKING STENCIL METHOD
+void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
+    m_phongShader->bind();
+    setSceneUniforms(projectionMatrix, viewMatrix);
+    setLights();
+
+    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
+    renderGeometry();
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    m_phongShader->unbind();
+
+}
+
+void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::shared_ptr<CS123::GL::FBO> eye_fbo) {
+
+    m_phongShader->bind();
+    setSceneUniforms(projectionMatrix, viewMatrix);
+    setLights();
+
+    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
+    renderGeometry();
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    m_phongShader->unbind();
+
+    // matt's attempt about which he posted on piazza
+//    eye_fbo->unbind();
+
+//    m_blurFBO1->bind();
+//    m_phongShader->bind();
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
+
+//    setSceneUniforms(projectionMatrix, viewMatrix);
+//    setLights();
+
+//    renderGeometry();
+
+//    glBindTexture(GL_TEXTURE_2D, 0);
+
+//    m_phongShader->unbind();
+//    m_blurFBO1->unbind();
+
+//    eye_fbo->bind();
+//    m_horizontalBlur->bind();
+
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
+
+//    m_blurFBO1->getColorAttachment(0).bind();
+//    m_quad->draw();
+
+}
+
+// matt's attempts at depth of field
+//void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::shared_ptr<CS123::GL::FBO> eye_fbo) {
+
+//    eye_fbo->unbind();
+
+//    // FIRST PASS
+//    m_blurFBO1->bind();
+//    // Use phong shader.
+//    m_phongShader->bind();
+
+//    // Is this necessary? Why these bits?
+//    // Sometimes we do this.
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
+
+//    // Set uniforms passed into vert.
+//    setSceneUniforms(projectionMatrix, viewMatrix);
+
+//    // Send lighting uniforms to fragment shader.
+//    setLights();
+
+//    // Set "m" uniform and ambient, diffuse, specular, etc uniforms. Draw.
+//    renderGeometry();
+
+//    // Binds .frag texture to 0.
+//    //    glBindTexture(GL_TEXTURE_2D, 0);
+
+//    // Unbind phong shader.
+//    m_phongShader->unbind();
+//    m_blurFBO1->unbind();
+
+//    // SECOND PASS
+//    m_blurFBO2->bind();
+//    m_horizontalBlur->bind();
+
+//    // Sometimes we do this.
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
+
+//    m_blurFBO1->getColorAttachment(0).bind();
+//    m_quad->draw();
+//    m_blurFBO2->unbind();
+
+//    // THIRD PASS
+//    eye_fbo->bind();
+//    m_verticalBlur->bind();
+
+//    // Sometimes we do this.
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
+
+//    m_blurFBO2->getColorAttachment(0).bind();
+//    m_quad->draw();
+
+//}
+
+// nicole's deferred shading stuff
 // Also should take in an eye fbo to unbind, bind the real fbo,
 //void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::unique_ptr<FBO> eye_fbo) {
 
@@ -141,58 +261,15 @@ void SceneviewScene::loadPhongShader() {
 //    m_quad->draw();
 //}
 
-// THIS IS THE WORKING STENCIL METHOD
-//void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
-//    m_phongShader->bind();
-//    setSceneUniforms(projectionMatrix, viewMatrix);
-//    setLights();
+//void SceneviewScene::render(
+//        glm::mat4x4 projectionMatrix,
+//        glm::mat4x4 viewMatrix,
+//        glm::mat4 m_mat4DevicePose[vr::k_unMaxTrackedDeviceCount],
+//bool m_activeTrackedDevice[vr::k_unMaxTrackedDeviceCount]) {
 
-//    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
-//    renderGeometry();
-
-//    glBindTexture(GL_TEXTURE_2D, 0);
-//    m_phongShader->unbind();
-
+//    // TODO: use controller positions if necessary
+//    render(projectionMatrix, viewMatrix);
 //}
-
-// matt's attempts at depth of field
-void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix) {
-
-    // FIRST PASS
-    // Use phong shader.
-    m_phongShader->bind();
-
-    // Set uniforms passed into vert.
-    setSceneUniforms(projectionMatrix, viewMatrix);
-
-    // Send lighting uniforms to fragment shader.
-    setLights();
-
-    // Is this necessary? Why these bits?
-    // Sometimes we do this.
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClear(GL_DEPTH_BUFFER_BIT);
-
-    // Set "m" uniform and ambient, diffuse, specular, etc uniforms. Draw.
-    renderGeometry();
-
-    // Binds .frag texture to 0.
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    // Unbind phong shader.
-    m_phongShader->unbind();
-
-}
-
-void SceneviewScene::render(
-        glm::mat4x4 projectionMatrix,
-        glm::mat4x4 viewMatrix,
-        glm::mat4 m_mat4DevicePose[vr::k_unMaxTrackedDeviceCount],
-bool m_activeTrackedDevice[vr::k_unMaxTrackedDeviceCount]) {
-
-    // TODO: use controller positions if necessary
-    render(projectionMatrix, viewMatrix);
-}
 
 
 void SceneviewScene::setSceneUniforms(glm::mat4x4 &projectionMatrix, glm::mat4x4 &viewMatrix) {
