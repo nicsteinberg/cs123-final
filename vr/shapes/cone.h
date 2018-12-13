@@ -27,6 +27,8 @@ protected:
     std::vector<float> convertCoords(float radius, float y, float theta);
     void makeTriangle(float radius, float y, float theta, float theta_seg, int p1);
     std::vector<float> makeNormal(float theta);
+
+    void getUV(std::vector<float> intersection);
 };
 
 #endif // CONE_H

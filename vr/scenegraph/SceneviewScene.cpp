@@ -53,6 +53,7 @@ void SceneviewScene::loadGeometryShader() {
     m_geoShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 }
 
+// Also loads blur shaders
 void SceneviewScene::loadPhongShader() {
     std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.vert");
     std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.frag");
@@ -65,25 +66,7 @@ void SceneviewScene::loadPhongShader() {
     fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/verticalBlur.frag");
     m_verticalBlur = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
-    vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/fullscreenquad.vert");
-    fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/fullscreenquad.frag");
-    m_quadShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
-
     m_fullquad = std::make_unique<FullScreenQuad>();
-//    std::vector<GLfloat> quadData = {-1.f, -1.f, 0.f,
-//                                     0, 1,
-//                                     -1.f, +1.f, 0.f,
-//                                     0, 0,
-//                                     +1.f, -1.f, 0.f,
-//                                     1, 1,
-//                                     +1.f, +1.f, 0.f,
-//                                     1, 0};
-//    m_quad = std::make_unique<OpenGLShape>();
-//    m_quad->setVertexData(&quadData[0], quadData.size(), VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLE_STRIP, 4);
-//    m_quad->setAttribute(ShaderAttrib::POSITION, 3, 0, VBOAttribMarker::DATA_TYPE::FLOAT, false);
-//    m_quad->setAttribute(ShaderAttrib::TEXCOORD0, 2, 3*sizeof(GLfloat), VBOAttribMarker::DATA_TYPE::FLOAT, false);
-//    m_quad->buildVAO();
-
 }
 
 // THIS IS THE WORKING STENCIL METHOD
@@ -103,11 +86,11 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::shared_ptr<CS123::GL::FBO> eye_fbo) {
 
     // Don't render to eye right away.
-    eye_fbo->unbind();
+//    eye_fbo->unbind();
 
     // FIRST PASS
     // Render into blurFBO1 from phong model.
-    m_blurFBO1->bind();
+//    m_blurFBO1->bind();
     m_phongShader->bind();
 
     // Clear both bits because that's what we do.
@@ -119,14 +102,14 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
     setLights();
 
     // nicole's important texture nonsense
-    //    QImage image(":/scenes/wood.jpg");
-    //    Texture2D texture(image.bits(), image.width(), image.height());
-    //    TextureParametersBuilder builder;
-    //    builder.setFilter(TextureParameters::FILTER_METHOD::LINEAR);
-    //    builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
-    //    TextureParameters parameters = builder.build();
-    //    parameters.applyTo(texture);
-    //    m_phongShader->setTexture("tex", texture);
+//     QImage image(":/scenes/wood.jpg");
+//     Texture2D texture(image.bits(), image.width(), image.height());
+//     TextureParametersBuilder builder;
+//     builder.setFilter(TextureParameters::FILTER_METHOD::LINEAR);
+//     builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
+//     TextureParameters parameters = builder.build();
+//     parameters.applyTo(texture);
+//     m_phongShader->setTexture("tex", texture);
 
     // Time for some shapes!
     renderGeometry();
@@ -136,60 +119,56 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 
     // End first pass.
     m_phongShader->unbind();
-    m_blurFBO1->unbind();
+//    m_blurFBO1->unbind();
 
-    // SECOND PASS
-    // Render to FBO2 while blurring horizontally.
-    m_blurFBO2->bind();
-    m_quadShader->bind();
-    m_horizontalBlur->bind();
+//    // SECOND PASS
+//    // Render to FBO2 while blurring horizontally.
+//    m_blurFBO2->bind();
+//    m_horizontalBlur->bind();
 
-    // Clear both bits because that's what we do.
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClear(GL_DEPTH_BUFFER_BIT);
+//    // Clear both bits because that's what we do.
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
 
-    // Render from FBO1, blurring, to FBO2.
-    m_blurFBO1->getColorAttachment(0).bind();
-    m_fullquad->draw();
+//    // Render from FBO1, blurring, to FBO2.
+//    m_blurFBO1->getColorAttachment(0).bind();
+//    m_fullquad->draw();
 
-    // End second pass.
-    m_horizontalBlur->unbind();
-    m_blurFBO2->unbind();
+//    // End second pass.
+//    m_horizontalBlur->unbind();
+//    m_blurFBO2->unbind();
 
-    // THIRD PASS
-    // Render to each eye using the quad shader.
-    eye_fbo->bind();
-    m_quadShader->bind();
+//    // THIRD PASS
+//    // Render to each eye using the quad shader.
+//    eye_fbo->bind();
 
-    // Bind the vertical blur.
-    m_verticalBlur->bind();
+//    // Bind the vertical blur.
+//    m_verticalBlur->bind();
 
-    // Clear both bits because that's what we do.
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClear(GL_DEPTH_BUFFER_BIT);
+//    // Clear both bits because that's what we do.
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
 
-    // Render from FBO2, blurring, to the fullscreen quad.
-    m_blurFBO2->getColorAttachment(0).bind();
-    m_fullquad->draw();
+//    // Render from FBO2, blurring, to the fullscreen quad.
+//    m_blurFBO2->getColorAttachment(0).bind();
+//    m_fullquad->draw();
 
-    // End third pass.
-    m_verticalBlur->unbind();
-    m_quadShader->unbind();
+//    // End third pass.
+//    m_verticalBlur->unbind();
 }
 
 // nicole's deferred shading stuff
 // Also should take in an eye fbo to unbind, bind the real fbo,
 //void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::unique_ptr<FBO> eye_fbo) {
 
+//    // Unbind eye for now.
 //    eye_fbo->unbind();
 
 //    // Bind FBO.
 //    m_FBO->bind();
 
-//    // Use this program ID.
+//    // Use geometry shader.
 //    m_geoShader->bind();
-
-//    // Is this necessary? Why these bits?
 //    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 //    // Set uniforms passed into vert.
@@ -212,7 +191,7 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 
 //    eye_fbo->bind();
 
-//    // bind all our textures (gPosition, gNormal, gColor)
+//    // bind all our textures (gPosition, gNormal, gDiffuse, gAmbient, gSpecular)
 //    // are activeTexture calls necessary? consider using setTexture here!
 //    glActiveTexture(GL_TEXTURE0);
 //    m_FBO->getColorAttachment(0).bind();
@@ -220,6 +199,10 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 //    m_FBO->getColorAttachment(1).bind();
 //    glActiveTexture(GL_TEXTURE2);
 //    m_FBO->getColorAttachment(2).bind();
+//    glActiveTexture(GL_TEXTURE3);
+//    m_FBO->getColorAttachment(3).bind();
+//    glActiveTexture(GL_TEXTURE4);
+//    m_FBO->getColorAttachment(4).bind();
 
 //    // Bind light shader.
 //    m_phongShader->bind();
@@ -292,7 +275,7 @@ void SceneviewScene::renderGeometry() {
         if (prim.material.textureMap.isUsed) {
             //glBindTexture(GL_TEXTURE_2D, getTexture(prim.material));
             //m_geoShader->setUniform("useTexture", 1);
-            //m_phongShader->setUniform("useTexture", 1);
+//            m_phongShader->setUniform("useTexture", 1);
             //m_phongShader->setUniform("repeatUV", glm::vec2(prim.material.textureMap.repeatU, prim.material.textureMap.repeatV));
             //getTexture(prim.material);
         }
@@ -328,19 +311,10 @@ GLuint SceneviewScene::getTexture(CS123SceneMaterial material) {
     } else {
         QImage image = QImage(material.textureMap.filename.data());
         material.textureMap.image = image;
-        // texture is not used!
-//        image = QGLWidget::convertToGLFormat(image);
-//        material.textureMap.image = image;
         material.textureMap.imageSet = true;
     }
 
     //image = QGLWidget::convertToGLFormat(image);
-
-//    glGenTextures(GL_TEXTURE_2D, &m_id);
-//    glBindTexture(GL_TEXTURE_2D, m_id);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
 
     Texture2D texture(image.bits(), image.width(), image.height());
     TextureParametersBuilder builder;

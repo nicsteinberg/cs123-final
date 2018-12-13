@@ -257,6 +257,40 @@ void Cube::addUV(int vertex) {
     m_verts.insert(m_verts.end(), uv.begin(), uv.end());
 }
 
+//void Cube::addUV(float x, float y, float z) {
+//    std::vector<float> uv;
+
+//    // Return uv coordinates depending on the face.
+//    if (y == 0.5f) {
+//        // Top face
+//        uv = {x + 0.5f, 1.f + z + 0.5f};
+
+//    } else if (z == 0.5f) {
+//        // Front face
+//        uv = {x + 0.5f, 1.f - y + 0.5f};
+
+//    } else if (x == 0.5f) {
+//        // Right face
+//        uv = {-z + 0.5f, 1.f - y + 0.5f};
+
+//    } else if (z == -0.5f) {
+//        // Back face
+//        uv = {-x + 0.5f, 1.f - y + 0.5f};
+
+//    } else if (x == -0.5f) {
+//        // Left face
+//        uv = {z + 0.5f, 1.f - y + 0.5f};
+
+//    } else {
+//        // Bottom face
+//        uv = {x + 0.5f, 1.f - z + 0.5f};
+//    }
+
+//    m_verts.reserve(2);
+//    m_verts.insert(m_verts.end(), uv.begin(), uv.end());
+//}
+
+
 void Cube::addUV(int face, int vertex) {
     std::vector<float> uv;
 

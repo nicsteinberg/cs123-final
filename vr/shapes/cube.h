@@ -24,6 +24,8 @@ protected:
     void addVertex(float x, float y, float z);
     void addUV(int vertex);
 
+    void addUV(float x, float y, float z);
+
     void addUV(int face, int vertex);
 };
 

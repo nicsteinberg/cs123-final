@@ -21,6 +21,8 @@ protected:
     void makeSide(float radius, float theta_seg, float psi_seg, int p1, int p2);
     std::vector<float> makeNormal(std::vector<float> point);
     std::vector<float> convertCoords(float radius, float theta, float psi);
+
+    void getUV(std::vector<float> intersection);
 };
 
 #endif // SPHERE_H

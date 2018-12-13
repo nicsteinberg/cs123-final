@@ -13,4 +13,5 @@ void main(){
     //fragColor = vec4(1.f);
     texColor = clamp(texColor + vec3(1-useTexture), vec3(0), vec3(1));
     fragColor = vec4(color * texColor, 1);
+    //fragColor = texColor;
 }

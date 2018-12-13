@@ -24,7 +24,7 @@ void main(){
     vec4 fragPosition = texture(gPosition, texc);
     vec4 fragNormal = texture(gNormal, texc);
 
-    vec3 fragRGB = texture(gAmbient, texc).rgb;
+    vec3 fragAmbient = texture(gAmbient, texc).rgb;
     float shininess = texture(gAmbient, texc).a;
 
     vec4 diffuse_color = texture(gDiffuse, texc);
@@ -33,7 +33,7 @@ void main(){
     vec4 v4 = vec4(v, 1.f);
 
     // What range are we in?
-    vec4 color = vec4(fragRGB, 1.0f);
+    vec4 color = vec4(fragAmbient, 1.0f);
 
     for (int i = 0; i < MAX_LIGHTS; i++) {
         vec4 vertexToLight = vec4(0);

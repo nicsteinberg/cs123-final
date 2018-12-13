@@ -56,6 +56,7 @@ void Cylinder::genVertices(int p1, int p2) {
     this->setVertexData(m_verts.data(), m_verts.size(), VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLE_STRIP, m_verts.size() / 3);
     this->setAttribute(ShaderAttrib::POSITION, 3, 0, VBOAttribMarker::DATA_TYPE::FLOAT, false);
     this->setAttribute(ShaderAttrib::NORMAL, 3, 12, VBOAttribMarker::DATA_TYPE::FLOAT, false);
+    this->setAttribute(ShaderAttrib::TEXCOORD0, 2, 24, VBOAttribMarker::DATA_TYPE::FLOAT, false);
     this->buildVAO();
 }
 
@@ -82,22 +83,54 @@ void Cylinder::makeRectangle(float radius, float y, float theta, float theta_seg
     normal = makeNormal(theta + theta_seg);
     m_verts.insert(m_verts.end(), pt1.begin(), pt1.end());
     m_verts.insert(m_verts.end(), normal.begin(), normal.end());
+    getUV(pt1);
 
     pt2 = convertCoords(radius, -y, theta + theta_seg);
     m_verts.insert(m_verts.end(), pt2.begin(), pt2.end());
     m_verts.insert(m_verts.end(), normal.begin(), normal.end());
+    getUV(pt2);
 
     pt3 = convertCoords(radius, y, theta);
     normal = makeNormal(theta);
     m_verts.insert(m_verts.end(), pt3.begin(), pt3.end());
     m_verts.insert(m_verts.end(), normal.begin(), normal.end());
+    getUV(pt3);
 
     pt4 = convertCoords(radius, -y, theta);
     m_verts.insert(m_verts.end(), pt4.begin(), pt4.end());
     m_verts.insert(m_verts.end(), normal.begin(), normal.end());
+    getUV(pt4);
 }
 
 std::vector<float> Cylinder::makeNormal(float theta) {
     return {cos(theta), 0.f, sin(theta)};
+}
+
+void Cylinder::getUV(std::vector<float> intersection) {
+    std::vector<float> uv = {0, 0};
+
+    // Caps return plane uv coordinates.
+    if (intersection[1] < 0.5f + 1e-4 && intersection[1] > 0.5f - 1e-4) {
+        uv = {intersection[0] + 0.5f, 1.f - -intersection[2] + 0.5f};
+
+    } else if (intersection[1] < -0.5f + 1e-4 && intersection[1] > -0.5f - 1e-4) {
+
+        uv = {intersection[0] + 0.5f, 1.f - intersection[2] + 0.5f};
+
+    } else {
+
+        // If on the curved surface, use position around perimeter to determine u.
+        float theta = atan2(intersection[2], intersection[0]);
+
+        uv[0] = -theta / (2 * M_PI);
+
+        if (theta >= 0.f) {
+            uv[0] += 1.f;
+        }
+
+        uv[1] = 1.f - intersection[2] + 0.5f;
+    }
+
+    m_verts.insert(m_verts.end(), uv.begin(), uv.end());
 }
 

@@ -43,6 +43,7 @@ void Sphere::genVertices(int p1, int p2) {
     this->setVertexData(m_verts.data(), m_verts.size(), VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLE_STRIP, m_verts.size() / 3);
     this->setAttribute(ShaderAttrib::POSITION, 3, 0, VBOAttribMarker::DATA_TYPE::FLOAT, false);
     this->setAttribute(ShaderAttrib::NORMAL, 3, 12, VBOAttribMarker::DATA_TYPE::FLOAT, false);
+    this->setAttribute(ShaderAttrib::TEXCOORD0, 2, 24, VBOAttribMarker::DATA_TYPE::FLOAT, false);
     this->buildVAO();
 }
 
@@ -72,12 +73,14 @@ void Sphere::makeSide(float radius, float theta_seg, float psi_seg, int p1, int 
             m_verts.insert(m_verts.end(), point2.begin(), point2.end());
             normal = makeNormal(point2);
             m_verts.insert(m_verts.end(), normal.begin(), normal.end());
+            getUV(point2);
 
             point1 = convertCoords(radius, theta, phi);
 
             m_verts.insert(m_verts.end(), point1.begin(), point1.end());
             normal = makeNormal(point1);
             m_verts.insert(m_verts.end(), normal.begin(), normal.end());
+            getUV(point1);
 
         }
 
@@ -92,4 +95,32 @@ std::vector<float> Sphere::makeNormal(std::vector<float> point) {
 // This function converts to Cartesian coordinates, giving you a single point in form of a vector.
 std::vector<float> Sphere::convertCoords(float radius, float theta, float psi) {
     return {radius * sin(psi) * cos(theta), radius * cos(psi), radius * sin(psi) * sin(theta)};
+}
+
+void Sphere::getUV(std::vector<float> intersection) {
+    std::vector<float> uv = {0, 0};
+
+    // V is a function of the latitude of the point.
+    float lat = asin(intersection[1] / 0.5f);
+    uv[1] = (lat / M_PI) + 0.5f;
+
+    // At poles, there is a singularity.
+    if (uv[1] == 0.f || uv[1] == 1.f) {
+
+        uv[0] = 0.5f;
+
+    } else {
+
+        // Otherwise, compute u the same way we do for cylinders and cones.
+        float theta = atan2(intersection[2], intersection[0]);
+
+        uv[0] = -theta / (2 * M_PI);
+
+        if (theta >= 0.f) {
+            uv[0] += 1.f;
+        }
+
+    }
+
+    m_verts.insert(m_verts.end(), uv.begin(), uv.end());
 }

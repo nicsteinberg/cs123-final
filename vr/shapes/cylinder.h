@@ -29,6 +29,8 @@ protected:
     std::vector<float> convertCoords(float radius, float y, float theta);
     std::vector<float> makeNormal(float theta);
     void makeRectangle(float radius, float y, float theta, float theta_seg, int p1);
+
+    void getUV(std::vector<float> intersection);
 };
 
 #endif // CYLINDER_H
