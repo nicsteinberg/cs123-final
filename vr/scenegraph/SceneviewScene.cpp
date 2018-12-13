@@ -102,123 +102,80 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 
 void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::shared_ptr<CS123::GL::FBO> eye_fbo) {
 
+    // Don't render to eye right away.
+    eye_fbo->unbind();
+
+    // FIRST PASS
+    // Render into blurFBO1 from phong model.
+    m_blurFBO1->bind();
     m_phongShader->bind();
+
+    // Clear both bits because that's what we do.
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    // Set scene info.
     setSceneUniforms(projectionMatrix, viewMatrix);
     setLights();
 
-//    QImage image(":/scenes/wood.jpg");
-//    Texture2D texture(image.bits(), image.width(), image.height());
-//    TextureParametersBuilder builder;
-//    builder.setFilter(TextureParameters::FILTER_METHOD::LINEAR);
-//    builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
-//    TextureParameters parameters = builder.build();
-//    parameters.applyTo(texture);
-//    m_phongShader->setTexture("tex", texture);
+    // nicole's important texture nonsense
+    //    QImage image(":/scenes/wood.jpg");
+    //    Texture2D texture(image.bits(), image.width(), image.height());
+    //    TextureParametersBuilder builder;
+    //    builder.setFilter(TextureParameters::FILTER_METHOD::LINEAR);
+    //    builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
+    //    TextureParameters parameters = builder.build();
+    //    parameters.applyTo(texture);
+    //    m_phongShader->setTexture("tex", texture);
 
-    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
+    // Time for some shapes!
     renderGeometry();
 
-    //glBindTexture(GL_TEXTURE_2D, 0);
+    // What does this do.
+    glBindTexture(GL_TEXTURE_2D, 0);
 
-
-//    //glBindTexture(GL_TEXTURE_2D, texture.id());
-
+    // End first pass.
     m_phongShader->unbind();
+    m_blurFBO1->unbind();
 
-    // matt's attempt about which he posted on piazza
-//    eye_fbo->unbind();
+    // SECOND PASS
+    // Render to FBO2 while blurring horizontally.
+    m_blurFBO2->bind();
+    m_quadShader->bind();
+    m_horizontalBlur->bind();
 
-//    m_blurFBO1->bind();
-//    m_phongShader->bind();
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    glClear(GL_DEPTH_BUFFER_BIT);
+    // Clear both bits because that's what we do.
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
 
-//    setSceneUniforms(projectionMatrix, viewMatrix);
-//    setLights();
+    // Render from FBO1, blurring, to FBO2.
+    m_blurFBO1->getColorAttachment(0).bind();
+    m_fullquad->draw();
 
-//    renderGeometry();
+    // End second pass.
+    m_horizontalBlur->unbind();
+    m_blurFBO2->unbind();
 
-//    glBindTexture(GL_TEXTURE_2D, 0);
+    // THIRD PASS
+    // Render to each eye using the quad shader.
+    eye_fbo->bind();
+    m_quadShader->bind();
 
-//    m_phongShader->unbind();
-//    m_blurFBO1->unbind();
+    // Bind the vertical blur.
+    m_verticalBlur->bind();
 
-//    eye_fbo->bind();
+    // Clear both bits because that's what we do.
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
 
-//    m_horizontalBlur->bind();
+    // Render from FBO2, blurring, to the fullscreen quad.
+    m_blurFBO2->getColorAttachment(0).bind();
+    m_fullquad->draw();
 
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    glClear(GL_DEPTH_BUFFER_BIT);
-
-//    m_blurFBO1->getColorAttachment(0).bind();
-//    m_quad->draw();
-
-    // a basic attempt to turn the screen red
-//    m_quadShader->bind();
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    glClear(GL_DEPTH_BUFFER_BIT);
-//    glViewport(0, 0, m_width, m_height);
-
-//    m_fullquad->draw();
-//    m_quadShader->unbind();
-
+    // End third pass.
+    m_verticalBlur->unbind();
+    m_quadShader->unbind();
 }
-
-// matt's attempts at depth of field
-//void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::shared_ptr<CS123::GL::FBO> eye_fbo) {
-
-//    eye_fbo->unbind();
-
-//    // FIRST PASS
-//    m_blurFBO1->bind();
-//    // Use phong shader.
-//    m_phongShader->bind();
-
-//    // Is this necessary? Why these bits?
-//    // Sometimes we do this.
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    glClear(GL_DEPTH_BUFFER_BIT);
-
-//    // Set uniforms passed into vert.
-//    setSceneUniforms(projectionMatrix, viewMatrix);
-
-//    // Send lighting uniforms to fragment shader.
-//    setLights();
-
-//    // Set "m" uniform and ambient, diffuse, specular, etc uniforms. Draw.
-//    renderGeometry();
-
-//    // Binds .frag texture to 0.
-//    //    glBindTexture(GL_TEXTURE_2D, 0);
-
-//    // Unbind phong shader.
-//    m_phongShader->unbind();
-//    m_blurFBO1->unbind();
-
-//    // SECOND PASS
-//    m_blurFBO2->bind();
-//    m_horizontalBlur->bind();
-
-//    // Sometimes we do this.
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    glClear(GL_DEPTH_BUFFER_BIT);
-
-//    m_blurFBO1->getColorAttachment(0).bind();
-//    m_quad->draw();
-//    m_blurFBO2->unbind();
-
-//    // THIRD PASS
-//    eye_fbo->bind();
-//    m_verticalBlur->bind();
-
-//    // Sometimes we do this.
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    glClear(GL_DEPTH_BUFFER_BIT);
-
-//    m_blurFBO2->getColorAttachment(0).bind();
-//    m_quad->draw();
-
-//}
 
 // nicole's deferred shading stuff
 // Also should take in an eye fbo to unbind, bind the real fbo,
