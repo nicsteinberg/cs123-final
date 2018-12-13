@@ -36,8 +36,8 @@ SceneviewScene::SceneviewScene(int width, int height)
     m_FBO = std::make_unique<FBO>(5, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, TextureParameters::FILTER_METHOD::LINEAR, GL_FLOAT);
 
     // How many color attachments do these need?
-    m_blurFBO1 = std::make_unique<FBO>(1, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE);
-    m_blurFBO2 = std::make_unique<FBO>(1, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE);
+    m_blurFBO1 = std::make_unique<FBO>(2, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE);
+    m_blurFBO2 = std::make_unique<FBO>(2, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE);
 
     // Initialize shape member variables.
     settingsChanged();
@@ -131,9 +131,13 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
     m_phongShader->unbind();
 //    m_blurFBO1->unbind();
 
-//    // SECOND PASS
-//    // Render to FBO2 while blurring horizontally.
-//    m_blurFBO2->bind();
+    // SECOND PASS
+    // Render to FBO2 while blurring horizontally.
+
+    //
+//    eye_fbo->bind();
+
+////    m_blurFBO2->bind();
 //    m_horizontalBlur->bind();
 
 //    // Clear both bits because that's what we do.
@@ -141,7 +145,23 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 //    glClear(GL_DEPTH_BUFFER_BIT);
 
 //    // Render from FBO1, blurring, to FBO2.
-//    m_blurFBO1->getColorAttachment(0).bind();
+////    m_blurFBO1->getColorAttachment(0).bind();
+
+//        glActiveTexture(GL_TEXTURE0);
+//        m_blurFBO1->getColorAttachment(0).bind();
+//        glActiveTexture(GL_TEXTURE1);
+//        m_blurFBO1->getColorAttachment(1).bind();
+
+////    Texture2D color = ;
+//    GLint uniformLoc = glGetUniformLocation(m_horizontalBlur->getID(), "tex");
+////    glUniform1i(uniformLoc, GL_TEXTURE0);
+//    uniformLoc = glGetUniformLocation(m_horizontalBlur->getID(), "tex");
+//    glUniform1i(uniformLoc, GL_TEXTURE1);
+
+////    m_horizontalBlur->setTexture("tex", m_blurFBO1->getColorAttachment(0));
+////    m_horizontalBlur->setTexture("camera_pos_tex", m_blurFBO1->getColorAttachment(1));
+
+
 //    m_fullquad->draw();
 
 //    // End second pass.

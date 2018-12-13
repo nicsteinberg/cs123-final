@@ -3,6 +3,7 @@
 in vec2 uv;
 
 uniform sampler2D tex;
+uniform sampler2D camera_pos_tex;
 
 out vec4 fragColor;
 
@@ -12,6 +13,7 @@ void main(){
     // TODO [Task 9] Calculate the texelSize
     vec2 texelSize = 1.0 / textureSize(tex, 0).xy;
 
+//    int supportWidth = int(texture(camera_pos_tex, uv).x * 20.f);
     const int supportWidth = 20;
 
     fragColor = vec4(0.0);
@@ -26,4 +28,5 @@ void main(){
     }
     fragColor /= weights;
 
+//    fragColor = vec4(texture(camera_pos_tex, uv));
 }
