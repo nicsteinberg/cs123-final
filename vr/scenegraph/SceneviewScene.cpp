@@ -54,32 +54,35 @@ void SceneviewScene::loadGeometryShader() {
 }
 
 void SceneviewScene::loadPhongShader() {
-    std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/fullscreenquad.vert");
-//    std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
-    std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/fullscreenquad.frag");
+    std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.vert");
+    std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.frag");
     m_phongShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
-    vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/fullscreenquad.vert");
+    vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
     fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/horizontalBlur.frag");
     m_horizontalBlur = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
     fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/verticalBlur.frag");
     m_verticalBlur = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
-    //m_fullquad = std::make_unique<FullScreenQuad>();
-    std::vector<GLfloat> quadData = {-1.f, -1.f, 0.f,
-                                     0, 1,
-                                     -1.f, +1.f, 0.f,
-                                     0, 0,
-                                     +1.f, -1.f, 0.f,
-                                     1, 1,
-                                     +1.f, +1.f, 0.f,
-                                     1, 0};
-    m_quad = std::make_unique<OpenGLShape>();
-    m_quad->setVertexData(&quadData[0], quadData.size(), VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLE_STRIP, 4);
-    m_quad->setAttribute(ShaderAttrib::POSITION, 3, 0, VBOAttribMarker::DATA_TYPE::FLOAT, false);
-    m_quad->setAttribute(ShaderAttrib::TEXCOORD0, 2, 3*sizeof(GLfloat), VBOAttribMarker::DATA_TYPE::FLOAT, false);
-    m_quad->buildVAO();
+    vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/fullscreenquad.vert");
+    fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/fullscreenquad.frag");
+    m_quadShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
+
+    m_fullquad = std::make_unique<FullScreenQuad>();
+//    std::vector<GLfloat> quadData = {-1.f, -1.f, 0.f,
+//                                     0, 1,
+//                                     -1.f, +1.f, 0.f,
+//                                     0, 0,
+//                                     +1.f, -1.f, 0.f,
+//                                     1, 1,
+//                                     +1.f, +1.f, 0.f,
+//                                     1, 0};
+//    m_quad = std::make_unique<OpenGLShape>();
+//    m_quad->setVertexData(&quadData[0], quadData.size(), VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLE_STRIP, 4);
+//    m_quad->setAttribute(ShaderAttrib::POSITION, 3, 0, VBOAttribMarker::DATA_TYPE::FLOAT, false);
+//    m_quad->setAttribute(ShaderAttrib::TEXCOORD0, 2, 3*sizeof(GLfloat), VBOAttribMarker::DATA_TYPE::FLOAT, false);
+//    m_quad->buildVAO();
 
 }
 
@@ -141,6 +144,7 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 //    m_blurFBO1->unbind();
 
 //    eye_fbo->bind();
+
 //    m_horizontalBlur->bind();
 
 //    glClear(GL_COLOR_BUFFER_BIT);
@@ -148,6 +152,15 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 
 //    m_blurFBO1->getColorAttachment(0).bind();
 //    m_quad->draw();
+
+    // a basic attempt to turn the screen red
+//    m_quadShader->bind();
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
+//    glViewport(0, 0, m_width, m_height);
+
+//    m_fullquad->draw();
+//    m_quadShader->unbind();
 
 }
 

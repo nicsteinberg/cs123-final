@@ -62,7 +62,7 @@ private:
 
     GLuint getTexture(CS123SceneMaterial material);
 
-    std::unique_ptr<CS123::GL::CS123Shader> m_phongShader, m_geoShader, m_horizontalBlur, m_verticalBlur;
+    std::unique_ptr<CS123::GL::CS123Shader> m_phongShader, m_geoShader, m_horizontalBlur, m_verticalBlur, m_quadShader;
 
     std::unique_ptr<FBO> m_FBO, m_blurFBO1, m_blurFBO2;
 
@@ -71,7 +71,7 @@ private:
 
     //GLuint m_blurHProgram, m_blurVProgram, m_phongProgram;
     std::unique_ptr<OpenGLShape> m_quad;
-    //std::unique_ptr<FullScreenQuad> m_fullquad;
+    std::unique_ptr<FullScreenQuad> m_fullquad;
 
 };
 
