@@ -26,5 +26,4 @@ void main(){
     }
     fragColor /= weights;
 
-    //fragColor = vec4(1.0);
 }
