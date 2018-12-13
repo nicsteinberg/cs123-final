@@ -41,10 +41,18 @@ SceneviewScene::SceneviewScene(int width, int height)
 
     // Initialize shape member variables.
     settingsChanged();
+
+//    QImage image(":/scenes/wood.jpg");
+//    glGenTextures(1, &m_id);
+//    glBindTexture(GL_TEXTURE_2D, m_id);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
 }
 
 SceneviewScene::~SceneviewScene()
 {
+//    glDeleteTextures(1, &m_id);
 }
 
 void SceneviewScene::loadGeometryShader() {
@@ -100,16 +108,18 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
     // Set scene info.
     setSceneUniforms(projectionMatrix, viewMatrix);
     setLights();
+//    glBindTexture(GL_TEXTURE_2D, m_id);
 
     // nicole's important texture nonsense
-//     QImage image(":/scenes/wood.jpg");
-//     Texture2D texture(image.bits(), image.width(), image.height());
-//     TextureParametersBuilder builder;
-//     builder.setFilter(TextureParameters::FILTER_METHOD::LINEAR);
-//     builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
-//     TextureParameters parameters = builder.build();
-//     parameters.applyTo(texture);
-//     m_phongShader->setTexture("tex", texture);
+//    QImage image(":/scenes/wood.jpg");
+//    Texture2D texture(image.bits(), image.width(), image.height());
+//    TextureParametersBuilder builder;
+//    builder.setFilter(TextureParameters::FILTER_METHOD::LINEAR);
+//    builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
+//    TextureParameters parameters = builder.build();
+//    parameters.applyTo(texture);
+//    m_phongShader->setTexture("tex", texture);
+
 
     // Time for some shapes!
     renderGeometry();
@@ -275,7 +285,7 @@ void SceneviewScene::renderGeometry() {
         if (prim.material.textureMap.isUsed) {
             //glBindTexture(GL_TEXTURE_2D, getTexture(prim.material));
             //m_geoShader->setUniform("useTexture", 1);
-//            m_phongShader->setUniform("useTexture", 1);
+            //m_phongShader->setUniform("useTexture", 1);
             //m_phongShader->setUniform("repeatUV", glm::vec2(prim.material.textureMap.repeatU, prim.material.textureMap.repeatV));
             //getTexture(prim.material);
         }
