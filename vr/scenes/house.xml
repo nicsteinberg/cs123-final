@@ -19,10 +19,18 @@
   </lightdata>
 
   <lightdata>
-    <id v="1"/>
-    <position x="0" y="3" z="3"/>
-    <color r="1" g="1" b="1"/>
+    <id v="0"/>
+    <position x="0" y="8" z="3"/>
+    <color r="0.6" g="0.6" b="0.45"/>
   </lightdata>
+
+  <lightdata>
+    <id v="0"/>
+    <position x="0" y="8" z="-3"/>
+    <color r="0.6" g="0.6" b="0.45"/>
+  </lightdata>
+
+
 
   <object type="tree" name="wood_cylinder">
     <transblock>
@@ -31,7 +39,7 @@
         <diffuse r="0.6" g="0.4" b="0.3"/>
         <specular r="0.6" g="0.4" b="0.3"/>
         <shininess v="20"/>
-        <texture file="/Users/mattlsteinberg/Dropbox/school/cs 123 graphics/cs123/scenes/wood.jpg" u="10" v="10"/>
+        <texture file=":/scenes/wood.jpg" u="10" v="10"/>
         <blend v="1.0"/>
       </object>
     </transblock>
@@ -44,7 +52,7 @@
         <diffuse r="0.6" g="0.4" b="0.3"/>
         <specular r="0.6" g="0.4" b="0.3"/>
         <shininess v="20"/>
-        <texture file="/Users/mattlsteinberg/Dropbox/school/cs 123 graphics/cs123/scenes/wood.jpg" u="10" v="10"/>
+        <texture file=":/scenes/wood.jpg" u="10" v="10"/>
         <blend v="1.0"/>
       </object>
     </transblock>
@@ -55,8 +63,8 @@
       <translate x="0" y="0" z="0"/>
       <object type="primitive" name="cube">
         <diffuse r="0.1" g="0.25" b="0.6"/>
-        <specular r="0.1" g="0.25" b="0.6"/>
-        <shininess v="20"/>
+        <texture file=":/scenes/curtain.jpeg" u="5" v="5"/>
+        <blend v="1.0"/>
       </object>
     </transblock>
   </object>
@@ -68,6 +76,8 @@
         <diffuse r="0.9" g="0.8" b="0.6"/>
         <specular r="0.9" g="0.8" b="0.6"/>
         <shininess v="20"/>
+        <texture file=":/scenes/popcorn.jpg" u="10" v="10"/>
+        <blend v="0.5"/>
       </object>
     </transblock>
   </object>
@@ -79,6 +89,8 @@
         <diffuse r="1" g="1" b="1"/>
         <specular r="1" g="1" b="1"/>
         <shininess v="20"/>
+        <texture file=":/scenes/popcorn.jpg" u="10" v="10"/>
+        <blend v="0.5"/>
       </object>
     </transblock>
   </object>
@@ -100,6 +112,8 @@
       <translate x="0" y="0" z="0"/>
       <object type="primitive" name="cube">
         <diffuse r="0.1" g="0.2" b="0.5"/>
+        <texture file=":/scenes/couch.jpeg" u="5" v="5"/>
+        <blend v="0.5"/>
       </object>
     </transblock>
   </object>
@@ -169,6 +183,8 @@
       <translate x="0" y="0" z="0"/>
       <object type="primitive" name="cube">
         <diffuse r="0.3" g="0.2" b="0.5"/>
+        <texture file=":/scenes/curtain.jpeg" u="5" v="5"/>
+        <blend v="1.0"/>
       </object>
     </transblock>
   </object>
@@ -280,6 +296,8 @@
       <translate x="0" y="0" z="0"/>
       <object type="primitive" name="cube">
         <diffuse r="0.6" g="0.5" b="0.3"/>
+        <texture file=":/scenes/chair1.jpeg" u="1" v="1"/>
+        <blend v="1.0"/>
       </object>
     </transblock>
   </object>
@@ -289,6 +307,8 @@
       <translate x="0" y="0" z="0"/>
       <object type="primitive" name="cylinder">
         <diffuse r="0.6" g="0.5" b="0.3"/>
+        <texture file=":/scenes/chair1.jpeg" u="1" v="1"/>
+        <blend v="1.0"/>
       </object>
     </transblock>
   </object>
@@ -371,6 +391,8 @@
       <translate x="0" y="0" z="0"/>
       <object type="primitive" name="cube">
         <diffuse r="0.2" g="0" b="0.35"/>
+        <texture file=":/scenes/chair2.jpeg" u="1" v="1"/>
+        <blend v="1.0"/>
       </object>
     </transblock>
   </object>
@@ -380,6 +402,8 @@
       <translate x="0" y="0" z="0"/>
       <object type="primitive" name="cylinder">
         <diffuse r="0.2" g="0" b="0.35"/>
+        <texture file=":/scenes/chair2.jpeg" u="1" v="1"/>
+        <blend v="1.0"/>
       </object>
     </transblock>
   </object>
@@ -549,6 +573,8 @@
       <object type="primitive" name="cube">
         <diffuse r="0.6" g="0.8" b="1"/>
         <specular r="0.2" g="0.2" b="0.2"/>
+        <texture file=":/scenes/image1.jpeg" u="1" v="1"/>
+        <blend v="1.0"/>
       </object>
     </transblock>
   </object>
@@ -615,6 +641,8 @@
       <object type="primitive" name="cube">
         <diffuse r="0.6" g="0.8" b="1"/>
         <specular r="0.2" g="0.2" b="0.2"/>
+        <texture file=":/scenes/image2.jpeg" u="1" v="1"/>
+        <blend v="1.0"/>
       </object>
     </transblock>
   </object>
@@ -681,7 +709,7 @@
       <translate x="0" y="0" z="0"/>
       <scale x="5" y="4" z="0.1"/>
       <object type="primitive" name="cube">
-        <diffuse r="0.1" g="0.1" b="0.1"/>
+        <diffuse r="0.2" g="0.2" b="0.2"/>
       </object>
     </transblock>
 
