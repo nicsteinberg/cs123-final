@@ -26,7 +26,7 @@ uniform vec3 ambient_color;
 uniform vec3 diffuse_color;
 uniform vec3 specular_color;
 uniform float shininess;
-uniform vec2 repeatUV;
+uniform vec2 repeatUV = vec2(1.f);
 
 uniform bool useLighting;     // Whether to calculate lighting using lighting equation
 uniform bool useArrowOffsets; // True if rendering the arrowhead of a normal for Shapes

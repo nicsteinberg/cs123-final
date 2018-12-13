@@ -25,4 +25,6 @@ void main(){
         weights += weight;
     }
     fragColor /= weights;
+
+    //fragColor = vec4(1.0);
 }

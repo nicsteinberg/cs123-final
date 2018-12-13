@@ -124,7 +124,9 @@ DIST          = shaders/gshader.vert \
 		shaders/lightshader.frag \
 		shaders/quad.vert \
 		shaders/horizontalBlur.frag \
-		shaders/verticalBlur.frag gl\shaders\Shader.h \
+		shaders/verticalBlur.frag \
+		shaders/fullscreenquad.frag \
+		shaders/fullscreenquad.vert gl\shaders\Shader.h \
 		gl\GLDebug.h \
 		gl\shaders\ShaderAttribLocations.h \
 		gl\datatype\VBOAttribMarker.h \
@@ -241,12 +243,18 @@ compiler_rcc_clean:
 	-$(DEL_FILE) debug\qrc_resources.cpp
 debug/qrc_resources.cpp: resources.qrc \
 		C:/Qt/5.7/mingw53_32/bin/rcc.exe \
+		shaders/phong.frag \
 		shaders/shader.frag \
+		shaders/phong.vert \
 		shaders/shader.vert \
+		shaders/verticalBlur.frag \
 		shaders/gshader.frag \
 		shaders/lightshader.frag \
 		shaders/quad.vert \
-		shaders/gshader.vert
+		shaders/horizontalBlur.frag \
+		shaders/gshader.vert \
+		../../cs123/lab07/shaders/phong.frag \
+		../../cs123/lab07/shaders/phong.vert
 	C:\Qt\5.7\mingw53_32\bin\rcc.exe -name resources resources.qrc -o debug\qrc_resources.cpp
 
 compiler_moc_header_make_all: debug/moc_view.cpp debug/moc_mainwindow.cpp
@@ -1986,7 +1994,9 @@ debug/OpenGLScene.o: scenegraph/OpenGLScene.cpp scenegraph/OpenGLScene.h \
 		C:/Qt/5.7/mingw53_32/include/QtCore/qfiledevice.h \
 		C:/Qt/5.7/mingw53_32/include/QtGui/qvector2d.h \
 		C:/Qt/5.7/mingw53_32/include/QtGui/qtouchdevice.h \
-		libraries/openvr/headers/openvr.h
+		libraries/openvr/headers/openvr.h \
+		gl/datatype/FBO.h \
+		gl/textures/TextureParameters.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\OpenGLScene.o scenegraph\OpenGLScene.cpp
 
 debug/SceneviewScene.o: scenegraph/SceneviewScene.cpp scenegraph/SceneviewScene.h \
@@ -2179,6 +2189,7 @@ debug/SceneviewScene.o: scenegraph/SceneviewScene.cpp scenegraph/SceneviewScene.
 		libraries/openvr/headers/openvr.h \
 		gl/datatype/FBO.h \
 		gl/textures/TextureParameters.h \
+		gl/util/FullScreenQuad.h \
 		C:/Qt/5.7/mingw53_32/include/QtOpenGL/QGLWidget \
 		C:/Qt/5.7/mingw53_32/include/QtOpenGL/qgl.h \
 		C:/Qt/5.7/mingw53_32/include/QtGui/qopengl.h \
@@ -2643,7 +2654,8 @@ debug/view.o: ui/view.cpp ui/view.h \
 		C:/Qt/5.7/mingw53_32/include/QtCore/QDebug \
 		scenegraph/SceneviewScene.h \
 		scenegraph/OpenGLScene.h \
-		scenegraph/Scene.h
+		scenegraph/Scene.h \
+		gl/util/FullScreenQuad.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\view.o ui\view.cpp
 
 debug/viewformat.o: ui/viewformat.cpp ui/viewformat.h \

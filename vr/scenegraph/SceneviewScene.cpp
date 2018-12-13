@@ -16,6 +16,7 @@
 #include "gl/shaders/ShaderAttribLocations.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "gl/datatype/FBO.h"
+#include "gl/util/FullScreenQuad.h"
 #include <iostream>
 
 using namespace CS123::GL;
@@ -65,6 +66,7 @@ void SceneviewScene::loadPhongShader() {
     fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/verticalBlur.frag");
     m_verticalBlur = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
+    //m_fullquad = std::make_unique<FullScreenQuad>();
     std::vector<GLfloat> quadData = {-1.f, -1.f, 0.f,
                                      0, 1,
                                      -1.f, +1.f, 0.f,
@@ -90,7 +92,7 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
     // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
     renderGeometry();
 
-    glBindTexture(GL_TEXTURE_2D, 0);
+    //glBindTexture(GL_TEXTURE_2D, 0);
     m_phongShader->unbind();
 
 }
@@ -104,8 +106,18 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
     // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
     renderGeometry();
 
-    glBindTexture(GL_TEXTURE_2D, 0);
-    m_phongShader->unbind();
+    //glBindTexture(GL_TEXTURE_2D, 0);
+
+//    QImage image(":/scenes/wood.jpg");
+//    Texture2D texture(image.bits(), image.width(), image.height());
+//    TextureParametersBuilder builder;
+//    builder.setFilter(TextureParameters::FILTER_METHOD::LINEAR);
+//    builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
+//    TextureParameters parameters = builder.build();
+//    parameters.applyTo(texture);
+//    //glBindTexture(GL_TEXTURE_2D, texture.id());
+
+//    m_phongShader->unbind();
 
     // matt's attempt about which he posted on piazza
 //    eye_fbo->unbind();
@@ -305,9 +317,11 @@ void SceneviewScene::renderGeometry() {
         //m_geoShader->applyMaterial(prim.material);
 
         if (prim.material.textureMap.isUsed) {
-//            //glBindTexture(GL_TEXTURE_2D, getTexture(prim.material));
+            //glBindTexture(GL_TEXTURE_2D, getTexture(prim.material));
             //m_geoShader->setUniform("useTexture", 1);
-            getTexture(prim.material);
+            //m_phongShader->setUniform("useTexture", 1);
+            //m_phongShader->setUniform("repeatUV", glm::vec2(prim.material.textureMap.repeatU, prim.material.textureMap.repeatV));
+            //getTexture(prim.material);
         }
 
         switch (prim.type) {

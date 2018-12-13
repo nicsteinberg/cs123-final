@@ -174,4 +174,6 @@ DISTFILES += \
     shaders/lightshader.frag \
     shaders/quad.vert \
     shaders/horizontalBlur.frag \
-    shaders/verticalBlur.frag
+    shaders/verticalBlur.frag \
+    shaders/fullscreenquad.frag \
+    shaders/fullscreenquad.vert

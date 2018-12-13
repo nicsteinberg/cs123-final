@@ -3,6 +3,7 @@
 
 #include "OpenGLScene.h"
 #include "gl/datatype/FBO.h"
+#include "gl/util/FullScreenQuad.h"
 
 #include <memory>
 
@@ -70,6 +71,7 @@ private:
 
     //GLuint m_blurHProgram, m_blurVProgram, m_phongProgram;
     std::unique_ptr<OpenGLShape> m_quad;
+    //std::unique_ptr<FullScreenQuad> m_fullquad;
 
 };
 
