@@ -176,4 +176,5 @@ DISTFILES += \
     shaders/horizontalBlur.frag \
     shaders/verticalBlur.frag \
     shaders/fullscreenquad.frag \
-    shaders/fullscreenquad.vert
+    shaders/fullscreenquad.vert \
+    scenes/wood.jpg

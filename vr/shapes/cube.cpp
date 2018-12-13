@@ -39,7 +39,8 @@ void Cube::genVertices(int p1) {
     addUV(3);
     addVertex(-0.5, 0.5, 0.5);
     addNormal(1);
-    addUV(0);
+//    addUV(0);
+    addUV(2);
 
     // front face
     makeFace(p1, -0.5, 0.5, 0.5, 1);
@@ -142,16 +143,16 @@ void Cube::makeFace(int p1, float x, float y, float z, int face) {
                 addNormal(face);
 
                 if (col == 0) {
-                    addUV(0);
+                    addUV(face, 0);
                 } else {
-                    addUV(1);
+                    addUV(face, 1);
                 }
 
                 // Want a degenerate vertex after first vertex in new row.
                 if (col == 0 && row > 0) {
                     addVertex(x, y, z);
                     addNormal(face);
-                    addUV(0);
+                    addUV(face, 0);
                 }
 
                 // We also want the bottom vertex, which will be the previous but shifted down a unit.
@@ -160,31 +161,31 @@ void Cube::makeFace(int p1, float x, float y, float z, int face) {
                       addNormal(face);
 
                       if (col == 0) {
-                          addUV(2);
+                          addUV(face, 2);
                       } else {
-                          addUV(3);
+                          addUV(face, 3);
                       }
 
                     // Add a degenerate vertex if about to start a new row.
                     if (row < p1 - 1 && col == p1) {
                         addVertex(x, y, z + z_seg);
                         addNormal(face);
-                        addUV(3);
+                        addUV(face, 3);
                     }
                 } else {
                     addVertex(x, y + y_seg, z);
                     addNormal(face);
 
                     if (col == 0) {
-                        addUV(2);
+                        addUV(face, 2);
                     } else {
-                        addUV(3);
+                        addUV(face, 3);
                     }
 
                     if (row < p1 - 1 && col == p1) {
                         addVertex(x, y + y_seg, z);
                         addNormal(face);
-                        addUV(3);
+                        addUV(face, 3);
                     }
                 }
 
@@ -249,6 +250,112 @@ void Cube::addUV(int vertex) {
             break;
         default: // bottom right
             uv = {1.f, 1.f};
+            break;
+    }
+
+    m_verts.reserve(2);
+    m_verts.insert(m_verts.end(), uv.begin(), uv.end());
+}
+
+void Cube::addUV(int face, int vertex) {
+    std::vector<float> uv;
+
+    switch (face) {
+        case 0: // top
+            switch (vertex) {
+                case 0:
+                    uv = {0.f, 0.f};
+                    break;
+                case 1:
+                    uv = {0.f, 1.f};
+                    break;
+                case 2:
+                    uv = {1.f, 0.f};
+                    break;
+                default:
+                    uv = {1.f, 1.f};
+                    break;
+                }
+            break;
+        case 1: // front
+            switch (vertex) {
+                case 0:
+                    uv = {0.f, 0.f};
+                    break;
+                case 1:
+                    uv = {0.f, 1.f};
+                    break;
+                case 2:
+                    uv = {1.f, 0.f};
+                    break;
+                default:
+                    uv = {1.f, 1.f};
+                    break;
+                }
+            break;
+        case 2: // right
+            switch (vertex) {
+                case 0:
+                    uv = {0.f, 0.f};
+                    break;
+                case 1:
+                    uv = {0.f, 1.f};
+                    break;
+                case 2:
+                    uv = {1.f, 0.f};
+                    break;
+                default:
+                    uv = {1.f, 1.f};
+                    break;
+                }
+            break;
+        case 3: // back
+            switch (vertex) {
+            case 0:
+                uv = {0.f, 0.f};
+                break;
+            case 1:
+                uv = {0.f, 1.f};
+                break;
+            case 2:
+                uv = {1.f, 0.f};
+                break;
+            default:
+                uv = {1.f, 1.f};
+                break;
+            }
+            break;
+        case 4: // left
+            switch (vertex) {
+            case 0:
+                uv = {0.f, 0.f};
+                break;
+            case 1:
+                uv = {0.f, 1.f};
+                break;
+            case 2:
+                uv = {1.f, 0.f};
+                break;
+            default:
+                uv = {1.f, 1.f};
+                break;
+            }
+            break;
+        default: // bottom
+            switch (vertex) {
+            case 0:
+                uv = {0.f, 0.f};
+                break;
+            case 1:
+                uv = {0.f, 1.f};
+                break;
+            case 2:
+                uv = {1.f, 0.f};
+                break;
+            default:
+                uv = {1.f, 1.f};
+                break;
+            }
             break;
     }
 

@@ -126,7 +126,8 @@ DIST          = shaders/gshader.vert \
 		shaders/horizontalBlur.frag \
 		shaders/verticalBlur.frag \
 		shaders/fullscreenquad.frag \
-		shaders/fullscreenquad.vert gl\shaders\Shader.h \
+		shaders/fullscreenquad.vert \
+		scenes/wood.jpg gl\shaders\Shader.h \
 		gl\GLDebug.h \
 		gl\shaders\ShaderAttribLocations.h \
 		gl\datatype\VBOAttribMarker.h \
@@ -247,14 +248,17 @@ debug/qrc_resources.cpp: resources.qrc \
 		shaders/shader.frag \
 		shaders/phong.vert \
 		shaders/shader.vert \
+		shaders/fullscreenquad.frag \
 		shaders/verticalBlur.frag \
 		shaders/gshader.frag \
+		shaders/fullscreenquad.vert \
 		shaders/lightshader.frag \
 		shaders/quad.vert \
 		shaders/horizontalBlur.frag \
 		shaders/gshader.vert \
 		../../cs123/lab07/shaders/phong.frag \
-		../../cs123/lab07/shaders/phong.vert
+		../../cs123/lab07/shaders/phong.vert \
+		scenes/wood.jpg
 	C:\Qt\5.7\mingw53_32\bin\rcc.exe -name resources resources.qrc -o debug\qrc_resources.cpp
 
 compiler_moc_header_make_all: debug/moc_view.cpp debug/moc_mainwindow.cpp
@@ -1229,10 +1233,10 @@ debug/GBufferShader.o: gl/shaders/GBufferShader.cpp gl/shaders/GBufferShader.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\GBufferShader.o gl\shaders\GBufferShader.cpp
 
 debug/FullScreenQuad.o: gl/util/FullScreenQuad.cpp gl/util/FullScreenQuad.h \
-		gl/datatype/VBO.h \
-		glew-1.10.0/include/GL/glew.h \
-		gl/datatype/VBOAttribMarker.h \
 		gl/datatype/VAO.h \
+		glew-1.10.0/include/GL/glew.h \
+		gl/datatype/VBO.h \
+		gl/datatype/VBOAttribMarker.h \
 		gl/shaders/ShaderAttribLocations.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\FullScreenQuad.o gl\util\FullScreenQuad.cpp
 
@@ -2190,6 +2194,7 @@ debug/SceneviewScene.o: scenegraph/SceneviewScene.cpp scenegraph/SceneviewScene.
 		gl/datatype/FBO.h \
 		gl/textures/TextureParameters.h \
 		gl/util/FullScreenQuad.h \
+		gl/datatype/VAO.h \
 		C:/Qt/5.7/mingw53_32/include/QtOpenGL/QGLWidget \
 		C:/Qt/5.7/mingw53_32/include/QtOpenGL/qgl.h \
 		C:/Qt/5.7/mingw53_32/include/QtGui/qopengl.h \
@@ -2655,7 +2660,8 @@ debug/view.o: ui/view.cpp ui/view.h \
 		scenegraph/SceneviewScene.h \
 		scenegraph/OpenGLScene.h \
 		scenegraph/Scene.h \
-		gl/util/FullScreenQuad.h
+		gl/util/FullScreenQuad.h \
+		gl/datatype/VAO.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\view.o ui\view.cpp
 
 debug/viewformat.o: ui/viewformat.cpp ui/viewformat.h \

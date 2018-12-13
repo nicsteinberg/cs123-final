@@ -337,7 +337,7 @@ void SceneviewScene::renderGeometry() {
             //m_geoShader->setUniform("useTexture", 1);
             //m_phongShader->setUniform("useTexture", 1);
             //m_phongShader->setUniform("repeatUV", glm::vec2(prim.material.textureMap.repeatU, prim.material.textureMap.repeatV));
-            getTexture(prim.material);
+            //getTexture(prim.material);
         }
 
         switch (prim.type) {
