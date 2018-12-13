@@ -54,12 +54,12 @@ void SceneviewScene::loadGeometryShader() {
 }
 
 void SceneviewScene::loadPhongShader() {
-    std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.vert");
+    std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/fullscreenquad.vert");
 //    std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
-    std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.frag");
+    std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/fullscreenquad.frag");
     m_phongShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
-    vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
+    vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/fullscreenquad.vert");
     fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/horizontalBlur.frag");
     m_horizontalBlur = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
@@ -103,11 +103,6 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
     setSceneUniforms(projectionMatrix, viewMatrix);
     setLights();
 
-    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
-    renderGeometry();
-
-    //glBindTexture(GL_TEXTURE_2D, 0);
-
 //    QImage image(":/scenes/wood.jpg");
 //    Texture2D texture(image.bits(), image.width(), image.height());
 //    TextureParametersBuilder builder;
@@ -115,9 +110,17 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 //    builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
 //    TextureParameters parameters = builder.build();
 //    parameters.applyTo(texture);
+//    m_phongShader->setTexture("tex", texture);
+
+    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
+    renderGeometry();
+
+    //glBindTexture(GL_TEXTURE_2D, 0);
+
+
 //    //glBindTexture(GL_TEXTURE_2D, texture.id());
 
-//    m_phongShader->unbind();
+    m_phongShader->unbind();
 
     // matt's attempt about which he posted on piazza
 //    eye_fbo->unbind();
@@ -321,7 +324,7 @@ void SceneviewScene::renderGeometry() {
             //m_geoShader->setUniform("useTexture", 1);
             //m_phongShader->setUniform("useTexture", 1);
             //m_phongShader->setUniform("repeatUV", glm::vec2(prim.material.textureMap.repeatU, prim.material.textureMap.repeatV));
-            //getTexture(prim.material);
+            getTexture(prim.material);
         }
 
         switch (prim.type) {
@@ -375,6 +378,8 @@ GLuint SceneviewScene::getTexture(CS123SceneMaterial material) {
     builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
     TextureParameters parameters = builder.build();
     parameters.applyTo(texture);
+
+    m_phongShader->setTexture("tex", texture);
 
     return m_id;
 }
