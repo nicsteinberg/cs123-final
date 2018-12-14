@@ -13,6 +13,15 @@ void main(){
     // TODO [Task 9] Calculate the texelSize
     vec2 texelSize = 1.0 / textureSize(tex, 0).xy;
 
+    // float focus = 5;
+    // float position = texture(camera_pos_tex, uv);
+    // float distance = sqrt(position.x * position.x + position.y * position.y + position.z * position.z);
+    // float depth = max(0, min(25, distance));
+    // int x = depth;
+    // if (depth < focus) {
+    //      x = 2 * focus - depth;
+    // int supportWidth = 11.3 * log(0.237 * x);
+
 //    int supportWidth = int(texture(camera_pos_tex, uv).x * 20.f);
     const int supportWidth = 20;
 
