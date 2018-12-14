@@ -35,6 +35,9 @@ INPUT(
 ./release\main.o
 ./release\QuaternionCamera.o
 ./release\qrc_resources.o
+./release\qrc_pics.o
+./release\qrc_photos.o
+./release\qrc_couch.o
 ./release\moc_view.o
 ./release\moc_mainwindow.o
 );

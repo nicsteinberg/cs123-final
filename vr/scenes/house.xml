@@ -1,8 +1,8 @@
 <scenefile>
   <globaldata>
-    <diffusecoeff v="2"/>
-    <specularcoeff v="2"/>
-    <ambientcoeff v="2"/>
+    <diffusecoeff v="1"/>
+    <specularcoeff v="1"/>
+    <ambientcoeff v="1"/>
   </globaldata>
 
   <cameradata>
@@ -23,8 +23,6 @@
     <position x="0" y="3" z="3"/>
     <color r="0.8" g="0.6" b="0.45"/>
   </lightdata>
-
-
 
   <object type="tree" name="wood_cylinder">
     <transblock>

@@ -97,11 +97,14 @@ struct CS123SceneFileMap {
    // Added.
    QImage image;
    bool imageSet;
+   GLuint id;
 
    void clear() {
        isUsed = false;
        repeatU = 0.0f;
        repeatV = 0.0f;
+       imageSet = false;
+       id = 0;
        filename = std::string();
    }
 };

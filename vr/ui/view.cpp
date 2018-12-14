@@ -177,7 +177,7 @@ void View::initVR() {
                                                  GL_UNSIGNED_BYTE);
 
         // Comment this to detach program from house.xml.
-        fileOpen();
+        //fileOpen();
 
 }
 

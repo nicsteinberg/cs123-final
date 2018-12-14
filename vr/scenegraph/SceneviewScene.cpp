@@ -42,12 +42,12 @@ SceneviewScene::SceneviewScene(int width, int height)
     // Initialize shape member variables.
     settingsChanged();
 
-//    QImage image(":/scenes/wood.jpg");
-//    glGenTextures(1, &m_id);
-//    glBindTexture(GL_TEXTURE_2D, m_id);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
+    QImage image(":/scenes/wood.jpg");
+    glGenTextures(1, &m_id);
+    glBindTexture(GL_TEXTURE_2D, m_id);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
 }
 
 SceneviewScene::~SceneviewScene()
@@ -65,6 +65,8 @@ void SceneviewScene::loadGeometryShader() {
 void SceneviewScene::loadPhongShader() {
     std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.vert");
     std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.frag");
+    //    std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
+    //    std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/lightshader.frag");
     m_phongShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
     vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
@@ -108,18 +110,7 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
     // Set scene info.
     setSceneUniforms(projectionMatrix, viewMatrix);
     setLights();
-//    glBindTexture(GL_TEXTURE_2D, m_id);
-
-    // nicole's important texture nonsense
-//    QImage image(":/scenes/wood.jpg");
-//    Texture2D texture(image.bits(), image.width(), image.height());
-//    TextureParametersBuilder builder;
-//    builder.setFilter(TextureParameters::FILTER_METHOD::LINEAR);
-//    builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
-//    TextureParameters parameters = builder.build();
-//    parameters.applyTo(texture);
-//    m_phongShader->setTexture("tex", texture);
-
+    glBindTexture(GL_TEXTURE_2D, m_id);
 
     // Time for some shapes!
     renderGeometry();
@@ -188,8 +179,7 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 }
 
 // nicole's deferred shading stuff
-// Also should take in an eye fbo to unbind, bind the real fbo,
-//void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::unique_ptr<FBO> eye_fbo) {
+//void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::shared_ptr<CS123::GL::FBO> eye_fbo) {
 
 //    // Unbind eye for now.
 //    eye_fbo->unbind();
@@ -204,25 +194,20 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 //    // Set uniforms passed into vert.
 //    setSceneUniforms(projectionMatrix, viewMatrix);
 
-//    // Is this necessary?
-//    glViewport(0, 0, m_width, m_height);
-
 //    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
 //    renderGeometry();
 
-//    // Gives texture to .frag? Which texture is this? Does this really need to be here?
+//    // Unbinds texture.
 //    glBindTexture(GL_TEXTURE_2D, 0);
 
-//    // Unbind geometry shader.
+//    // Unbind geometry shader and first FBO.
 //    m_geoShader->unbind();
-
-//    // Should we call this before or after unbinding geoshader?
 //    m_FBO->unbind();
 
+//    // Now render to screen.
 //    eye_fbo->bind();
 
-//    // bind all our textures (gPosition, gNormal, gDiffuse, gAmbient, gSpecular)
-//    // are activeTexture calls necessary? consider using setTexture here!
+//    // Bind textures to slots - not gonna be necessary, I think.
 //    glActiveTexture(GL_TEXTURE0);
 //    m_FBO->getColorAttachment(0).bind();
 //    glActiveTexture(GL_TEXTURE1);
@@ -237,26 +222,20 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 //    // Bind light shader.
 //    m_phongShader->bind();
 
+//    // Send textures to shader.
+//    m_phongShader->setTexture("gPosition", m_FBO->getColorAttachment(0));
+//    m_phongShader->setTexture("gNormal", m_FBO->getColorAttachment(1));
+//    m_phongShader->setTexture("gDiffuse", m_FBO->getColorAttachment(2));
+//    m_phongShader->setTexture("gAmbient", m_FBO->getColorAttachment(3));
+//    m_phongShader->setTexture("gSpecular", m_FBO->getColorAttachment(4));
+
 //    // Send lighting uniforms to fragment shader.
 //    setLights();
 
-//    m_phongShader->unbind();
+//    // Draw full screen quad.
+//    m_fullquad->draw();
 
-//    // Render full screen quad.
-//    std::vector<GLfloat> quadData = {-1.f, -1.f, 0.f,
-//                                     0, 1,
-//                                     -1.f, +1.f, 0.f,
-//                                     0, 0,
-//                                     +1.f, -1.f, 0.f,
-//                                     1, 1,
-//                                     +1.f, +1.f, 0.f,
-//                                     1, 0};
-//    m_quad = std::make_unique<OpenGLShape>();
-//    m_quad->setVertexData(&quadData[0], quadData.size(), VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLE_STRIP, 4);
-//    m_quad->setAttribute(ShaderAttrib::POSITION, 3, 0, VBOAttribMarker::DATA_TYPE::FLOAT, false);
-//    m_quad->setAttribute(ShaderAttrib::TEXCOORD0, 2, 3*sizeof(GLfloat), VBOAttribMarker::DATA_TYPE::FLOAT, false);
-//    m_quad->buildVAO();
-//    m_quad->draw();
+//    m_phongShader->unbind();
 //}
 
 //void SceneviewScene::render(
@@ -276,8 +255,8 @@ void SceneviewScene::setSceneUniforms(glm::mat4x4 &projectionMatrix, glm::mat4x4
     m_phongShader->setUniform("p", projectionMatrix);
     m_phongShader->setUniform("v", viewMatrix);
 
-    //m_geoShader->setUniform("p", projectionMatrix);
-    //m_geoShader->setUniform("v", viewMatrix);
+//    m_geoShader->setUniform("p", projectionMatrix);
+//    m_geoShader->setUniform("v", viewMatrix);
 }
 
 void SceneviewScene::setLights()
@@ -299,15 +278,18 @@ void SceneviewScene::renderGeometry() {
         m_phongShader->setUniform("m", prim.compositeTransformation);
         m_phongShader->applyMaterial(prim.material);
 
-        //m_geoShader->setUniform("m", prim.compositeTransformation);
-        //m_geoShader->applyMaterial(prim.material);
+//        m_geoShader->setUniform("m", prim.compositeTransformation);
+//        m_geoShader->applyMaterial(prim.material);
 
         if (prim.material.textureMap.isUsed) {
-            //glBindTexture(GL_TEXTURE_2D, getTexture(prim.material));
-            //m_geoShader->setUniform("useTexture", 1);
-            //m_phongShader->setUniform("useTexture", 1);
-            //m_phongShader->setUniform("repeatUV", glm::vec2(prim.material.textureMap.repeatU, prim.material.textureMap.repeatV));
-            //getTexture(prim.material);
+//            m_geoShader->setUniform("useTexture", 1);
+//            m_geoShader->setUniform("repeatUV", glm::vec2(prim.material.textureMap.repeatU, prim.material.textureMap.repeatV));
+            m_phongShader->setUniform("useTexture", 1);
+            m_phongShader->setUniform("repeatUV", glm::vec2(prim.material.textureMap.repeatU, prim.material.textureMap.repeatV));
+            glBindTexture(GL_TEXTURE_2D, prim.material.textureMap.id);
+        } else {
+//            m_geoShader->setUniform("useTexture", 0);
+            m_phongShader->setUniform("useTexture", 0);
         }
 
         switch (prim.type) {
@@ -332,40 +314,4 @@ void SceneviewScene::settingsChanged() {
     m_cylinder = std::make_unique<Cylinder>(3, 30);
     m_sphere = std::make_unique<Sphere>(10, 10);
 }
-
-// Is it ok that these are in a helper method?
-GLuint SceneviewScene::getTexture(CS123SceneMaterial material) {
-    QImage image;
-    if (material.textureMap.imageSet) {
-        image = material.textureMap.image;
-    } else {
-        QImage image = QImage(material.textureMap.filename.data());
-        material.textureMap.image = image;
-        material.textureMap.imageSet = true;
-    }
-
-    //image = QGLWidget::convertToGLFormat(image);
-
-    Texture2D texture(image.bits(), image.width(), image.height());
-    TextureParametersBuilder builder;
-    builder.setFilter(TextureParameters::FILTER_METHOD::LINEAR);
-    builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
-    TextureParameters parameters = builder.build();
-    parameters.applyTo(texture);
-
-    m_phongShader->setTexture("tex", texture);
-
-    return m_id;
-}
-
-//QImage image(":/images/ostrich.jpg");
-//glGenTextures(1, &m_textureID);
-//glBindTexture(GL_TEXTURE_2D, m_textureID);
-//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
-
-// use resize gl? when dealing with vr's renderbuffers. bind passed in lefteyebuffer or righteyebuffer before rendering.
-// i thought default was screen but idk. maybe you can't bind an fbo within an fbo. so you have to unbind whatever fbo is bound (lefteyebuffer) and then
-// rebind it when you're ready to draw.
 

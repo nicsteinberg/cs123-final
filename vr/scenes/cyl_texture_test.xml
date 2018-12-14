@@ -37,7 +37,7 @@
 		<transblock>
 			<translate x="0" y="0" z="0"/>
 			<object type="primitive" name="cylinder" >
-				<texture file="/course/cs123/data/image/mandril.png" u="2" v="2"/>
+				<texture file=":/scenes/chair1.jpeg" u="2" v="2"/>
 				<blend v="1.0"/>
 				<reflective r="1" g="1" b="1"/>
 				<diffuse r="1.0" g="1.0" b="1.0"/>
@@ -48,4 +48,3 @@
 	</object>
 
 </scenefile>
-

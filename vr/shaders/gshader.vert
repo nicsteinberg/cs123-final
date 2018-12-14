@@ -10,6 +10,7 @@ out vec4 ambient; // Ambient color for this vertex
 out vec4 specular;
 out vec4 diffuse;
 out vec2 texc;
+//out vec4 position_cameraSpace_out;
 
 // Transformation matrices
 uniform mat4 p;
@@ -21,7 +22,7 @@ uniform vec3 ambient_color;
 uniform vec3 diffuse_color;
 uniform vec3 specular_color;
 uniform float shininess;
-uniform vec2 repeatUV;
+uniform vec2 repeatUV = vec2(1.f);
 
 //uniform vec3 reflective;
 //uniform vec3 attenuation;
@@ -30,7 +31,8 @@ void main() {
     texc = texCoord * repeatUV;
 
     vec4 position_cameraSpace = v * m * vec4(position, 1.0);
-    // ligtshader.frag will need this
+    //position_cameraSpace_out = position_cameraSpace;
+    // ligtshader.frag may need this
     //vec4 normal_cameraSpace = vec4(normalize(mat3(transpose(inverse(v * m))) * normal), 0);
 
     world_position = m * vec4(position, 1.0);
@@ -43,5 +45,8 @@ void main() {
     ambient = clamp(ambient, 0.0, 1.0);
 
     diffuse = vec4(diffuse_color, 0.f);
+    diffuse = clamp(diffuse, 0.0, 1.0);
+
     specular = vec4(specular_color, 0.f);
+    specular = clamp(specular, 0.0, 1.0);
 }

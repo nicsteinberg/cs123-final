@@ -3,7 +3,7 @@
 in vec2 uv;
 
 uniform sampler2D tex;
-uniform sampler2D camera_pos_tex;
+//uniform sampler2D camera_pos_tex;
 
 out vec4 fragColor;
 

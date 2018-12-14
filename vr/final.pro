@@ -120,7 +120,10 @@ OTHER_FILES += \
     shaders/*
 
 RESOURCES += \
-    resources.qrc
+    resources.qrc \
+    pics.qrc \
+    photos.qrc \
+    couch.qrc
 
 defineTest(copyToDestdir) {
     files = $$1

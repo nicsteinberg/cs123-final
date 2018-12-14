@@ -5,7 +5,7 @@
 
 in vec3 color;
 in vec2 texc;
-in vec4 position_cameraSpace_out;
+//in vec4 position_cameraSpace_out;
 
 out vec4 fragColor;
 out vec4 camera_pos;
@@ -20,5 +20,5 @@ void main(){
     texColor = clamp(texColor + vec3(1-useTexture), vec3(0), vec3(1));
     fragColor = vec4(color * texColor, 1);
     //fragColor = texColor;
-    camera_pos = position_cameraSpace_out;
+    //camera_pos = position_cameraSpace_out;
 }

@@ -35,6 +35,9 @@ INPUT(
 ./debug\main.o
 ./debug\QuaternionCamera.o
 ./debug\qrc_resources.o
+./debug\qrc_pics.o
+./debug\qrc_photos.o
+./debug\qrc_couch.o
 ./debug\moc_view.o
 ./debug\moc_mainwindow.o
 );
