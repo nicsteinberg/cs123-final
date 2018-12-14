@@ -10,7 +10,7 @@ out vec4 ambient; // Ambient color for this vertex
 out vec4 specular;
 out vec4 diffuse;
 out vec2 texc;
-//out vec4 position_cameraSpace_out;
+out vec4 position_cameraSpace_out;
 
 // Transformation matrices
 uniform mat4 p;
@@ -31,7 +31,8 @@ void main() {
     texc = texCoord * repeatUV;
 
     vec4 position_cameraSpace = v * m * vec4(position, 1.0);
-    //position_cameraSpace_out = position_cameraSpace;
+    position_cameraSpace_out = position_cameraSpace;
+
     // ligtshader.frag may need this
     //vec4 normal_cameraSpace = vec4(normalize(mat3(transpose(inverse(v * m))) * normal), 0);
 
