@@ -58,7 +58,7 @@ void main(){
 
         color += vec4(lightColors[i], 1) * diffuse_color;
 
-        // REMEMBER ATTENUATION
+        // attenuation, shadows, reflection
     }
 
     color = clamp(color, 0.f, 1.f);

@@ -67,7 +67,7 @@ void main() {
             vec4 r = normalize(2.f * normal_worldSpace * nm - vertexToLight);
 
             vec4 eyeDirection = normalize(vec4(0,0,0,1) - position_cameraSpace);
-            float rv = pow(clamp(dot(r, -eyeDirection), 0.f, 1.f), shininess);
+            float rv = pow(clamp(dot(r, eyeDirection), 0.f, 1.f), shininess);
 
             vec3 diffuse = diffuse_color * nm + specular_color * rv;
 

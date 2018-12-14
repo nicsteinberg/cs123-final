@@ -324,6 +324,6 @@ void SceneviewScene::settingsChanged() {
     m_cube = std::make_unique<Cube>(1);
     m_cone = std::make_unique<Cone>(3, 3);
     m_cylinder = std::make_unique<Cylinder>(3, 30);
-    m_sphere = std::make_unique<Sphere>(10, 10);
+    m_sphere = std::make_unique<Sphere>(25, 25);
 }
 
