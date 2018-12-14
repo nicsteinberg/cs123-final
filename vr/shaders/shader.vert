@@ -63,15 +63,25 @@ void main() {
                 vertexToLight = normalize(v * vec4(-lightDirections[i], 0));
             }
 
-            // Add diffuse component
-            float diffuseIntensity = max(0.0, dot(vertexToLight, normal_cameraSpace));
-            color += max(vec3(0), lightColors[i] * diffuse_color * diffuseIntensity);
+            float nm = clamp(dot(normal_worldSpace, vertexToLight), 0.f, 1.f);
+            vec4 r = normalize(2.f * normal_worldSpace * nm - vertexToLight);
 
-            // Add specular component
-            vec4 lightReflection = normalize(-reflect(vertexToLight, normal_cameraSpace));
             vec4 eyeDirection = normalize(vec4(0,0,0,1) - position_cameraSpace);
-            float specIntensity = pow(max(0.0, dot(eyeDirection, lightReflection)), shininess);
-            color += max (vec3(0), lightColors[i] * specular_color * specIntensity);
+            float rv = pow(clamp(dot(r, -eyeDirection), 0.f, 1.f), shininess);
+
+            vec3 diffuse = diffuse_color * nm + specular_color * rv;
+
+            color += lightColors[i] * diffuse;
+
+            // Add diffuse component
+//            float diffuseIntensity = max(0.0, dot(vertexToLight, normal_cameraSpace));
+//            color += max(vec3(0), lightColors[i] * diffuse_color * diffuseIntensity);
+
+//            // Add specular component
+//            vec4 lightReflection = normalize(-reflect(vertexToLight, normal_cameraSpace));
+//            vec4 eyeDirection = normalize(vec4(0,0,0,1) - position_cameraSpace);
+//            float specIntensity = pow(max(0.0, dot(eyeDirection, lightReflection)), shininess);
+//            color += max (vec3(0), lightColors[i] * specular_color * specIntensity);
         }
     } else {
         color = ambient_color + diffuse_color;

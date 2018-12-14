@@ -9,6 +9,7 @@ uniform sampler2D gNormal;
 uniform sampler2D gDiffuse;
 uniform sampler2D gAmbient;
 uniform sampler2D gSpecular;
+uniform sampler2D gCameraPos;
 
 // Light data
 const int MAX_LIGHTS = 10;
@@ -28,39 +29,38 @@ void main(){
     vec4 diffuse_color = texture(gDiffuse, texc);
     vec4 spec = texture(gSpecular, texc);
 
+    vec4 camera_pos = texture(gCameraPos, texc);
+
     vec4 v4 = vec4(v, 1.f);
 
     // What range are we in?
     vec4 color = vec4(fragAmbient, 1.0f);
 
-//    for (int i = 0; i < MAX_LIGHTS; i++) {
-//        vec4 vertexToLight = vec4(0);
-//        // Point Light
-//        if (lightTypes[i] == 0) {
-//            vertexToLight = normalize(v4 * vec4(lightPositions[i], 1) - fragPosition);
-//        } else if (lightTypes[i] == 1) {
-//            // Dir Light
-//            vertexToLight = normalize(v4 * vec4(-lightDirections[i], 0));
-//        }
+    for (int i = 0; i < MAX_LIGHTS; i++) {
+        vec4 vertexToLight = vec4(0);
+        // Point Light
+        if (lightTypes[i] == 0) {
+            vertexToLight = normalize(v4 * vec4(lightPositions[i], 1) - fragPosition);
+        } else if (lightTypes[i] == 1) {
+            // Dir Light
+            vertexToLight = normalize(v4 * vec4(-lightDirections[i], 0));
+        }
 
-//        float nm = clamp(dot(fragNormal, vertexToLight), 0.f, 1.f);
-//        vec4 r = normalize(2.f * fragNormal * nm - vertexToLight);
+        float nm = clamp(dot(fragNormal, vertexToLight), 0.f, 1.f);
+        vec4 r = normalize(2.f * fragNormal * nm - vertexToLight);
 
-//        // v should be -d, or view vector.
-//        float rv = pow(clamp(dot(r, v4), 0.f, 1.f), shininess);
+        // v should be -d, or view vector.
+        vec4 eyeDirection = normalize(vec4(0,0,0,1) - camera_pos);
+        float rv = pow(clamp(dot(r, -eyeDirection), 0.f, 1.f), shininess);
 
-//        // Add diffuse component; need normal in camera space :/
-//        diffuse_color = diffuse_color * nm + spec * rv;
+        // Add diffuse component.
+        diffuse_color = diffuse_color * nm + spec * rv;
 
-//        color += vec4(lightColors[i], 1) * diffuse_color;
+        color += vec4(lightColors[i], 1) * diffuse_color;
 
-//        // REMEMBER ATTENUATION
+        // REMEMBER ATTENUATION
+    }
 
-//        // Add specular component - kept to help find -d (AKA v)
-//        //vec4 lightReflection = normalize(-reflect(vertexToLight, normal_cameraSpace));
-//        //vec4 eyeDirection = normalize(vec4(0,0,0,1) - position_cameraSpace);
-//        //float specIntensity = pow(max(0.0, dot(eyeDirection, lightReflection)), shininess);
-//    }
-
+    color = clamp(color, 0.f, 1.f);
     fragColor = color;
 }
