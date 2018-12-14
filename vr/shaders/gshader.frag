@@ -5,7 +5,6 @@ layout (location = 1) out vec4 gNormal;
 layout (location = 2) out vec4 gDiffuse;
 layout (location = 3) out vec4 gAmbient;
 layout (location = 4) out vec4 gSpecular;
-layout (location = 5) out vec4 gCameraPos;
 
 in vec4 world_position;
 in vec4 world_normal;
@@ -13,7 +12,7 @@ in vec4 ambient;
 in vec4 specular;
 in vec4 diffuse;
 in vec2 texc;
-in vec4 position_cameraSpace_out;
+//in vec4 position_cameraSpace_out;
 
 // May vary over texture, if set to texture
 uniform sampler2D tex;
@@ -31,6 +30,4 @@ void main(){
     } else {
         gDiffuse = diffuse;
     }
-
-    gCameraPos = position_cameraSpace_out;
 }

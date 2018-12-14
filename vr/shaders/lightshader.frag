@@ -3,14 +3,12 @@
 in vec2 texc;
 
 out vec4 fragColor;
-out vec4 cameraPos;
 
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gDiffuse;
 uniform sampler2D gAmbient;
 uniform sampler2D gSpecular;
-uniform sampler2D gCameraPos;
 
 // Light data
 const int MAX_LIGHTS = 10;
@@ -65,5 +63,4 @@ void main(){
 //    }
 
     fragColor = color;
-    //cameraPos = texture(gCameraPos, uv);
 }

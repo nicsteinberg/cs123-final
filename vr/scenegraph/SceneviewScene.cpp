@@ -33,9 +33,9 @@ SceneviewScene::SceneviewScene(int width, int height)
 
     // Takes in number of color attachments - we'll have at least 3.
     // Can also just make our own gBuffer class instead of an FBO that generates our gPosition, gNormal, and gColor buffers.
-    m_FBO = std::make_unique<FBO>(6, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, TextureParameters::FILTER_METHOD::LINEAR, GL_FLOAT);
+    m_FBO = std::make_unique<FBO>(5, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE, TextureParameters::FILTER_METHOD::LINEAR, GL_FLOAT);
 
-    // Each need 2 color attachments.
+    // How many color attachments do these need?
     m_blurFBO1 = std::make_unique<FBO>(2, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE);
     m_blurFBO2 = std::make_unique<FBO>(2, FBO::DEPTH_STENCIL_ATTACHMENT::DEPTH_ONLY, width, height, TextureParameters::WRAP_METHOD::CLAMP_TO_EDGE);
 
@@ -52,7 +52,7 @@ SceneviewScene::SceneviewScene(int width, int height)
 
 SceneviewScene::~SceneviewScene()
 {
-    glDeleteTextures(1, &m_id);
+//    glDeleteTextures(1, &m_id);
 }
 
 void SceneviewScene::loadGeometryShader() {
@@ -107,27 +107,28 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
 
-    // Set scene info and bind texture to the phong shader.
+    // Set scene info.
     setSceneUniforms(projectionMatrix, viewMatrix);
     setLights();
     glBindTexture(GL_TEXTURE_2D, m_id);
 
-    // Set rest of the uniforms and draw shapes.
+    // Time for some shapes!
     renderGeometry();
 
-    // Unbinds texture.
+    // What does this do.
     glBindTexture(GL_TEXTURE_2D, 0);
 
     // End first pass.
     m_phongShader->unbind();
 //    m_blurFBO1->unbind();
 
-//    // SECOND PASS
-//    // Render to FBO2 while blurring horizontally.
+    // SECOND PASS
+    // Render to FBO2 while blurring horizontally.
 
+    //
 //    eye_fbo->bind();
 
-//    //    m_blurFBO2->bind();
+////    m_blurFBO2->bind();
 //    m_horizontalBlur->bind();
 
 //    // Clear both bits because that's what we do.
@@ -135,19 +136,26 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 //    glClear(GL_DEPTH_BUFFER_BIT);
 
 //    // Render from FBO1, blurring, to FBO2.
-//    glActiveTexture(GL_TEXTURE0);
-//    m_blurFBO1->getColorAttachment(0).bind();
-//    glActiveTexture(GL_TEXTURE1);
-//    m_blurFBO1->getColorAttachment(1).bind();
+////    m_blurFBO1->getColorAttachment(0).bind();
 
+//        glActiveTexture(GL_TEXTURE0);
+//        m_blurFBO1->getColorAttachment(0).bind();
+//        glActiveTexture(GL_TEXTURE1);
+//        m_blurFBO1->getColorAttachment(1).bind();
+
+////    Texture2D color = ;
 //    GLint uniformLoc = glGetUniformLocation(m_horizontalBlur->getID(), "tex");
-//    glUniform1i(uniformLoc, GL_TEXTURE0);
-//    uniformLoc = glGetUniformLocation(m_horizontalBlur->getID(), "camera_pos_tex");
+////    glUniform1i(uniformLoc, GL_TEXTURE0);
+//    uniformLoc = glGetUniformLocation(m_horizontalBlur->getID(), "tex");
 //    glUniform1i(uniformLoc, GL_TEXTURE1);
+
+////    m_horizontalBlur->setTexture("tex", m_blurFBO1->getColorAttachment(0));
+////    m_horizontalBlur->setTexture("camera_pos_tex", m_blurFBO1->getColorAttachment(1));
+
 
 //    m_fullquad->draw();
 
-    // End second pass.
+//    // End second pass.
 //    m_horizontalBlur->unbind();
 //    m_blurFBO2->unbind();
 
@@ -199,7 +207,7 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 //    // Now render to screen.
 //    eye_fbo->bind();
 
-//    // Bind textures to slots.
+//    // Bind textures to slots - not gonna be necessary, I think.
 //    glActiveTexture(GL_TEXTURE0);
 //    m_FBO->getColorAttachment(0).bind();
 //    glActiveTexture(GL_TEXTURE1);
@@ -210,8 +218,6 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 //    m_FBO->getColorAttachment(3).bind();
 //    glActiveTexture(GL_TEXTURE4);
 //    m_FBO->getColorAttachment(4).bind();
-//    glActiveTexture(GL_TEXTURE5);
-//    m_FBO->getColorAttachment(5).bind();
 
 //    // Bind light shader.
 //    m_phongShader->bind();
@@ -222,19 +228,6 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 //    m_phongShader->setTexture("gDiffuse", m_FBO->getColorAttachment(2));
 //    m_phongShader->setTexture("gAmbient", m_FBO->getColorAttachment(3));
 //    m_phongShader->setTexture("gSpecular", m_FBO->getColorAttachment(4));
-
-//    GLint uniformLoc = glGetUniformLocation(m_FBO->getID(), "gPosition");
-//    glUniform1i(uniformLoc, GL_TEXTURE0);
-//    uniformLoc = glGetUniformLocation(m_FBO->getID(), "gNormal");
-//    glUniform1i(uniformLoc, GL_TEXTURE1);
-//    uniformLoc = glGetUniformLocation(m_FBO->getID(), "gDiffuse");
-//    glUniform1i(uniformLoc, GL_TEXTURE2);
-//    uniformLoc = glGetUniformLocation(m_FBO->getID(), "gAmbient");
-//    glUniform1i(uniformLoc, GL_TEXTURE3);
-//    uniformLoc = glGetUniformLocation(m_FBO->getID(), "gSpecular");
-//    glUniform1i(uniformLoc, GL_TEXTURE4);
-//    uniformLoc = glGetUniformLocation(m_FBO->getID(), "gCameraPos");
-//    glUniform1i(uniformLoc, GL_TEXTURE1);
 
 //    // Send lighting uniforms to fragment shader.
 //    setLights();

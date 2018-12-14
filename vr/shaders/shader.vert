@@ -36,7 +36,7 @@ void main() {
     texc = texCoord * repeatUV;
 
     vec4 position_cameraSpace = v * m * vec4(position, 1.0);
-    position_cameraSpace_out = position_cameraSpace;
+//    position_cameraSpace_out = position_cameraSpace;
     vec4 normal_cameraSpace = vec4(normalize(mat3(transpose(inverse(v * m))) * normal), 0);
 
     vec4 position_worldSpace = m * vec4(position, 1.0);
