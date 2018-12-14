@@ -130,11 +130,11 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 ////    m_blurFBO2->bind();
 //    m_horizontalBlur->bind();
 
-//    // Clear both bits because that's what we do.
+    // Clear both bits because that's what we do.
 //    glClear(GL_COLOR_BUFFER_BIT);
 //    glClear(GL_DEPTH_BUFFER_BIT);
 
-//    // Render from FBO1, blurring, to FBO2.
+    // Render from FBO1, blurring, to FBO2.
 
 //        glActiveTexture(GL_TEXTURE0);
 //        m_blurFBO1->getColorAttachment(0).bind();
