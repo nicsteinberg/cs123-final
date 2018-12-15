@@ -6,6 +6,9 @@ Welcome to our grandma's house! This is her living room. It's in virtual reality
 
 Our two primary features are deferred shading and depth of field. Secondarily, we also implemented texture mapping and put a whole bunch of detail into a (now very long) scenefile.
 
+USAGE
+With SteamVR already running, run release/final.exe. File > Open > "scenes/house.xml" will open the living room's scene file.
+
 DEFERRED SHADING
 Our first two passes are for deferred shading. The first is the geometry pass, which renders all of our shapes. As we render each shape, GL's depth test allows us to overwrite pixels if they are behind a newly rendered shape, so only the topmost object is counted in the later lighting calculation. In the FBO's color attachments, the shader stores all the information necessary for later lighting calculations (among other things, diffuse and ambient color at each pixel). 
 
