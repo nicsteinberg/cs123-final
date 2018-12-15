@@ -63,10 +63,10 @@ void SceneviewScene::loadGeometryShader() {
 
 // Also loads blur shaders
 void SceneviewScene::loadPhongShader() {
-    std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.vert");
-    std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.frag");
-    //    std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
-    //    std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/lightshader.frag");
+    //std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.vert");
+    //std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shader.frag");
+        std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
+        std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/lightshader.frag");
     m_phongShader = std::make_unique<CS123Shader>(vertexSource, fragmentSource);
 
     vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/shaders/quad.vert");
@@ -93,177 +93,136 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 
 }
 
-void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::shared_ptr<CS123::GL::FBO> eye_fbo) {
-
-    // Don't render to eye right away.
-    eye_fbo->unbind();
-
-    // FIRST PASS
-    // Render into blurFBO1 from phong model.
-    m_blurFBO1->bind();
-    m_phongShader->bind();
-
-    // Clear both bits because that's what we do.
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClear(GL_DEPTH_BUFFER_BIT);
-
-    // Set scene info.
-    setSceneUniforms(projectionMatrix, viewMatrix);
-    setLights();
-    glBindTexture(GL_TEXTURE_2D, m_id);
-
-    // Time for some shapes!
-    renderGeometry();
-
-    // What does this do.
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    // End first pass.
-    m_phongShader->unbind();
-    m_blurFBO1->unbind();
-
-    // SECOND PASS
-    // Render to FBO2 while blurring horizontally.
-
-//    eye_fbo->bind();
-
-    m_blurFBO2->bind();
-    m_horizontalBlur->bind();
-
-    // Clear both bits because that's what we do.
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClear(GL_DEPTH_BUFFER_BIT);
-
-    // Render from FBO1, blurring, to FBO2.
-
-//        glActiveTexture(GL_TEXTURE0);
-//        m_blurFBO1->getColorAttachment(0).bind();
-//        glActiveTexture(GL_TEXTURE1);
-//        m_blurFBO1->getColorAttachment(1).bind();
-
-    //    glActiveTexture(GL_TEXTURE0);
-    //    m_blurFBO1->getColorAttachment(0).bind();
-    //    GLint uniformLoc = glGetUniformLocation(m_horizontalBlur->getID(), "tex");
-    //    glUniform1i(uniformLoc, 0);
-    //    m_blurFBO1->getColorAttachment(0).unbind();
-
-    //    glActiveTexture(GL_TEXTURE1);
-    //    m_blurFBO1->getColorAttachment(1).bind();
-    //    uniformLoc = glGetUniformLocation(m_horizontalBlur->getID(), "camera_pos_tex");
-    //    glUniform1i(uniformLoc, 1);
-    //    m_blurFBO1->getColorAttachment(1).unbind();
-
-     m_horizontalBlur->setTexture("tex", m_blurFBO1->getColorAttachment(0));
-     m_horizontalBlur->setTexture("camera_pos_tex", m_blurFBO1->getColorAttachment(1));
-
-
-    m_fullquad->draw();
-
-    // End second pass.
-    m_horizontalBlur->unbind();
-    m_blurFBO1->getColorAttachment(0).unbind();
-    m_blurFBO1->getColorAttachment(1).unbind();
-    m_blurFBO2->unbind();
-
-    // THIRD PASS
-    // Render to each eye using the quad shader.
-    eye_fbo->bind();
-
-    // Bind the vertical blur.
-    m_verticalBlur->bind();
-
-    // Clear both bits because that's what we do.
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClear(GL_DEPTH_BUFFER_BIT);
-
-    m_verticalBlur->setTexture("tex", m_blurFBO2->getColorAttachment(0));
-    m_verticalBlur->setTexture("camera_pos_tex", m_blurFBO2->getColorAttachment(1));
-
-    // Render from FBO2, blurring, to the fullscreen quad.
-//    m_blurFBO2->getColorAttachment(0).bind();
-    m_fullquad->draw();
-
-    // End third pass.
-    m_verticalBlur->unbind();
-    m_blurFBO2->getColorAttachment(0).unbind();
-    m_blurFBO2->getColorAttachment(1).unbind();
-
-}
-
-// nicole's deferred shading stuff
 //void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::shared_ptr<CS123::GL::FBO> eye_fbo) {
 
-//    // Unbind eye for now.
+//    // Don't render to eye right away.
 //    eye_fbo->unbind();
 
-//    // Bind FBO.
-//    m_FBO->bind();
-
-//    // Use geometry shader.
-//    m_geoShader->bind();
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-//    // Set uniforms passed into vert.
-//    setSceneUniforms(projectionMatrix, viewMatrix);
-
-//    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
-//    renderGeometry();
-
-//    // Unbinds texture.
-//    glBindTexture(GL_TEXTURE_2D, 0);
-
-//    // Unbind geometry shader and first FBO.
-//    m_geoShader->unbind();
-//    m_FBO->unbind();
-
-//    // Now render to screen.
-//    eye_fbo->bind();
-
-//    // Bind textures to slots - not gonna be necessary, I think.
-//    glActiveTexture(GL_TEXTURE0);
-//    m_FBO->getColorAttachment(0).bind();
-//    glActiveTexture(GL_TEXTURE1);
-//    m_FBO->getColorAttachment(1).bind();
-//    glActiveTexture(GL_TEXTURE2);
-//    m_FBO->getColorAttachment(2).bind();
-//    glActiveTexture(GL_TEXTURE3);
-//    m_FBO->getColorAttachment(3).bind();
-//    glActiveTexture(GL_TEXTURE4);
-//    m_FBO->getColorAttachment(4).bind();
-//    glActiveTexture(GL_TEXTURE5);
-//    m_FBO->getColorAttachment(5).bind();
-
-//    // Bind light shader.
+//    // FIRST PASS
+//    // Render into blurFBO1 from phong model.
+//    m_blurFBO1->bind();
 //    m_phongShader->bind();
 
-////    // Send textures to shader.
-////    m_phongShader->setTexture("gPosition", m_FBO->getColorAttachment(0));
-////    m_phongShader->setTexture("gNormal", m_FBO->getColorAttachment(1));
-////    m_phongShader->setTexture("gDiffuse", m_FBO->getColorAttachment(2));
-////    m_phongShader->setTexture("gAmbient", m_FBO->getColorAttachment(3));
-////    m_phongShader->setTexture("gSpecular", m_FBO->getColorAttachment(4));
+//    // Clear both bits because that's what we do.
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
 
-//    GLint uniformLoc = glGetUniformLocation(m_FBO->getID(), "gPosition");
-//    glUniform1i(uniformLoc, GL_TEXTURE0);
-//    GLint uniformLoc = glGetUniformLocation(m_FBO->getID(), "gNormal");
-//    glUniform1i(uniformLoc, GL_TEXTURE1);
-//    GLint uniformLoc = glGetUniformLocation(m_FBO->getID(), "gDiffuse");
-//    glUniform1i(uniformLoc, GL_TEXTURE2);
-//    GLint uniformLoc = glGetUniformLocation(m_FBO->getID(), "gAmbient");
-//    glUniform1i(uniformLoc, GL_TEXTURE0);
-//    GLint uniformLoc = glGetUniformLocation(m_FBO->getID(), "gSpecular");
-//    glUniform1i(uniformLoc, GL_TEXTURE0);
-//    GLint uniformLoc = glGetUniformLocation(m_FBO->getID(), "gCameraPos");
-//    glUniform1i(uniformLoc, GL_TEXTURE0);
-
-//    // Send lighting uniforms to fragment shader.
+//    // Set scene info.
+//    setSceneUniforms(projectionMatrix, viewMatrix);
 //    setLights();
+//    glBindTexture(GL_TEXTURE_2D, m_id);
 
-//    // Draw full screen quad.
+//    // Time for some shapes!
+//    renderGeometry();
+
+//    // What does this do.
+//    glBindTexture(GL_TEXTURE_2D, 0);
+
+//    // End first pass.
+//    m_phongShader->unbind();
+//    m_blurFBO1->unbind();
+
+//    // SECOND PASS
+//    // Render to FBO2 while blurring horizontally.
+
+//    m_blurFBO2->bind();
+//    m_horizontalBlur->bind();
+
+//    // Clear both bits because that's what we do.
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
+
+//    // Render from FBO1, blurring, to FBO2.
+//    m_horizontalBlur->setTexture("tex", m_blurFBO1->getColorAttachment(0));
+//    m_horizontalBlur->setTexture("camera_pos_tex", m_blurFBO1->getColorAttachment(1));
+
+
 //    m_fullquad->draw();
 
-//    m_phongShader->unbind();
+//    // End second pass.
+//    m_horizontalBlur->unbind();
+//    m_blurFBO1->getColorAttachment(0).unbind();
+//    m_blurFBO1->getColorAttachment(1).unbind();
+//    m_blurFBO2->unbind();
+
+//    // THIRD PASS
+//    // Render to each eye using the quad shader.
+//    eye_fbo->bind();
+
+//    // Bind the vertical blur.
+//    m_verticalBlur->bind();
+
+//    // Clear both bits because that's what we do.
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
+
+//    m_verticalBlur->setTexture("tex", m_blurFBO2->getColorAttachment(0));
+//    m_verticalBlur->setTexture("camera_pos_tex", m_blurFBO2->getColorAttachment(1));
+
+//    // Render from FBO2, blurring, to the fullscreen quad.
+//    m_fullquad->draw();
+
+//    // End third pass.
+//    m_verticalBlur->unbind();
+//    m_blurFBO2->getColorAttachment(0).unbind();
+//    m_blurFBO2->getColorAttachment(1).unbind();
+
 //}
+
+// nicole's deferred shading stuff
+void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix, std::shared_ptr<CS123::GL::FBO> eye_fbo) {
+
+    // Unbind eye for now.
+    eye_fbo->unbind();
+
+    // Bind FBO.
+    m_FBO->bind();
+
+    // Use geometry shader.
+    m_geoShader->bind();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Set uniforms passed into vert.
+    setSceneUniforms(projectionMatrix, viewMatrix);
+
+    // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
+    renderGeometry();
+
+    // Unbinds texture.
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    // Unbind geometry shader and first FBO.
+    m_geoShader->unbind();
+    m_FBO->unbind();
+
+    // Now render to screen.
+    eye_fbo->bind();
+
+    // Bind light shader.
+    m_phongShader->bind();
+
+    // Send textures to shader.
+    m_phongShader->setTexture("gPosition", m_FBO->getColorAttachment(0));
+    m_phongShader->setTexture("gNormal", m_FBO->getColorAttachment(1));
+    m_phongShader->setTexture("gDiffuse", m_FBO->getColorAttachment(2));
+    m_phongShader->setTexture("gAmbient", m_FBO->getColorAttachment(3));
+    m_phongShader->setTexture("gSpecular", m_FBO->getColorAttachment(4));
+    m_phongShader->setTexture("gCameraPos", m_FBO->getColorAttachment(5));
+
+    // Send lighting uniforms to fragment shader.
+    setLights();
+
+    // Draw full screen quad.
+    m_fullquad->draw();
+
+    m_phongShader->unbind();
+    m_FBO->getColorAttachment(0).unbind();
+    m_FBO->getColorAttachment(1).unbind();
+    m_FBO->getColorAttachment(2).unbind();
+    m_FBO->getColorAttachment(3).unbind();
+    m_FBO->getColorAttachment(4).unbind();
+    m_FBO->getColorAttachment(5).unbind();
+}
 
 //void SceneviewScene::render(
 //        glm::mat4x4 projectionMatrix,
@@ -277,13 +236,13 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 
 
 void SceneviewScene::setSceneUniforms(glm::mat4x4 &projectionMatrix, glm::mat4x4 &viewMatrix) {
-    m_phongShader->setUniform("useLighting", true);
-    m_phongShader->setUniform("useArrowOffsets", false);
-    m_phongShader->setUniform("p", projectionMatrix);
-    m_phongShader->setUniform("v", viewMatrix);
+//    m_phongShader->setUniform("useLighting", true);
+//    m_phongShader->setUniform("useArrowOffsets", false);
+//    m_phongShader->setUniform("p", projectionMatrix);
+//    m_phongShader->setUniform("v", viewMatrix);
 
-//    m_geoShader->setUniform("p", projectionMatrix);
-//    m_geoShader->setUniform("v", viewMatrix);
+    m_geoShader->setUniform("p", projectionMatrix);
+    m_geoShader->setUniform("v", viewMatrix);
 }
 
 void SceneviewScene::setLights()
@@ -302,21 +261,21 @@ void SceneviewScene::renderGeometry() {
         PrimTransf prim = m_primitives[i];
 
         // Apply matrix transformations and material.
-        m_phongShader->setUniform("m", prim.compositeTransformation);
-        m_phongShader->applyMaterial(prim.material);
+//        m_phongShader->setUniform("m", prim.compositeTransformation);
+//        m_phongShader->applyMaterial(prim.material);
 
-//        m_geoShader->setUniform("m", prim.compositeTransformation);
-//        m_geoShader->applyMaterial(prim.material);
+        m_geoShader->setUniform("m", prim.compositeTransformation);
+        m_geoShader->applyMaterial(prim.material);
 
         if (prim.material.textureMap.isUsed) {
-//            m_geoShader->setUniform("useTexture", 1);
-//            m_geoShader->setUniform("repeatUV", glm::vec2(prim.material.textureMap.repeatU, prim.material.textureMap.repeatV));
-            m_phongShader->setUniform("useTexture", 1);
-            m_phongShader->setUniform("repeatUV", glm::vec2(prim.material.textureMap.repeatU, prim.material.textureMap.repeatV));
+            m_geoShader->setUniform("useTexture", 1);
+            m_geoShader->setUniform("repeatUV", glm::vec2(prim.material.textureMap.repeatU, prim.material.textureMap.repeatV));
+//            m_phongShader->setUniform("useTexture", 1);
+//            m_phongShader->setUniform("repeatUV", glm::vec2(prim.material.textureMap.repeatU, prim.material.textureMap.repeatV));
             glBindTexture(GL_TEXTURE_2D, prim.material.textureMap.id);
         } else {
-//            m_geoShader->setUniform("useTexture", 0);
-            m_phongShader->setUniform("useTexture", 0);
+            m_geoShader->setUniform("useTexture", 0);
+//            m_phongShader->setUniform("useTexture", 0);
         }
 
         switch (prim.type) {
