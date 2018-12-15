@@ -14,7 +14,7 @@ void main(){
     vec2 texelSize = 1.0 / textureSize(tex, 0).xy;
 
     // float focus = 5;
-    // float position = texture(camera_pos_tex, uv);
+//    float position = texture(camera_pos_tex, uv);
     // float distance = sqrt(position.x * position.x + position.y * position.y + position.z * position.z);
     // float depth = max(0, min(25, distance));
     // int x = depth;
@@ -37,4 +37,6 @@ void main(){
         weights += weight;
     }
     fragColor /= weights;
+
+//    fragColor = vec4(texture(camera_pos_tex, uv));
 }

@@ -125,7 +125,7 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
     // SECOND PASS
     // Render to FBO2 while blurring horizontally.
 
-    eye_fbo->bind();
+//    eye_fbo->bind();
 
     m_blurFBO2->bind();
     m_horizontalBlur->bind();
@@ -180,11 +180,14 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
     m_verticalBlur->setTexture("camera_pos_tex", m_blurFBO2->getColorAttachment(1));
 
     // Render from FBO2, blurring, to the fullscreen quad.
-    m_blurFBO2->getColorAttachment(0).bind();
+//    m_blurFBO2->getColorAttachment(0).bind();
     m_fullquad->draw();
 
     // End third pass.
     m_verticalBlur->unbind();
+    m_blurFBO2->getColorAttachment(0).unbind();
+    m_blurFBO2->getColorAttachment(1).unbind();
+
 }
 
 // nicole's deferred shading stuff
