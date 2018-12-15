@@ -14,37 +14,13 @@
 
   <lightdata>
     <id v="0"/>
-    <position x="0" y="8" z="0"/>
-    <color r="0.6" g="0.6" b="0.45"/>
-  </lightdata>
-
-  <lightdata>
-    <id v="1"/>
-    <position x="0" y="3" z="3"/>
-    <color r="0.8" g="0.6" b="0.45"/>
-  </lightdata>
-
-  <lightdata>
-    <id v="2"/>
     <position x="0" y="7" z="2"/>
     <color r="0.8" g="0.8" b="0.8"/>
   </lightdata>
 
   <lightdata>
-    <id v="3"/>
+    <id v="1"/>
     <position x="0" y="7" z="-2"/>
-    <color r="0.8" g="0.8" b="0.8"/>
-  </lightdata>
-
-  <lightdata>
-    <id v="4"/>
-    <position x="2" y="7" z="0"/>
-    <color r="0.8" g="0.8" b="0.8"/>
-  </lightdata>
-
-  <lightdata>
-    <id v="5"/>
-    <position x="-2" y="7" z="0"/>
     <color r="0.8" g="0.8" b="0.8"/>
   </lightdata>
 
