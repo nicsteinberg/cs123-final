@@ -40,11 +40,11 @@ void main(){
     } else if (distance < 7.5) {
         supportWidth = 1;
     } else if (distance < 7.545) {
-        supportWidth = 12;
+        supportWidth = 8;
     } else if (distance < 7.6) {
-        supportWidth = 25;
+        supportWidth = 12;
     } else if (distance < 7.7) {
-        supportWidth = 30;
+        supportWidth = 16;
     } else {
         supportWidth = 30;
     }
