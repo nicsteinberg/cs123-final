@@ -7,7 +7,7 @@ layout(location = 10) in float arrowOffset; // Sideways offset for billboarded n
 
 out vec3 color; // Computed color for this vertex
 out vec2 texc;
-//out vec4 position_cameraSpace_out;
+out vec4 position_cameraSpace_out;
 
 // Transformation matrices
 uniform mat4 p;
@@ -36,7 +36,7 @@ void main() {
     texc = texCoord * repeatUV;
 
     vec4 position_cameraSpace = v * m * vec4(position, 1.0);
-//    position_cameraSpace_out = position_cameraSpace;
+    position_cameraSpace_out = position_cameraSpace;
     vec4 normal_cameraSpace = vec4(normalize(mat3(transpose(inverse(v * m))) * normal), 0);
 
     vec4 position_worldSpace = m * vec4(position, 1.0);
@@ -63,25 +63,25 @@ void main() {
                 vertexToLight = normalize(v * vec4(-lightDirections[i], 0));
             }
 
-            float nm = clamp(dot(normal_worldSpace, vertexToLight), 0.f, 1.f);
-            vec4 r = normalize(2.f * normal_worldSpace * nm - vertexToLight);
+//            float nm = clamp(dot(normal_worldSpace, vertexToLight), 0.f, 1.f);
+//            vec4 r = normalize(2.f * normal_worldSpace * nm - vertexToLight);
 
-            vec4 eyeDirection = normalize(vec4(0,0,0,1) - position_cameraSpace);
-            float rv = pow(clamp(dot(r, eyeDirection), 0.f, 1.f), shininess);
+//            vec4 eyeDirection = normalize(vec4(0,0,0,1) - position_cameraSpace);
+//            float rv = pow(clamp(dot(r, -eyeDirection), 0.f, 1.f), shininess);
 
-            vec3 diffuse = diffuse_color * nm + specular_color * rv;
+//            vec3 diffuse = diffuse_color * nm + specular_color * rv;
 
-            color += lightColors[i] * diffuse;
+//            color += lightColors[i] * diffuse;
 
             // Add diffuse component
-//            float diffuseIntensity = max(0.0, dot(vertexToLight, normal_cameraSpace));
-//            color += max(vec3(0), lightColors[i] * diffuse_color * diffuseIntensity);
+            float diffuseIntensity = max(0.0, dot(vertexToLight, normal_cameraSpace));
+            color += max(vec3(0), lightColors[i] * diffuse_color * diffuseIntensity);
 
-//            // Add specular component
-//            vec4 lightReflection = normalize(-reflect(vertexToLight, normal_cameraSpace));
-//            vec4 eyeDirection = normalize(vec4(0,0,0,1) - position_cameraSpace);
-//            float specIntensity = pow(max(0.0, dot(eyeDirection, lightReflection)), shininess);
-//            color += max (vec3(0), lightColors[i] * specular_color * specIntensity);
+            // Add specular component
+            vec4 lightReflection = normalize(-reflect(vertexToLight, normal_cameraSpace));
+            vec4 eyeDirection = normalize(vec4(0,0,0,1) - position_cameraSpace);
+            float specIntensity = pow(max(0.0, dot(eyeDirection, lightReflection)), shininess);
+            color += max (vec3(0), lightColors[i] * specular_color * specIntensity);
         }
     } else {
         color = ambient_color + diffuse_color;
