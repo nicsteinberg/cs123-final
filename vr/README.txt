@@ -2,7 +2,7 @@ msteinb1, nsteinb1
 
 Grandma's House
 
-Welcome to our grandma's house! This is her living room. It's a rendition of the living room we remember from the house she owned in our childhood--29 Gault Park Drive in Westport, CT, for those of you who were wondering. It doesn't contain everything, but it has the furniture (and weirdo walls) that we remember best.
+Welcome to our grandma's house! This is her living room. It's in virtual reality! This is a rendition of the room we remember from the house she owned in our childhood--29 Gault Park Drive in Westport, CT, for those of you who were wondering. It doesn't contain everything, but it has the furniture (and, uh, walls) that we remember best.
 
 Our two primary features are deferred shading and depth of field. Secondarily, we also implemented texture mapping and put a whole bunch of detail into a (now very long) scenefile.
 
