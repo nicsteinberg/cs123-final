@@ -68,7 +68,7 @@
       <translate x="0" y="0" z="0"/>
       <object type="primitive" name="cube">
         <diffuse r="0.9" g="0.8" b="0.6"/>
-        <texture file=":/scenes/popcorn.jpg" u="6" v="6"/>
+        <texture file=":/scenes/wallpaper.jpg" u="3" v="1"/>
         <blend v="0.5"/>
       </object>
     </transblock>
