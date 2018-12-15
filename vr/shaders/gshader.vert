@@ -25,7 +25,7 @@ uniform float shininess;
 uniform vec2 repeatUV = vec2(1.f);
 
 //uniform vec3 reflective;
-//uniform vec3 attenuation;
+//uniform vec3 attenuation
 
 void main() {
     texc = texCoord * repeatUV;
@@ -33,18 +33,20 @@ void main() {
     vec4 position_cameraSpace = v * m * vec4(position, 1.0);
     position_cameraSpace_out = position_cameraSpace;
 
+    vec4 normal_cameraSpace = vec4(normalize(mat3(transpose(inverse(v * m))) * normal), 0);
+
     world_position = m * vec4(position, 1.0);
     world_normal = vec4(normalize(mat3(transpose(inverse(m))) * normal), 0);
 
+    world_normal = normal_cameraSpace;
+
     gl_Position = p * position_cameraSpace;
 
-    ambient = vec4(ambient_color, 0.f);
+    ambient = vec4(clamp(ambient_color, 0.0, 1.0), 0.f);
     ambient.a = shininess;
-    ambient = clamp(ambient, 0.0, 1.0);
 
     diffuse = vec4(diffuse_color, 0.f);
-    diffuse = clamp(diffuse, 0.0, 1.0);
+    diffuse = clamp(diffuse, 0.f, 1.f);
 
-    specular = vec4(specular_color, 0.f);
-    specular = clamp(specular, 0.0, 1.0);
+    specular = vec4(clamp(specular_color, 0.0, 1.0), 0.f);
 }

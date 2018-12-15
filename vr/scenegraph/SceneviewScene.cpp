@@ -184,6 +184,7 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 
     // Set uniforms passed into vert.
     setSceneUniforms(projectionMatrix, viewMatrix);
+    glBindTexture(GL_TEXTURE_2D, m_id);
 
     // Set "m" uniform and ambient, diffuse, specular, etc uniforms.
     renderGeometry();
@@ -200,6 +201,11 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 
     // Bind light shader.
     m_phongShader->bind();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Send lighting uniforms to fragment shader.
+    setLights();
+    m_phongShader->setUniform("v", viewMatrix);
 
     // Send textures to shader.
     m_phongShader->setTexture("gPosition", m_FBO->getColorAttachment(0));
@@ -208,9 +214,6 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
     m_phongShader->setTexture("gAmbient", m_FBO->getColorAttachment(3));
     m_phongShader->setTexture("gSpecular", m_FBO->getColorAttachment(4));
     m_phongShader->setTexture("gCameraPos", m_FBO->getColorAttachment(5));
-
-    // Send lighting uniforms to fragment shader.
-    setLights();
 
     // Draw full screen quad.
     m_fullquad->draw();

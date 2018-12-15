@@ -1,6 +1,6 @@
 #version 400 core
 
-in vec2 texc;
+in vec2 uv;
 
 out vec4 fragColor;
 
@@ -17,48 +17,59 @@ uniform int lightTypes[MAX_LIGHTS];         // 0 for point, 1 for directional
 uniform vec3 lightPositions[MAX_LIGHTS];    // For point lights
 uniform vec3 lightDirections[MAX_LIGHTS];   // For directional lights
 uniform vec3 lightColors[MAX_LIGHTS];
-uniform vec3 v;
+uniform mat4 v;
 
 void main(){    
-    vec4 fragPosition = texture(gPosition, texc);
-    vec4 fragNormal = texture(gNormal, texc);
+    vec4 fragPosition = texture(gPosition, uv);
+    vec4 fragNormal = texture(gNormal, uv);
 
-    vec3 fragAmbient = texture(gAmbient, texc).rgb;
-    float shininess = texture(gAmbient, texc).a;
+    vec3 fragAmbient = texture(gAmbient, uv).rgb;
+    float shininess = texture(gAmbient, uv).a;
 
-    vec4 diffuse_color = texture(gDiffuse, texc);
-    vec4 spec = texture(gSpecular, texc);
+    vec4 diffuse_color = texture(gDiffuse, uv);
+    vec4 spec = texture(gSpecular, uv);
 
-    vec4 camera_pos = texture(gCameraPos, texc);
+    vec4 camera_pos = texture(gCameraPos, uv);
 
-    vec4 v4 = vec4(v, 1.f);
-
-    // What range are we in?
     vec4 color = vec4(fragAmbient, 1.0f);
 
+    fragColor = color;
+
     for (int i = 0; i < MAX_LIGHTS; i++) {
+        //fragColor = vec4(1.f);
         vec4 vertexToLight = vec4(0);
         // Point Light
         if (lightTypes[i] == 0) {
-            vertexToLight = normalize(v4 * vec4(lightPositions[i], 1) - fragPosition);
+            vertexToLight = normalize(v * vec4(lightPositions[i], 1) - camera_pos);
         } else if (lightTypes[i] == 1) {
             // Dir Light
-            vertexToLight = normalize(v4 * vec4(-lightDirections[i], 0));
+            vertexToLight = normalize(v * vec4(-lightDirections[i], 0));
         }
 
-        float nm = clamp(dot(fragNormal, vertexToLight), 0.f, 1.f);
-        vec4 r = normalize(2.f * fragNormal * nm - vertexToLight);
+//        float nm = clamp(dot(fragNormal, vertexToLight), 0.f, 1.f);
+//        vec4 r = normalize(2.f * fragNormal * nm - vertexToLight);
 
-        // v should be -d, or view vector.
+//        // v should be -d, or view vector.
+//        vec4 eyeDirection = normalize(vec4(0,0,0,1) - camera_pos);
+//        float rv = pow(clamp(dot(r, -eyeDirection), 0.f, 1.f), shininess);
+
+//        //color = vec4(rv);
+
+//        // Add diffuse component.
+//        vec4 diffuse = diffuse_color * nm;// + spec * rv;
+//        diffuse = spec * rv;
+
+//        color += vec4(lightColors[i], 1) * diffuse;
+
+        float diffuseIntensity = max(0.0, dot(vertexToLight, fragNormal));
+        color += max(vec4(0), vec4(lightColors[i], 0) * diffuse_color * diffuseIntensity);
+
+        vec4 lightReflection = normalize(-reflect(vertexToLight, fragNormal));
         vec4 eyeDirection = normalize(vec4(0,0,0,1) - camera_pos);
-        float rv = pow(clamp(dot(r, -eyeDirection), 0.f, 1.f), shininess);
+        float specIntensity = pow(max(0.0, dot(eyeDirection, lightReflection)), shininess);
+        color += max (vec4(0), vec4(lightColors[i], 0) * spec * specIntensity);
 
-        // Add diffuse component.
-        diffuse_color = diffuse_color * nm + spec * rv;
-
-        color += vec4(lightColors[i], 1) * diffuse_color;
-
-        // attenuation, shadows, reflection
+//        // attenuation, shadows, reflection
     }
 
     color = clamp(color, 0.f, 1.f);
