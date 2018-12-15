@@ -19,6 +19,7 @@ const int MAX_LIGHTS = 10;
 uniform int lightTypes[MAX_LIGHTS];         // 0 for point, 1 for directional
 uniform vec3 lightPositions[MAX_LIGHTS];    // For point lights
 uniform vec3 lightDirections[MAX_LIGHTS];   // For directional lights
+uniform vec3 lightAttenuations[MAX_LIGHTS];
 uniform vec3 lightColors[MAX_LIGHTS];
 uniform mat4 v;
 
@@ -61,15 +62,17 @@ void main(){
 
 //        color += vec4(lightColors[i], 1) * diffuse;
 
+        // ATTENUATION
+        float dist = sqrt(vertexToLight.x * vertexToLight.x + vertexToLight.y * vertexToLight.y + vertexToLight.z * vertexToLight.z);
+        float att = min(1 / (lightAttenuations[i].x + lightAttenuations[i].y * dist + lightAttenuations[i].z * dist * dist), 1.f);
+
         float diffuseIntensity = max(0.0, dot(vertexToLight, fragNormal));
-        color += max(vec4(0), vec4(lightColors[i], 0) * diffuse_color * diffuseIntensity);
+        color += max(vec4(0), vec4(lightColors[i], 0) * diffuse_color * diffuseIntensity * att);
 
         vec4 lightReflection = normalize(-reflect(vertexToLight, fragNormal));
         vec4 eyeDirection = normalize(vec4(0,0,0,1) - camera_pos + 5.f);
         float specIntensity = pow(max(0.0, dot(eyeDirection, lightReflection)), shininess);
-        color += max (vec4(0), vec4(lightColors[i], 0) * spec * specIntensity);
-
-//        // attenuation, shadows, reflection
+        color += max(vec4(0), vec4(lightColors[i], 0) * spec * specIntensity * att);
     }
 
     color = clamp(color, 0.f, 1.f);

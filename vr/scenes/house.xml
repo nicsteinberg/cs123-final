@@ -16,12 +16,14 @@
     <id v="0"/>
     <position x="0" y="7" z="2"/>
     <color r="0.8" g="0.8" b="0.8"/>
+    <function v3="0.2" v2="1" v1="0.1"/>
   </lightdata>
 
   <lightdata>
     <id v="1"/>
     <position x="0" y="7" z="-2"/>
     <color r="0.8" g="0.8" b="0.8"/>
+    <function v3="0.2" v2="1" v1="0.1"/>
   </lightdata>
 
   <object type="tree" name="wood_cylinder">
