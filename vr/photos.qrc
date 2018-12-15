@@ -3,5 +3,8 @@
         <file>scenes/image1.jpeg</file>
         <file>scenes/image2.jpeg</file>
         <file>scenes/wallpaper.jpg</file>
+        <file>scenes/art1.JPG</file>
+        <file>scenes/art2.JPG</file>
+        <file>scenes/rug.jpg</file>
     </qresource>
 </RCC>

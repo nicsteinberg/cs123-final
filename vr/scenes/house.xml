@@ -66,9 +66,22 @@
   <object type="tree" name="wall_cube">
     <transblock>
       <translate x="0" y="0" z="0"/>
+      <rotate x="0" y="0" z="1" angle="90"/>
       <object type="primitive" name="cube">
         <diffuse r="0.9" g="0.8" b="0.6"/>
         <texture file=":/scenes/wallpaper.jpg" u="3" v="1"/>
+        <blend v="0.5"/>
+      </object>
+    </transblock>
+  </object>
+
+  <object type="tree" name="wall_cube2">
+    <transblock>
+      <translate x="0" y="0" z="0"/>
+      <rotate x="0" y="0" z="1" angle="90"/>
+      <object type="primitive" name="cube">
+        <diffuse r="0.9" g="0.8" b="0.6"/>
+        <texture file=":/scenes/wallpaper.jpg" u="9" v="1"/>
         <blend v="0.5"/>
       </object>
     </transblock>
@@ -690,6 +703,66 @@
           <rotate x="1" y="0" z="0" angle="-45"/>
           <scale x="0.4" y="0.05" z="2"/>
           <object type="master" name="black_cube"/>
+        </transblock>
+
+      </object>
+
+    </transblock>
+
+  </object>
+
+  <object type="tree" name="image3">
+    <transblock>
+      <translate x="0" y="0" z="0"/>
+      <rotate x="0" y="0" z="1" angle="-90"/>
+      <object type="primitive" name="cube">
+        <diffuse r="1" g="1" b="1"/>
+        <texture file=":/scenes/art1.JPG" u="1" v="1"/>
+        <blend v="1.0"/>
+      </object>
+    </transblock>
+  </object>
+
+  <object type="tree" name="art1">
+
+    <transblock>
+
+      <object type="tree" name="in_art1">
+
+        <transblock>
+          <translate x="-1.8" y="1.5" z="0"/>
+          <scale x="0.4" y="2.6" z="0.4"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="1.8" y="1.5" z="0"/>
+          <scale x="0.4" y="2.6" z="0.4"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="0" z="0"/>
+          <scale x="4" y="0.4" z="0.4"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="3" z="0"/>
+          <scale x="4" y="0.4" z="0.4"/>
+          <object type="master" name="black_cube"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="1.5" z="-0.2"/>
+          <scale x="3.6" y="2.6" z="0.01"/>
+          <object type="master" name="image3"/>
+        </transblock>
+
+        <transblock>
+          <translate x="0" y="1.5" z="0.2"/>
+          <scale x="3.2" y="2.6" z="0.01"/>
+          <object type="master" name="image3"/>
         </transblock>
 
       </object>
@@ -3920,13 +3993,32 @@
     </transblock>
   </object>
 
+  <object type="tree" name="rug">
+    <transblock>
+      <translate x="0" y="0.2" z="-1.5"/>
+      <scale x="4" y="0.05" z="5"/>
+      <object type="primitive" name="cube">
+        <diffuse r="0.6" g="0.8" b="1"/>
+        <texture file=":/scenes/rug.jpg" u="1" v="1"/>
+        <blend v="1.0"/>
+      </object>
+    </transblock>
+  </object>
+
   <object type="tree" name="root">
     <transblock>
       <translate x="0" y="-1" z="-1"/>
 
+      <object type="tree" name="theRug">
+        <transblock>
+          <translate x="0" y="0" z="0"/>
+          <object type="master" name="rug"/>
+        </transblock>
+      </object>
+
       <object type="tree" name="theChess">
         <transblock>
-          <translate x="0.3" y="1.15" z="-2.2"/>
+          <translate x="0.3" y="1.15" z="4.5"/>
           <scale x="0.05" y="0.05" z="0.05"/>
           <object type="master" name="chess"/>
         </transblock>
@@ -4072,12 +4164,47 @@
         </transblock>
       </object>
 
+      <!-- <object type="tree" name="theArt1"> -->
+        <!-- <transblock> -->
+          <!-- <rotate x="0" y="1" z="0" angle="180"/> -->
+          <!-- <translate x="0" y="5" z="-7.27"/> -->
+          <!-- <scale x="0.5" y="0.5" z="1"/> -->
+          <!-- <object type="master" name="art1"/> -->
+        <!-- </transblock> -->
+      <!-- </object> -->
+
       <object type="tree" name="theTable">
         <transblock>
           <translate x="0" y="0" z="-2.5"/>
           <object type="master" name="table"/>
         </transblock>
       </object>
+
+      <object type="tree" name="theOtherTable">
+        <transblock>
+          <translate x="0" y="0" z="4.5"/>
+          <object type="master" name="table"/>
+        </transblock>
+      </object>
+
+      <object type="tree" name="theChair5">
+        <transblock>
+          <translate x="2.5" y="-.3" z="4.5"/>
+          <rotate x="0" y="1" z="0" angle="-90"/>
+          <scale x="0.5" y="0.5" z="0.375"/>
+          <object type="master" name="chair3"/>
+        </transblock>
+      </object>
+
+      <object type="tree" name="theChair6">
+        <transblock>
+          <translate x="-2.5" y="-.3" z="4.5"/>
+          <rotate x="0" y="1" z="0" angle="90"/>
+          <scale x="0.5" y="0.5" z="0.375"/>
+          <object type="master" name="chair3"/>
+        </transblock>
+      </object>
+
 
       <object type="tree" name="arch">
 
@@ -4270,7 +4397,7 @@
                 <transblock>
                   <translate x="0" y="6" z="-10"/>
                   <scale x="20" y="12" z="0.5"/>
-                  <object type="master" name="wall_cube"/>
+                  <object type="master" name="wall_cube2"/>
                 </transblock>
               </object>
 
@@ -4310,7 +4437,7 @@
                       <translate x="0" y="4" z="0"/>
                       <scale x="1" y=".5" z="1"/>
                       <scale x="20" y="12" z="0.5"/>
-                      <object type="master" name="wall_cube"/>
+                      <object type="master" name="wall_cube2"/>
                     </transblock>
                   </object>
 
