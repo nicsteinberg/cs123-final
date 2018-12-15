@@ -136,7 +136,6 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
 //    m_horizontalBlur->setTexture("tex", m_blurFBO1->getColorAttachment(0));
 //    m_horizontalBlur->setTexture("camera_pos_tex", m_blurFBO1->getColorAttachment(1));
 
-
 //    m_fullquad->draw();
 
 //    // End second pass.
@@ -197,7 +196,7 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
     m_FBO->unbind();
 
     // Now render to screen.
-    eye_fbo->bind();
+    m_blurFBO1->bind();
 
     // Bind light shader.
     m_phongShader->bind();
@@ -225,6 +224,50 @@ void SceneviewScene::render(glm::mat4x4 projectionMatrix, glm::mat4x4 viewMatrix
     m_FBO->getColorAttachment(3).unbind();
     m_FBO->getColorAttachment(4).unbind();
     m_FBO->getColorAttachment(5).unbind();
+    m_blurFBO1->unbind();
+
+    m_blurFBO2->bind();
+    m_horizontalBlur->bind();
+
+    // Clear both bits because that's what we do.
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    // Render from FBO1, blurring, to FBO2.
+    m_horizontalBlur->setTexture("tex", m_blurFBO1->getColorAttachment(0));
+    m_horizontalBlur->setTexture("camera_pos_tex", m_blurFBO1->getColorAttachment(1));
+
+    m_fullquad->draw();
+
+    // End second pass.
+    m_horizontalBlur->unbind();
+    m_blurFBO1->getColorAttachment(0).unbind();
+    m_blurFBO1->getColorAttachment(1).unbind();
+    m_blurFBO2->unbind();
+
+    // THIRD PASS
+    // Render to each eye using the quad shader.
+    eye_fbo->bind();
+
+    // Bind the vertical blur.
+    m_verticalBlur->bind();
+
+    // Clear both bits because that's what we do.
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    m_verticalBlur->setTexture("tex", m_blurFBO2->getColorAttachment(0));
+    m_verticalBlur->setTexture("camera_pos_tex", m_blurFBO2->getColorAttachment(1));
+
+    // Render from FBO2, blurring, to the fullscreen quad.
+    m_fullquad->draw();
+
+    // End third pass.
+    m_verticalBlur->unbind();
+    m_blurFBO2->getColorAttachment(0).unbind();
+    m_blurFBO2->getColorAttachment(1).unbind();
+
+
 }
 
 //void SceneviewScene::render(

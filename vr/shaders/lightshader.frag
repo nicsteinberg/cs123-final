@@ -1,8 +1,11 @@
 #version 400 core
 
-in vec2 uv;
+layout (location = 0) out vec4 outColor;
+layout (location = 1) out vec4 camera_pos;
 
-out vec4 fragColor;
+//out vec4 fragColor;
+
+in vec2 uv;
 
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
@@ -29,18 +32,15 @@ void main(){
     vec4 diffuse_color = texture(gDiffuse, uv);
     vec4 spec = texture(gSpecular, uv);
 
-    vec4 camera_pos = texture(gCameraPos, uv);
+    camera_pos = texture(gCameraPos, uv);
 
     vec4 color = vec4(fragAmbient, 1.0f);
 
-    fragColor = color;
-
     for (int i = 0; i < MAX_LIGHTS; i++) {
-        //fragColor = vec4(1.f);
         vec4 vertexToLight = vec4(0);
         // Point Light
         if (lightTypes[i] == 0) {
-            vertexToLight = normalize(v * vec4(lightPositions[i], 1) - camera_pos);
+            vertexToLight = normalize(v * vec4(lightPositions[i], 1) - camera_pos + 5.f);
         } else if (lightTypes[i] == 1) {
             // Dir Light
             vertexToLight = normalize(v * vec4(-lightDirections[i], 0));
@@ -50,7 +50,7 @@ void main(){
 //        vec4 r = normalize(2.f * fragNormal * nm - vertexToLight);
 
 //        // v should be -d, or view vector.
-//        vec4 eyeDirection = normalize(vec4(0,0,0,1) - camera_pos);
+//        vec4 eyeDirection = normalize(vec4(0,0,0,1) - camera_pos + 5.f);
 //        float rv = pow(clamp(dot(r, -eyeDirection), 0.f, 1.f), shininess);
 
 //        //color = vec4(rv);
@@ -65,7 +65,7 @@ void main(){
         color += max(vec4(0), vec4(lightColors[i], 0) * diffuse_color * diffuseIntensity);
 
         vec4 lightReflection = normalize(-reflect(vertexToLight, fragNormal));
-        vec4 eyeDirection = normalize(vec4(0,0,0,1) - camera_pos);
+        vec4 eyeDirection = normalize(vec4(0,0,0,1) - camera_pos + 5.f);
         float specIntensity = pow(max(0.0, dot(eyeDirection, lightReflection)), shininess);
         color += max (vec4(0), vec4(lightColors[i], 0) * spec * specIntensity);
 
@@ -73,5 +73,6 @@ void main(){
     }
 
     color = clamp(color, 0.f, 1.f);
-    fragColor = color;
+    //fragColor = color;
+    outColor = color;
 }
