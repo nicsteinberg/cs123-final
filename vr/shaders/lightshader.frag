@@ -3,8 +3,6 @@
 layout (location = 0) out vec4 outColor;
 layout (location = 1) out vec4 camera_pos;
 
-//out vec4 fragColor;
-
 in vec2 uv;
 
 uniform sampler2D gPosition;
@@ -73,9 +71,11 @@ void main(){
         vec4 eyeDirection = normalize(vec4(0,0,0,1) - camera_pos + 5.f);
         float specIntensity = pow(max(0.0, dot(eyeDirection, lightReflection)), shininess);
         color += max(vec4(0), vec4(lightColors[i], 0) * spec * specIntensity * att);
+
+        // To get rid of error.
+        color += vec4(0.0000000000001f) * fragPosition;
     }
 
     color = clamp(color, 0.f, 1.f);
-    //fragColor = color;
     outColor = color;
 }

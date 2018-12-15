@@ -31,17 +31,9 @@ void main(){
         gDiffuse.r = texture(tex, texc).b;
         gDiffuse.b = texture(tex, texc).r;
         gDiffuse = clamp(gDiffuse, 0, 1);
-        //gDiffuse = diffuse;
     } else {
         gDiffuse = diffuse;
     }
-
-//    vec4 texColor = texture(tex, texc);
-//    texColor.r = texture(tex, texc).b;
-//    texColor.b = texture(tex, texc).r;
-
-//    texColor = clamp(texColor + vec4(1-useTexture), vec4(0), vec4(1));
-//    gDiffuse = clamp(diffuse * texColor, 0, 1);
 
     gCameraPos = position_cameraSpace_out;
 }
