@@ -37,7 +37,10 @@ void main() {
 
     vec4 position_cameraSpace = v * m * vec4(position, 1.0);
 //    position_cameraSpace_out = position_cameraSpace;
-    position_cameraSpace_out = v * vec4(position, 1.0);
+    position_cameraSpace_out = v * m * vec4(position, 1.0);
+    position_cameraSpace_out.x += 5.f;
+    position_cameraSpace_out.y += 5.f;
+    position_cameraSpace_out.z += 5.f;
     vec4 normal_cameraSpace = vec4(normalize(mat3(transpose(inverse(v * m))) * normal), 0);
 
     vec4 position_worldSpace = m * vec4(position, 1.0);

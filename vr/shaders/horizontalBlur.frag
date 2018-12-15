@@ -17,29 +17,37 @@ void main(){
     vec2 texelSize = 1.0 / textureSize(tex, 0).xy;
 
     int supportWidth = 1;
-     float focus = 0;
-     vec4 position = texture(camera_pos_tex, uv);
-     float distance = sqrt(position.x * position.x + position.y * position.y + position.z * position.z);
-//     float x = max(0, min(20, abs(distance - focus))) + 1.f;
-//     int supportWidth = max(0, int (6.39 * log(1.14 * x)) + 1);
-//     supportWidth = int (distance);
-//     if (distance > focus) {
-         float x = distance - focus;
-//         supportWidth = int (8.25 * log(1.13 * x)) + 1;
-//     }
-         if (x < 1) {
-             supportWidth = 1;
-         } else if (x < 2) {
-             supportWidth = 3;
-         } else if (x < 3) {
-             supportWidth = 10;
-         } else {
-             supportWidth = 20;
-         }
+    float focus = 6.f;
+    vec4 position = texture(camera_pos_tex, uv);
+    float pos_x = position.x - 5.f;
+    float pos_y = position.y - 5.f;
+    float pos_z = position.z - 5.f;
+    float distance = sqrt(pos_x * pos_x + pos_y * pos_y + pos_z * pos_z);
+    float x = distance - focus;
 
-//    int supportWidth = int(texture(camera_pos_tex, uv).x * 20.f);
-//    int supportWidth = 1;
-//    const int supportWidth = 20;
+    if (distance < 5.5) {
+        supportWidth = 30;
+    } else if (distance < 5.7) {
+        supportWidth = 25;
+    } else if (distance < 6.f) {
+        supportWidth = 20;
+    } else if (distance < 6.299) {
+        supportWidth = 10;
+    } else if (distance < 6.5) {
+        supportWidth = 4;
+    } else if (distance < 6.9) {
+        supportWidth = 2;
+    } else if (distance < 7.5) {
+        supportWidth = 1;
+    } else if (distance < 7.545) {
+        supportWidth = 12;
+    } else if (distance < 7.6) {
+        supportWidth = 25;
+    } else if (distance < 7.7) {
+        supportWidth = 30;
+    } else {
+        supportWidth = 30;
+    }
 
     outColor = vec4(0.0);
     float weights = 0.0;
@@ -54,7 +62,5 @@ void main(){
     outColor /= weights;
     camera_pos = texture(camera_pos_tex, uv);
 
-//    outColor = vec4(1.f);
-//    outColor = vec4(texture(camera_pos_tex, uv));
-    outColor = vec4(distance + 0.f);
+
 }
