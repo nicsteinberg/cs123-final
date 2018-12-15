@@ -22,8 +22,8 @@ void main(){
     //      x = 2 * focus - depth;
     // int supportWidth = 11.3 * log(0.237 * x);
 
-//    int supportWidth = int(texture(camera_pos_tex, uv).x * 20.f);
-    const int supportWidth = 20;
+    int supportWidth = int(texture(camera_pos_tex, uv).x * 20.f);
+//    const int supportWidth = 20;
 
     fragColor = vec4(0.0);
     float weights = 0.0;
@@ -37,5 +37,5 @@ void main(){
     }
     fragColor /= weights;
 
-    //fragColor = vec4(texture(camera_pos_tex, uv));
+//    fragColor = vec4(texture(camera_pos_tex, uv));
 }
